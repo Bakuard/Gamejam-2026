@@ -2,8 +2,8 @@ import {tilemapComposition } from "@/compositions/Tilemap.composition.js";
 
 export const platformerComposition = {
   preloadLevel(scene) {
-    scene.load.image("platform", "assets/levels/tiles/platform.png");
-    scene.load.image("bomb", "assets/levels/tiles/bomb.png");
+    scene.load.image("floor-wall-roof", "assets/levels/tiles/floor-wall-roof.png");
+    scene.load.image("chair", "assets/levels/tiles/chair.png");
     scene.load.tilemapTiledJSON("platformer-tilemap", "assets/levels/tilemaps/platformer.json");
     scene.load.image('mountBack', 'assets/img/background/mount-back.png');
     scene.load.image('mountFront', 'assets/img/background/mount-front.png');
@@ -12,7 +12,7 @@ export const platformerComposition = {
   createLevel(scene) {
     const map = scene.make.tilemap({ key: "platformer-tilemap" });
 
-    const platformLayer = tilemapComposition.createTileLayer(map, "platform", "Platforms", [1]);
+    const platformLayer = tilemapComposition.createTileLayer(map, "floor-wall-roof", "Platforms", [2]);
     const chairLayer = tilemapComposition.createObjectLayer(scene, map, "chair_layer");
 
     return [map, platformLayer, chairLayer];
