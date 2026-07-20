@@ -1,0 +1,70 @@
+backend:
+  name: local
+
+media_folder: "public/uploads"
+public_folder: "/uploads"
+local_backend: true
+
+collections:
+  - name: "localization"
+    label: "Localization"
+    files:
+      - file: "src/configs/uiLocalization.json"
+        label: "UI Localization"
+        name: "ui_localization"
+        format: "json"
+        fields:
+          - label: "Language Switcher Label"
+            name: "language_label"
+            widget: "object"
+            fields:
+              - { label: "English", name: "en", widget: "string" }
+              - { label: "Russian", name: "ru", widget: "string" }
+            
+          - label: "Start Button Text"
+            name: "start_button"
+            widget: "object"
+            fields:
+              - { label: "English", name: "en", widget: "string" }
+              - { label: "Russian", name: "ru", widget: "string" }
+
+          - label: "Main Title (Charlie)"
+            name: "main_title"
+            widget: "object"
+            fields:
+              - { label: "English", name: "en", widget: "string" }
+              - { label: "Russian", name: "ru", widget: "string" }
+
+          - label: "Main Description"
+            name: "main_description"
+            widget: "object"
+            fields:
+              - { label: "English", name: "en", widget: "string" }
+              - { label: "Russian", name: "ru", widget: "string" }
+
+          - label: "Loading Text"
+            name: "loading"
+            widget: "object"
+            fields:
+              - { label: "English", name: "en", widget: "string" }
+              - { label: "Russian", name: "ru", widget: "string" }
+
+  - name: "gameplay"
+    label: "Gameplay Config"
+    files:
+      - file: "src/content/configs/gameplay.json"
+        label: "Gameplay"
+        name: "gameplay"
+        format: "json"
+        fields:
+          - { label: "PLAYER_SPEED", name: "PLAYER_SPEED", widget: "number" }
+          - { label: "PLAYER_JUMP_MULTIPLICATOR", name: "PLAYER_JUMP_MULTIPLICATOR", widget: "number" }
+          - { label: "PLAYER_FALL_MULTIPLICATOR", name: "PLAYER_FALL_MULTIPLICATOR", widget: "number" }
+          - { label: "PLAYER_PLATFORM_BODY_WIDTH", name: "PLAYER_PLATFORM_BODY_WIDTH", widget: "number" }
+          - { label: "PLAYER_PLATFORM_BODY_HEIGHT", name: "PLAYER_PLATFORM_BODY_HEIGHT", widget: "number" }
+          - { label: "PLAYER_DISPLAY_WIDTH", name: "PLAYER_DISPLAY_WIDTH", widget: "number" }
+          - { label: "PLAYER_DISPLAY_HEIGHT", name: "PLAYER_DISPLAY_HEIGHT", widget: "number" }
+          - { label: "PLAYER_MAX_HEALTH", name: "PLAYER_MAX_HEALTH", widget: "number" }
+          - { label: "PLAYER_CURRENT_HEALTH", name: "PLAYER_CURRENT_HEALTH", widget: "number" }
+          - { label: "HEAL_VALUE", name: "HEAL_VALUE", widget: "number" }
+          - { label: "BOMB_DAMAGE", name: "BOMB_DAMAGE", widget: "number" }
