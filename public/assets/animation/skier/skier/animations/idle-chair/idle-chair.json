@@ -1,0 +1,76 @@
+{"frames": {
+
+"1.png":
+{
+	"frame": {"x":1,"y":1,"w":104,"h":365},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":145,"y":19,"w":104,"h":365},
+	"sourceSize": {"w":411,"h":411}
+},
+"2.png":
+{
+	"frame": {"x":107,"y":1,"w":104,"h":365},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":145,"y":19,"w":104,"h":365},
+	"sourceSize": {"w":411,"h":411}
+},
+"3.png":
+{
+	"frame": {"x":1,"y":368,"w":104,"h":365},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":145,"y":19,"w":104,"h":365},
+	"sourceSize": {"w":411,"h":411}
+},
+"4.png":
+{
+	"frame": {"x":107,"y":368,"w":104,"h":365},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":145,"y":19,"w":104,"h":365},
+	"sourceSize": {"w":411,"h":411}
+},
+"5.png":
+{
+	"frame": {"x":1,"y":735,"w":104,"h":365},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":145,"y":19,"w":104,"h":365},
+	"sourceSize": {"w":411,"h":411}
+},
+"6.png":
+{
+	"frame": {"x":107,"y":735,"w":104,"h":365},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":145,"y":19,"w":104,"h":365},
+	"sourceSize": {"w":411,"h":411}
+},
+"7.png":
+{
+	"frame": {"x":1,"y":1102,"w":104,"h":365},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":145,"y":19,"w":104,"h":365},
+	"sourceSize": {"w":411,"h":411}
+},
+"8.png":
+{
+	"frame": {"x":107,"y":1102,"w":104,"h":365},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":145,"y":19,"w":104,"h":365},
+	"sourceSize": {"w":411,"h":411}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "idle-chair.png",
+	"format": "RGBA8888",
+	"size": {"w":212,"h":1468},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:107608e5f8ff251d6e78ef18b6ecf4a3:6c633b9681dd80dca9405e884d7435ca:278ea16ad44a9042dcb804e4683cb9de$"
+}
+}
