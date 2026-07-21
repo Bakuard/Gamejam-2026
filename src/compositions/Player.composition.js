@@ -50,13 +50,22 @@ export const playerComposition = {
   },
 
   movePlayerOnPlatformers(player, userInput) {
-    if (userInput.up.isDown && player.body.blocked.down) player.body.velocity.y = -player.speed * PLAYER_JUMP_MULTIPLICATOR;
+    const isOnGround = player.body.blocked.down || player.onStair;
+
+    if (userInput.up.isDown && isOnGround) {
+      player.body.velocity.y = -player.speed * PLAYER_JUMP_MULTIPLICATOR;
+
+      if (player.inStairArea) {
+        player.body.setAllowGravity(true);
+        player.inStairArea = false;
+      }
+    }
 
     player.body.velocity.x = (userInput.right.isDown - userInput.left.isDown) * player.speed;
 
     if (player.body.velocity.equals(Phaser.Math.Vector2.ZERO)) {
       player.anims.play("player_wait", true);
-    } else if (player.body.blocked.down && player.body.velocity.y === 0) {
+    } else if (isOnGround && player.body.velocity.y === 0) {
       player.anims.play("player_move", true);
     } else {
       player.anims.play("player_jump", true);
@@ -73,12 +82,49 @@ export const playerComposition = {
       up: Phaser.Input.Keyboard.KeyCodes.W,
       down: Phaser.Input.Keyboard.KeyCodes.S,
       pickUp: Phaser.Input.Keyboard.KeyCodes.E,
+      throw: Phaser.Input.Keyboard.KeyCodes.Q,
     });
   },
 
   handleChairCollision(player, userInput) {
-    if (player.body.blocked.left && userInput.left.isDown || player.body.blocked.right && userInput.right.isDown) {
+    if ((player.body.blocked.left && userInput.left.isDown) || (player.body.blocked.right && userInput.right.isDown)) {
       player.body.velocity.x = 0;
     }
+  },
+
+  moveOnStair(scene, player, stairLayer, userInput) {
+    let currentStair = null;
+    player.inStairArea = scene.physics.overlap(player, stairLayer, (player, stair) => (currentStair = stair));
+    if (!player.inStairArea || player.ignoreStair) {
+      player.body.setAllowGravity(true);
+      player.ignoreStair = false;
+      player.onStair = false;
+      return;
+    }
+
+    //Если нажали "Вниз" - включаем режим игнорирования до выхода из зоны
+    if (userInput.down.isDown) player.ignoreStair = true;
+
+    //Если лестница проигнорирована (игрок спрыгивает), прерываем метод
+    if (player.ignoreStair) return;
+
+    //Если набирает высоту во время прыжка, то же игнорируем лестницу.
+    if (player.body.velocity.y < 0) return;
+
+    //Как далеко находится игрок от основания лестницы по оси Х
+    let progressX = Phaser.Math.Clamp((player.body.center.x - currentStair.body.x) / currentStair.body.width, 0, 1);
+    if (currentStair.stairDir === "left") progressX = 1 - progressX;
+
+    //На какой высоте находится ступенька лестницы рядом с которой сейчас стоит игрок
+    const targetFootY = currentStair.body.bottom - currentStair.body.height * progressX;
+
+    //Если линия ног отклоняется от ступенек не больше указанного значения - значит игрок на лестнице.
+    const snapThreshold = 24;
+    player.onStair = Math.abs(player.body.bottom - targetFootY) < snapThreshold;
+    if (!player.onStair) return;
+
+    player.body.setAllowGravity(false);
+    player.body.setVelocityY(0);
+    player.body.y = targetFootY - player.body.height;
   },
 };

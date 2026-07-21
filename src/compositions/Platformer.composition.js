@@ -4,6 +4,7 @@ export const platformerComposition = {
   preloadLevel(scene) {
     scene.load.image("floor-wall-roof", "assets/levels/tiles/floor-wall-roof.png");
     scene.load.image("chair", "assets/levels/tiles/chair.png");
+    scene.load.image("stair", "assets/levels/tiles/stair.png");
     scene.load.tilemapTiledJSON("platformer-tilemap", "assets/levels/tilemaps/platformer.json");
     scene.load.image('mountBack', 'assets/img/background/mount-back.png');
     scene.load.image('mountFront', 'assets/img/background/mount-front.png');
@@ -12,10 +13,12 @@ export const platformerComposition = {
   createLevel(scene) {
     const map = scene.make.tilemap({ key: "platformer-tilemap" });
 
-    const platformLayer = tilemapComposition.createTileLayer(map, "floor-wall-roof", "Platforms", [2]);
+    const platformLayer = tilemapComposition.createTileLayer(map, "floor-wall-roof", "Platforms", [2, 3]);
+    const wallsLayer = tilemapComposition.createTileLayer(map, "floor-wall-roof", "Walls", [2, 3]);
     const chairLayer = tilemapComposition.createObjectLayer(scene, map, "chair_layer");
+    const stairLayer = tilemapComposition.createObjectLayer(scene, map, "stair_layer");
 
-    return [map, platformLayer, chairLayer];
+    return [map, platformLayer, wallsLayer, chairLayer, stairLayer];
   },
 
   createParallaxImages(scene) {

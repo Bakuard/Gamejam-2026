@@ -2,10 +2,16 @@ export const tilemapComposition = {
   createObjectLayer(scene, map, layerName) {
     const objLayerMeta = map.getObjectLayer(layerName);
     const objLayer = scene.physics.add.staticGroup();
-    objLayerMeta.objects.forEach(obj => {
-      const imageName = extractPropertyValue(obj, "imageName");
-      objLayer.get(obj.x + obj.width / 2, obj.y - obj.height / 2, imageName)
-        .setSize(obj.width, obj.height);
+    objLayerMeta.objects.forEach(objMeta => {
+      const resultObj = objLayer.get(objMeta.x + objMeta.width / 2, objMeta.y - objMeta.height / 2).setSize(objMeta.width, objMeta.height);
+
+      const imageName = extractPropertyValue(objMeta, "imageName");
+      if(imageName) resultObj.setTexture(imageName).setDisplaySize(objMeta.width, objMeta.height);
+
+      const isFlipX = extractPropertyValue(objMeta, "flipX");
+      resultObj.setFlipX(isFlipX);
+
+      copyAllProperties(objMeta, resultObj);
     });
     return objLayer;
   },
@@ -18,6 +24,10 @@ export const tilemapComposition = {
   }
 };
 
-function extractPropertyValue(tileMeta, propertyName) {
-  return tileMeta?.properties.find(property => property.name === propertyName)?.value;
+function extractPropertyValue(objMeta, propertyName) {
+  return objMeta.properties?.find((property) => property.name === propertyName)?.value;
 };
+
+function copyAllProperties(objMeta, targetObj) {
+  objMeta.properties?.forEach((property) => (targetObj[property.name] = property.value));
+}
