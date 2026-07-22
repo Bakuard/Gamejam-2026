@@ -73,8 +73,9 @@ export const ghostComposition = {
     return ghost;
   },
 
-  handlePlayerCollision(player, ghost) {
-    console.log("--------->");
+  handlePlayerCollision(playerStore) {
+    playerStore.isGameOver = true;
+    playerStore.isWin = false;
   },
 
   moveGhost(player, ghost, deltaTime) {
@@ -111,6 +112,7 @@ export const ghostComposition = {
         updateGhostWithState(ghost, newState);
       } else {
         ghost.destroy();
+        ghost.isDestroyed = true;
       }
     }
   }

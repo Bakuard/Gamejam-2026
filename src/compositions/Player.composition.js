@@ -39,7 +39,7 @@ export const playerComposition = {
     const unscaledBodyHeight = bodyHeight / player.scaleY;
     player.body.setSize(unscaledBodyWidth, unscaledBodyHeight, false);
 
-    const offsetX = (player.width - unscaledBodyWidth) / 2; // По центру по горизонтали
+    const offsetX = (player.width - unscaledBodyWidth) / 2;
     const offsetY = player.height - unscaledBodyHeight;
     player.body.setOffset(offsetX, offsetY);
 

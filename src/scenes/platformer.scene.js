@@ -50,7 +50,7 @@ export class PlatformerScene extends Phaser.Scene {
     this.physics.add.collider(this.player, wallsLayer);
     this.physics.add.collider(this.player, chairLayer, (player, chair) => playerComposition.pickUpChair(player, chair, this.userInput));
     for (const ghost of this.ghosts) {
-      this.physics.add.overlap(this.player, ghost, (player, ghost) => ghostComposition.handlePlayerCollision(player, ghost));
+      this.physics.add.overlap(this.player, ghost, (player, ghost) => ghostComposition.handlePlayerCollision(this.playerStore));
     }
 
     this.events.on('postupdate', this.postUpdate.bind(this));
@@ -67,6 +67,11 @@ export class PlatformerScene extends Phaser.Scene {
       if (ghost.isDestroyed) this.ghosts.splice(i, 1);
     }
     platformerComposition.moveParallaxImages(this.camera, this.backgroundNear, this.backgroundFar, this);
+
+    if (this.ghosts.length === 0) {
+      this.playerStore.isGameOver = true;
+      this.playerStore.isWin = true;
+    }
   }
 
   postUpdate() {

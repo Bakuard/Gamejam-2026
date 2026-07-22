@@ -261,11 +261,11 @@
   <object id="50" name="player" x="-1606" y="1558">
    <point/>
   </object>
-  <object id="51" name="ghost1" x="-1484" y="1550">
+  <object id="51" name="ghost1" x="-1168" y="1556">
    <point/>
   </object>
  </objectgroup>
  <objectgroup id="9" name="ghost_wander_area_layer">
-  <object id="54" name="ghost1" x="-1972" y="942" width="1902" height="910"/>
+  <object id="54" name="ghost1" x="-1976" y="956" width="1902" height="910"/>
  </objectgroup>
 </map>
