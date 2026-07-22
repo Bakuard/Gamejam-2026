@@ -1,13 +1,72 @@
 {
-  "PLAYER_CURRENT_HEALTH": 20,
-  "PLAYER_DISPLAY_HEIGHT": 60,
+  "PLAYER_DISPLAY_HEIGHT": 120,
   "PLAYER_SPEED": 250,
-  "PLAYER_DISPLAY_WIDTH": 60,
-  "BOMB_DAMAGE": 10,
+  "PLAYER_DISPLAY_WIDTH": 120,
   "PLAYER_JUMP_MULTIPLICATOR": 3,
-  "PLAYER_MAX_HEALTH": 20,
-  "PLAYER_PLATFORM_BODY_HEIGHT": 80,
-  "PLAYER_PLATFORM_BODY_WIDTH": 25,
-  "HEAL_VALUE": 5,
-  "PLAYER_FALL_MULTIPLICATOR": 0.7
+  "PLAYER_PLATFORM_BODY_HEIGHT": 100,
+  "PLAYER_PLATFORM_BODY_WIDTH": 60,
+  "PLAYER_FALL_MULTIPLICATOR": 0.7,
+  "GHOSTS": [
+    {
+      "startPointName": "ghost1",
+      "ghostWanderAreaName": "ghost1",
+      "states": [
+        {
+          "animationAtlasName": "ghost-trainer-base",
+          "displayWidth": 120,
+          "displayHeight": 120,
+          "physicBodyWidth": 60,
+          "physicBodyHeight": 120,
+          "detectionRadius": 300,
+          "nextTempAimDistance": 500,
+          "speedPxPerSec": 200,
+          "durationInMs": 10000
+        },
+        {
+          "animationAtlasName": "ghost-trainer-phase-1",
+          "displayWidth": 120,
+          "displayHeight": 120,
+          "physicBodyWidth": 60,
+          "physicBodyHeight": 120,
+          "detectionRadius": 400,
+          "nextTempAimDistance": 500,
+          "speedPxPerSec": 250,
+          "durationInMs": 10000
+        },
+        {
+          "animationAtlasName": "ghost-trainer-phase-2",
+          "displayWidth": 120,
+          "displayHeight": 120,
+          "physicBodyWidth": 60,
+          "physicBodyHeight": 120,
+          "detectionRadius": 400,
+          "nextTempAimDistance": 500,
+          "speedPxPerSec": 250,
+          "durationInMs": 10000
+        },
+        {
+          "animationAtlasName": "ghost-trainer-phase-3",
+          "displayWidth": 120,
+          "displayHeight": 120,
+          "physicBodyWidth": 60,
+          "physicBodyHeight": 120,
+          "detectionRadius": 400,
+          "nextTempAimDistance": 500,
+          "speedPxPerSec": 250,
+          "durationInMs": 10000
+        },
+        {
+          "animationAtlasName": "ghost-trainer-death",
+          "displayWidth": 120,
+          "displayHeight": 120,
+          "physicBodyWidth": 60,
+          "physicBodyHeight": 120,
+          "detectionRadius": 400,
+          "nextTempAimDistance": 500,
+          "speedPxPerSec": 0,
+          "durationInMs": 1500
+        }
+      ]
+    }
+  ]
 }

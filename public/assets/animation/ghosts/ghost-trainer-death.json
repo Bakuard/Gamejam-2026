@@ -1,0 +1,76 @@
+{"frames": {
+
+"1.png":
+{
+	"frame": {"x":712,"y":1,"w":219,"h":337},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":144,"y":104,"w":219,"h":337},
+	"sourceSize": {"w":469,"h":469}
+},
+"2.png":
+{
+	"frame": {"x":1,"y":351,"w":243,"h":333},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":120,"y":104,"w":243,"h":333},
+	"sourceSize": {"w":469,"h":469}
+},
+"3.png":
+{
+	"frame": {"x":700,"y":349,"w":207,"h":334},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":156,"y":104,"w":207,"h":334},
+	"sourceSize": {"w":469,"h":469}
+},
+"4.png":
+{
+	"frame": {"x":481,"y":1,"w":229,"h":346},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":134,"y":104,"w":229,"h":346},
+	"sourceSize": {"w":469,"h":469}
+},
+"5.png":
+{
+	"frame": {"x":457,"y":351,"w":241,"h":329},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":122,"y":104,"w":241,"h":329},
+	"sourceSize": {"w":469,"h":469}
+},
+"6.png":
+{
+	"frame": {"x":246,"y":351,"w":209,"h":330},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":154,"y":104,"w":209,"h":330},
+	"sourceSize": {"w":469,"h":469}
+},
+"7.png":
+{
+	"frame": {"x":1,"y":1,"w":238,"h":348},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":125,"y":104,"w":238,"h":348},
+	"sourceSize": {"w":469,"h":469}
+},
+"8.png":
+{
+	"frame": {"x":241,"y":1,"w":238,"h":348},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":125,"y":104,"w":238,"h":348},
+	"sourceSize": {"w":469,"h":469}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "trainer-death.png",
+	"format": "RGBA8888",
+	"size": {"w":932,"h":685},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:75b08dee1aa7a6882c1c4bdd10614411:7212ecf1d2db09c70968ba49e5acfac1:db3c923adb0b4b8087357289448b6495$"
+}
+}

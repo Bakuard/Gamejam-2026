@@ -1,46 +1,50 @@
 import Phaser from "phaser";
-import {PLAYER_JUMP_MULTIPLICATOR, PLAYER_FALL_MULTIPLICATOR, HEAL_VALUE, BOMB_DAMAGE} from "@/configs/gameplay.config.js";
+import {PLAYER_JUMP_MULTIPLICATOR, PLAYER_FALL_MULTIPLICATOR} from "@/configs/gameplay.config.js";
 
 export const playerComposition = {
   preloadPlayerAnimation(scene) {
-    scene.load.atlas("player_wait", "assets/animation/wait.png", "assets/animation/wait.json");
-    scene.load.atlas("player_move", "assets/animation/move.png", "assets/animation/move.json");
-    scene.load.atlas("player_jump", "assets/animation/jump.png", "assets/animation/jump.json");
+    scene.load.atlas("player-run", "assets/animation/player/player-run.png", "assets/animation/player/player-run.json");
+    scene.load.atlas("player-idle", "assets/animation/player/player-idle.png", "assets/animation/player/player-idle.json");
+    scene.load.atlas("player-jump", "assets/animation/player/player-jump.png", "assets/animation/player/player-jump.json");
   },
 
   preparePlayerAnimation(scene) {
     scene.anims.create({
-      key: "player_wait",
-      frames: scene.anims.generateFrameNames("player_wait", { start: 1, end: 8 }),
+      key: "player-run",
+      frames: scene.anims.generateFrameNames("player-run"),
       frameRate: 10,
       repeat: -1,
     });
     scene.anims.create({
-      key: "player_move",
-      frames: scene.anims.generateFrameNames("player_move", { start: 1, end: 8 }),
+      key: "player-idle",
+      frames: scene.anims.generateFrameNames("player-idle"),
       frameRate: 10,
       repeat: -1,
     });
     scene.anims.create({
-      key: "player_jump",
-      frames: scene.anims.generateFrameNames("player_jump", { start: 1, end: 8 }),
-      frameRate: 8,
+      key: "player-jump",
+      frames: scene.anims.generateFrameNames("player-jump"),
+      frameRate: 10,
       repeat: 1,
     });
   },
 
-  createPlayer(scene, x, y, displayWidth, displayHeight, bodyWidth, bodyHeight, speed, maxHealth) {
-    const player = scene.physics.add
-      .sprite(x, y, "player_wait", "1")
-      .setBodySize(bodyWidth, bodyHeight)
+  createPlayer(scene, x, y, displayWidth, displayHeight, bodyWidth, bodyHeight, speed) {
+    const player = scene.physics.add.sprite(x, y, "player-idle", "1")
       .setDisplaySize(displayWidth, displayHeight)
       .setOrigin(0.5, 1)
-      .play("player_wait")
-      .refreshBody();
+      .play("player-idle");
+
+    const unscaledBodyWidth = bodyWidth / player.scaleX;
+    const unscaledBodyHeight = bodyHeight / player.scaleY;
+    player.body.setSize(unscaledBodyWidth, unscaledBodyHeight, false);
+
+    const offsetX = (player.width - unscaledBodyWidth) / 2; // По центру по горизонтали
+    const offsetY = player.height - unscaledBodyHeight;
+    player.body.setOffset(offsetX, offsetY);
+
     player.speed = speed;
     player.depth = 100;
-    player.maxHealth = maxHealth;
-    player.currentHealth = maxHealth;
     return player;
   },
 
@@ -64,11 +68,11 @@ export const playerComposition = {
     player.body.velocity.x = (userInput.right.isDown - userInput.left.isDown) * player.speed;
 
     if (player.body.velocity.equals(Phaser.Math.Vector2.ZERO)) {
-      player.anims.play("player_wait", true);
+      player.anims.play("player-idle", true);
     } else if (isOnGround && player.body.velocity.y === 0) {
-      player.anims.play("player_move", true);
+      player.anims.play("player-run", true);
     } else {
-      player.anims.play("player_jump", true);
+      player.anims.play("player-jump", true);
       player.body.velocity.x *= PLAYER_FALL_MULTIPLICATOR;
     }
 

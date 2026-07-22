@@ -3,12 +3,10 @@ import { onMounted, ref, onBeforeUnmount } from "vue";
 import Phaser from "phaser";
 import { PlatformerScene } from "@/scenes/platformer.scene";
 import Preloader from "@/ui-components/Preloader.component.vue";
-import HealthBar from "@/ui-components/HealthBar.component.vue";
 import UiAnchor from "@/ui-components/UiAnchor.component.vue";
 import GameResultModal from "@/ui-components/GameResultModal.component.vue";
 import { usePlayer } from "@/store/player.store";
 import { LEVEL_WIDTH, LEVEL_HEIGHT, LEVEL_GRAVITY } from "@/configs/engine.config";
-import { PLAYER_MAX_HEALTH } from "@/configs/gameplay.config";
 import { router } from "@/router.js";
 import { EventBus } from "@/utils/utils.js";
 import * as EventNames from "@/configs/eventNames.config.js";
@@ -70,14 +68,6 @@ const onAgain = () => {
     <UiAnchor anchor="top-right" :offset-x="10" :offset-y="10" target=".platformer-screen__game-wrapper">
       <LanguageSwitcher />
     </UiAnchor>
-    <UiAnchor anchor="top-left" :offset-x="30" :offset-y="30" target=".platformer-screen__game-wrapper">
-      <HealthBar :max-health="PLAYER_MAX_HEALTH" :current-health="playerStore.currentHealth" />
-    </UiAnchor>
-    <GameResultModal
-      :is-game-over="playerStore.isGameOver"
-      :is-win="playerStore.isWin"
-      @again="onAgain"
-    />
     <div ref="gameContainer" class="platformer-screen__game-wrapper"></div>
   </div>
 </template>

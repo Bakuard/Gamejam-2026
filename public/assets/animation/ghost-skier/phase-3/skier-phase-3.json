@@ -1,0 +1,76 @@
+{"frames": {
+
+"1.png":
+{
+	"frame": {"x":236,"y":1,"w":191,"h":349},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":132,"y":74,"w":191,"h":349},
+	"sourceSize": {"w":469,"h":469}
+},
+"2.png":
+{
+	"frame": {"x":1,"y":1082,"w":206,"h":342},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":117,"y":74,"w":206,"h":342},
+	"sourceSize": {"w":469,"h":469}
+},
+"3.png":
+{
+	"frame": {"x":236,"y":352,"w":177,"h":355},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":146,"y":74,"w":177,"h":355},
+	"sourceSize": {"w":469,"h":469}
+},
+"4.png":
+{
+	"frame": {"x":228,"y":724,"w":206,"h":375},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":117,"y":74,"w":206,"h":375},
+	"sourceSize": {"w":469,"h":469}
+},
+"5.png":
+{
+	"frame": {"x":1,"y":724,"w":225,"h":356},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":98,"y":74,"w":225,"h":356},
+	"sourceSize": {"w":469,"h":469}
+},
+"6.png":
+{
+	"frame": {"x":1,"y":378,"w":228,"h":344},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":95,"y":74,"w":228,"h":344},
+	"sourceSize": {"w":469,"h":469}
+},
+"7.png":
+{
+	"frame": {"x":1,"y":1,"w":233,"h":375},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":90,"y":74,"w":233,"h":375},
+	"sourceSize": {"w":469,"h":469}
+},
+"8.png":
+{
+	"frame": {"x":209,"y":1101,"w":206,"h":290},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":117,"y":74,"w":206,"h":290},
+	"sourceSize": {"w":469,"h":469}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "skier-phase-3.png",
+	"format": "RGBA8888",
+	"size": {"w":435,"h":1425},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:9124998b5b1113eb391761b9b1d575bc:ebdd452ac483377dd5d2a54fa563277a:b5593b48d07912daa7a35fb7b7da1329$"
+}
+}
