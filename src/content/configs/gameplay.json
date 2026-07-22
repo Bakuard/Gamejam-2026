@@ -19,7 +19,7 @@
           "physicBodyHeight": 120,
           "detectionRadius": 300,
           "nextTempAimDistance": 500,
-          "speedPxPerSec": 200,
+          "speedPxPerSec": 150,
           "durationInMs": 10000
         },
         {
@@ -30,7 +30,7 @@
           "physicBodyHeight": 120,
           "detectionRadius": 400,
           "nextTempAimDistance": 500,
-          "speedPxPerSec": 250,
+          "speedPxPerSec": 200,
           "durationInMs": 10000
         },
         {
@@ -41,7 +41,7 @@
           "physicBodyHeight": 120,
           "detectionRadius": 400,
           "nextTempAimDistance": 500,
-          "speedPxPerSec": 250,
+          "speedPxPerSec": 200,
           "durationInMs": 10000
         },
         {
