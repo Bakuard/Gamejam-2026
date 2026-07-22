@@ -1,6 +1,6 @@
 {"frames": {
 
-"1.png":
+"1":
 {
 	"frame": {"x":271,"y":1,"w":100,"h":365},
 	"rotated": false,
@@ -8,7 +8,7 @@
 	"spriteSourceSize": {"x":156,"y":46,"w":100,"h":365},
 	"sourceSize": {"w":411,"h":411}
 },
-"2.png":
+"2":
 {
 	"frame": {"x":1,"y":326,"w":227,"h":359},
 	"rotated": false,
@@ -16,7 +16,7 @@
 	"spriteSourceSize": {"x":85,"y":52,"w":227,"h":359},
 	"sourceSize": {"w":411,"h":411}
 },
-"3.png":
+"3":
 {
 	"frame": {"x":565,"y":170,"w":257,"h":342},
 	"rotated": false,
@@ -24,7 +24,7 @@
 	"spriteSourceSize": {"x":75,"y":67,"w":257,"h":342},
 	"sourceSize": {"w":411,"h":411}
 },
-"4.png":
+"4":
 {
 	"frame": {"x":565,"y":514,"w":257,"h":342},
 	"rotated": false,
@@ -32,7 +32,7 @@
 	"spriteSourceSize": {"x":75,"y":67,"w":257,"h":342},
 	"sourceSize": {"w":411,"h":411}
 },
-"5.png":
+"5":
 {
 	"frame": {"x":1,"y":1,"w":268,"h":323},
 	"rotated": false,
@@ -40,7 +40,7 @@
 	"spriteSourceSize": {"x":71,"y":88,"w":268,"h":323},
 	"sourceSize": {"w":411,"h":411}
 },
-"6.png":
+"6":
 {
 	"frame": {"x":230,"y":629,"w":268,"h":265},
 	"rotated": false,
@@ -48,7 +48,7 @@
 	"spriteSourceSize": {"x":65,"y":146,"w":268,"h":265},
 	"sourceSize": {"w":411,"h":411}
 },
-"7.png":
+"7":
 {
 	"frame": {"x":230,"y":368,"w":333,"h":259},
 	"rotated": false,
@@ -56,7 +56,7 @@
 	"spriteSourceSize": {"x":65,"y":152,"w":333,"h":259},
 	"sourceSize": {"w":411,"h":411}
 },
-"8.png":
+"8":
 {
 	"frame": {"x":373,"y":1,"w":343,"h":167},
 	"rotated": false,
@@ -65,12 +65,9 @@
 	"sourceSize": {"w":411,"h":413}
 }},
 "meta": {
-	"app": "https://www.codeandweb.com/texturepacker",
-	"version": "1.0",
-	"image": "death-chair.png",
+	"image": "player-death-chair.png",
 	"format": "RGBA8888",
 	"size": {"w":823,"h":895},
-	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:473f8b93e362bae221bc3bce6042a731:c6b100373d55b4d5586e42a2c14cd8f9:adf29452f6aa72fef4b95aa7e5215f08$"
+	"scale": "1"
 }
 }
