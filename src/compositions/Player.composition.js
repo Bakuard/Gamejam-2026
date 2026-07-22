@@ -4,8 +4,11 @@ import {PLAYER_JUMP_MULTIPLICATOR, PLAYER_FALL_MULTIPLICATOR} from "@/configs/ga
 export const playerComposition = {
   preloadPlayerAnimation(scene) {
     scene.load.atlas("player-run", "assets/animation/player/player-run.png", "assets/animation/player/player-run.json");
+    scene.load.atlas("player-run-chair", "assets/animation/player/player-run-chair.png", "assets/animation/player/player-run-chair.json");
     scene.load.atlas("player-idle", "assets/animation/player/player-idle.png", "assets/animation/player/player-idle.json");
+    scene.load.atlas("player-idle-chair", "assets/animation/player/player-idle-chair.png", "assets/animation/player/player-idle-chair.json");
     scene.load.atlas("player-jump", "assets/animation/player/player-jump.png", "assets/animation/player/player-jump.json");
+    scene.load.atlas("player-jump-chair", "assets/animation/player/player-jump-chair.png", "assets/animation/player/player-jump-chair.json");
   },
 
   preparePlayerAnimation(scene) {
@@ -16,8 +19,20 @@ export const playerComposition = {
       repeat: -1,
     });
     scene.anims.create({
+      key: "player-run-chair",
+      frames: scene.anims.generateFrameNames("player-run-chair"),
+      frameRate: 10,
+      repeat: -1,
+    });
+    scene.anims.create({
       key: "player-idle",
       frames: scene.anims.generateFrameNames("player-idle"),
+      frameRate: 10,
+      repeat: -1,
+    });
+    scene.anims.create({
+      key: "player-idle-chair",
+      frames: scene.anims.generateFrameNames("player-idle-chair"),
       frameRate: 10,
       repeat: -1,
     });
@@ -25,7 +40,13 @@ export const playerComposition = {
       key: "player-jump",
       frames: scene.anims.generateFrameNames("player-jump"),
       frameRate: 10,
-      repeat: 1,
+      repeat: -1,
+    });
+    scene.anims.create({
+      key: "player-jump-chair",
+      frames: scene.anims.generateFrameNames("player-jump-chair"),
+      frameRate: 10,
+      repeat: -1,
     });
   },
 
@@ -68,11 +89,14 @@ export const playerComposition = {
     player.body.velocity.x = (userInput.right.isDown - userInput.left.isDown) * player.speed;
 
     if (player.body.velocity.equals(Phaser.Math.Vector2.ZERO)) {
-      player.anims.play("player-idle", true);
+      if (player.currentChair) player.anims.play("player-idle-chair", true);
+      else player.anims.play("player-idle", true);
     } else if (isOnGround && player.body.velocity.y === 0) {
-      player.anims.play("player-run", true);
+      if (player.currentChair) player.anims.play("player-run-chair", true);
+      else player.anims.play("player-run", true);
     } else {
-      player.anims.play("player-jump", true);
+      if (player.currentChair) player.anims.play("player-jump-chair", true);
+      else player.anims.play("player-jump", true);
       player.body.velocity.x *= PLAYER_FALL_MULTIPLICATOR;
     }
 
