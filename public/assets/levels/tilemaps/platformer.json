@@ -458,9 +458,69 @@
          "visible":true,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":8,
+         "name":"start_points_layer",
+         "objects":[
+                {
+                 "height":0,
+                 "id":50,
+                 "name":"player",
+                 "opacity":1,
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":-1606,
+                 "y":1558
+                }, 
+                {
+                 "height":0,
+                 "id":51,
+                 "name":"ghost1",
+                 "opacity":1,
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":-1484,
+                 "y":1550
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":9,
+         "name":"ghost_wander_area_layer",
+         "objects":[
+                {
+                 "height":910,
+                 "id":54,
+                 "name":"ghost1",
+                 "opacity":1,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":1902,
+                 "x":-1972,
+                 "y":942
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
         }],
- "nextlayerid":8,
- "nextobjectid":50,
+ "nextlayerid":10,
+ "nextobjectid":56,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.12.2",

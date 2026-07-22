@@ -17,8 +17,18 @@ export const platformerComposition = {
     const wallsLayer = tilemapComposition.createTileLayer(map, "floor-wall-roof", "Walls", [2, 3]);
     const chairLayer = tilemapComposition.createObjectLayer(scene, map, "chair_layer");
     const stairLayer = tilemapComposition.createObjectLayer(scene, map, "stair_layer");
+    const startPointsLayer = tilemapComposition.createMetaObjectLayer(map, "start_points_layer");
+    const ghostWanderAreaLayer = tilemapComposition.createMetaObjectLayer(map, "ghost_wander_area_layer");
 
-    return [map, platformLayer, wallsLayer, chairLayer, stairLayer];
+    return [
+      map,
+      platformLayer,
+      wallsLayer,
+      chairLayer,
+      stairLayer,
+      tilemapComposition.toMap(startPointsLayer, "name"),
+      tilemapComposition.toMap(ghostWanderAreaLayer, "name")
+    ];
   },
 
   createParallaxImages(scene) {
@@ -41,5 +51,5 @@ export const platformerComposition = {
 
     backgroundFar.setPosition(-scrollX * 0.3, scene.scale.height - scrollY * 0.3);
     backgroundNear.setPosition(-scrollX * 0.6, scene.scale.height - scrollY * 0.6);
-  },
+  }
 };

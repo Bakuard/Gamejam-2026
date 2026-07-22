@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="60" tileheight="60" infinite="1" nextlayerid="8" nextobjectid="50">
+<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="60" tileheight="60" infinite="1" nextlayerid="10" nextobjectid="56">
  <editorsettings>
   <export target="../public/assets/levels/tilemaps/platformer.json" format="json"/>
  </editorsettings>
@@ -256,5 +256,16 @@
     <property name="stairDir" value="left"/>
    </properties>
   </object>
+ </objectgroup>
+ <objectgroup id="8" name="start_points_layer">
+  <object id="50" name="player" x="-1606" y="1558">
+   <point/>
+  </object>
+  <object id="51" name="ghost1" x="-1484" y="1550">
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup id="9" name="ghost_wander_area_layer">
+  <object id="54" name="ghost1" x="-1972" y="942" width="1902" height="910"/>
  </objectgroup>
 </map>

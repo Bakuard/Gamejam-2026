@@ -1,0 +1,75 @@
+{"frames": {
+
+"1":
+{
+	"frame": {"x":309,"y":689,"w":299,"h":345},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":50,"y":2,"w":299,"h":345},
+	"sourceSize": {"w":411,"h":411}
+},
+"2":
+{
+	"frame": {"x":312,"y":1,"w":306,"h":368},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":48,"y":2,"w":306,"h":368},
+	"sourceSize": {"w":411,"h":411}
+},
+"3":
+{
+	"frame": {"x":1,"y":1,"w":309,"h":362},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":47,"y":2,"w":309,"h":362},
+	"sourceSize": {"w":411,"h":411}
+},
+"4":
+{
+	"frame": {"x":1,"y":365,"w":306,"h":331},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":47,"y":2,"w":306,"h":331},
+	"sourceSize": {"w":411,"h":411}
+},
+"5":
+{
+	"frame": {"x":620,"y":1,"w":297,"h":370},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":53,"y":2,"w":297,"h":370},
+	"sourceSize": {"w":411,"h":411}
+},
+"6":
+{
+	"frame": {"x":614,"y":373,"w":302,"h":362},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":50,"y":2,"w":302,"h":362},
+	"sourceSize": {"w":411,"h":411}
+},
+"7":
+{
+	"frame": {"x":1,"y":698,"w":305,"h":340},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":50,"y":2,"w":305,"h":340},
+	"sourceSize": {"w":411,"h":411}
+},
+"8":
+{
+	"frame": {"x":309,"y":371,"w":303,"h":316},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":50,"y":2,"w":303,"h":316},
+	"sourceSize": {"w":411,"h":411}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "player-jump.png",
+	"format": "RGBA8888",
+	"size": {"w":918,"h":1039},
+	"scale": "1"
+}
+}

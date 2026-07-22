@@ -1,0 +1,66 @@
+{
+  "frames": {
+    "1": {
+      "frame": { "x": 285, "y": 1, "w": 108, "h": 363 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 141, "y": 21, "w": 108, "h": 363 },
+      "sourceSize": { "w": 411, "h": 411 }
+    },
+    "2": {
+      "frame": { "x": 505, "y": 1, "w": 104, "h": 363 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 145, "y": 21, "w": 104, "h": 363 },
+      "sourceSize": { "w": 411, "h": 411 }
+    },
+    "3": {
+      "frame": { "x": 611, "y": 1, "w": 104, "h": 363 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 145, "y": 21, "w": 104, "h": 363 },
+      "sourceSize": { "w": 411, "h": 411 }
+    },
+    "4": {
+      "frame": { "x": 150, "y": 1, "w": 133, "h": 363 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 124, "y": 21, "w": 133, "h": 363 },
+      "sourceSize": { "w": 411, "h": 411 }
+    },
+    "5": {
+      "frame": { "x": 717, "y": 1, "w": 104, "h": 363 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 145, "y": 21, "w": 104, "h": 363 },
+      "sourceSize": { "w": 411, "h": 411 }
+    },
+    "6": {
+      "frame": { "x": 823, "y": 1, "w": 104, "h": 363 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 145, "y": 21, "w": 104, "h": 363 },
+      "sourceSize": { "w": 411, "h": 411 }
+    },
+    "7": {
+      "frame": { "x": 395, "y": 1, "w": 108, "h": 363 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 141, "y": 21, "w": 108, "h": 363 },
+      "sourceSize": { "w": 411, "h": 411 }
+    },
+    "8": {
+      "frame": { "x": 1, "y": 1, "w": 147, "h": 363 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 123, "y": 21, "w": 147, "h": 363 },
+      "sourceSize": { "w": 411, "h": 411 }
+    }
+  },
+  "meta": {
+    "image": "player-idle.png",
+    "format": "RGBA8888",
+    "size": { "w": 928, "h": 365 },
+    "scale": "1"
+  }
+}

@@ -65,6 +65,5 @@ collections:
           - { label: "PLAYER_DISPLAY_WIDTH", name: "PLAYER_DISPLAY_WIDTH", widget: "number" }
           - { label: "PLAYER_DISPLAY_HEIGHT", name: "PLAYER_DISPLAY_HEIGHT", widget: "number" }
           - { label: "PLAYER_MAX_HEALTH", name: "PLAYER_MAX_HEALTH", widget: "number" }
-          - { label: "PLAYER_CURRENT_HEALTH", name: "PLAYER_CURRENT_HEALTH", widget: "number" }
           - { label: "HEAL_VALUE", name: "HEAL_VALUE", widget: "number" }
           - { label: "BOMB_DAMAGE", name: "BOMB_DAMAGE", widget: "number" }

@@ -1,0 +1,73 @@
+{"frames": {
+
+"1":
+{
+	"frame": {"x":472,"y":1,"w":219,"h":337},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":144,"y":104,"w":219,"h":337},
+	"sourceSize": {"w":469,"h":469}
+},
+"2":
+{
+	"frame": {"x":902,"y":1,"w":243,"h":333},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":120,"y":104,"w":243,"h":333},
+	"sourceSize": {"w":469,"h":469}
+},
+"3":
+{
+	"frame": {"x":693,"y":1,"w":207,"h":334},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":156,"y":104,"w":207,"h":334},
+	"sourceSize": {"w":469,"h":469}
+},
+"4":
+{
+	"frame": {"x":241,"y":1,"w":229,"h":346},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":134,"y":104,"w":229,"h":346},
+	"sourceSize": {"w":469,"h":469}
+},
+"5":
+{
+	"frame": {"x":1358,"y":1,"w":241,"h":329},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":122,"y":104,"w":241,"h":329},
+	"sourceSize": {"w":469,"h":469}
+},
+"6":
+{
+	"frame": {"x":1147,"y":1,"w":209,"h":330},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":154,"y":104,"w":209,"h":330},
+	"sourceSize": {"w":469,"h":469}
+},
+"7":
+{
+	"frame": {"x":1,"y":1,"w":238,"h":348},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":125,"y":104,"w":238,"h":348},
+	"sourceSize": {"w":469,"h":469}
+},
+"8":
+{
+	"frame": {"x":1,"y":1,"w":238,"h":348},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":125,"y":104,"w":238,"h":348},
+	"sourceSize": {"w":469,"h":469}
+}},
+"meta": {
+	"image": "ghost-trainer-phase-1.png",
+	"format": "RGBA8888",
+	"size": {"w":1600,"h":350},
+	"scale": "1"
+}
+}
