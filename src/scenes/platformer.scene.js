@@ -44,13 +44,19 @@ export class PlatformerScene extends Phaser.Scene {
     playerComposition.configureCameraFollow(this, this.player, this.cameras.main.width / 4, this.cameras.main.height / 4);
     this.physics.add.collider(this.player, platformLayer);
     this.physics.add.collider(this.player, wallsLayer);
-    this.physics.add.collider(this.player, chairLayer);
+    this.physics.add.collider(this.player, chairLayer, (player, chair) => playerComposition.pickUpChair(player, chair, this.userInput));
+
+    this.events.on('postupdate', this.postUpdate.bind(this));
   }
 
   update(time, delta) {
     playerComposition.movePlayerOnPlatformers(this.player, this.userInput);
     playerComposition.moveOnStair(this, this.player, this.stairLayer, this.userInput);
-    playerComposition.handleChairCollision(this.player, this.userInput);
+    playerComposition.throwChair(this.player, this.userInput);
     platformerComposition.moveParallaxImages(this.camera, this.backgroundNear, this.backgroundFar, this);
+  }
+
+  postUpdate() {
+    playerComposition.careChair(this.player);
   }
 }
