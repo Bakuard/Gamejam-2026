@@ -26,7 +26,7 @@ export const tilemapComposition = {
 
 function extractPropertyValue(objMeta, propertyName) {
   return objMeta.properties?.find((property) => property.name === propertyName)?.value;
-};
+}
 
 function copyAllProperties(objMeta, targetObj) {
   objMeta.properties?.forEach((property) => (targetObj[property.name] = property.value));

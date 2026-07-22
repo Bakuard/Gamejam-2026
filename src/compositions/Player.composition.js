@@ -81,15 +81,9 @@ export const playerComposition = {
       right: Phaser.Input.Keyboard.KeyCodes.D,
       up: Phaser.Input.Keyboard.KeyCodes.W,
       down: Phaser.Input.Keyboard.KeyCodes.S,
-      pickUp: Phaser.Input.Keyboard.KeyCodes.E,
+      interract: Phaser.Input.Keyboard.KeyCodes.E,
       throw: Phaser.Input.Keyboard.KeyCodes.Q,
     });
-  },
-
-  handleChairCollision(player, userInput) {
-    if ((player.body.blocked.left && userInput.left.isDown) || (player.body.blocked.right && userInput.right.isDown)) {
-      player.body.velocity.x = 0;
-    }
   },
 
   moveOnStair(scene, player, stairLayer, userInput) {
@@ -126,5 +120,31 @@ export const playerComposition = {
     player.body.setAllowGravity(false);
     player.body.setVelocityY(0);
     player.body.y = targetFootY - player.body.height;
+  },
+
+  pickUpChair(player, chair, userInput) {
+    if (Phaser.Input.Keyboard.JustDown(userInput.interract)) {
+      chair.disableBody(true, false);
+      player.currentChair = chair;
+    }
+  },
+
+  careChair(player) {
+    if (player.currentChair) {
+      player.currentChair.x = player.x;
+      player.currentChair.y = player.y - player.currentChair.height;
+    }
+  },
+
+  throwChair(player, userInput) {
+    if (player.currentChair && Phaser.Input.Keyboard.JustDown(userInput.interract)) {
+      const direction = player.flipX ? -1 : 1;
+      const posX = player.x + (player.body.width + player.currentChair.body.width) * direction;
+      const posY = player.body.bottom - player.currentChair.body.height / 2;
+      player.currentChair.x = posX;
+      player.currentChair.y = posY;
+      player.currentChair.enableBody(true, posX, posY, true, true).refreshBody();
+      player.currentChair = null;
+    }
   },
 };
