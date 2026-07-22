@@ -8,15 +8,15 @@
     "ru": "Начать"
   },
   "main_title": {
-    "en": "Charlie",
-    "ru": "Чарли"
+    "en": "Survive until the morning",
+    "ru": "Survive until the morning"
   },
   "main_description": {
-    "en": "HTML5 Game Toolkit",
-    "ru": "Набор инструментов для HTML5 игр"
+    "en": "Game for Qwueble Game Jame",
+    "ru": "Game for Qwueble Game Jame"
   },
   "loading": {
     "en": "Loading",
-    "ru": "Загрузка"
+    "ru": "Loading"
   }
 }

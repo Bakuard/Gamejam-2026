@@ -17,16 +17,12 @@ const goToGame = (event) => {
 
 <template>
   <div class="start-menu-screen">
-    <LanguageSwitcher />
     <div class="start-menu-screen__content">
-      <div class="start-menu-screen__logo-container">
-        <MainLogo class="start-menu-screen__logo" />
-      </div>
       <h1 class="start-menu-screen__title">
         <span class="start-menu-screen__title-main">{{ tContent(UI_LOCALIZATION.main_title) }}</span>
         <span class="start-menu-screen__title-sub">{{ tContent(UI_LOCALIZATION.main_description) }}</span>
       </h1>
-      <form class="start-menu-screen__form" @submit="goToGame">
+      <form class="start-menu-screen__form">
         <button class="start-menu-screen__btn">
           {{ tContent(UI_LOCALIZATION.start_button) }}
         </button>
@@ -45,13 +41,14 @@ const goToGame = (event) => {
   align-items: center;
   justify-content: flex-end;
   padding-bottom: 40px;
-  background: #a09380 url("/public/assets/img/background/sky.png") center center;
+  background: #a09380 url("/public/assets/img/background/sky.jpg") center center;
   background-size: cover;
 
   &__content {
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: 100%;
     transform: scale(0.8);
   }
 
@@ -74,7 +71,7 @@ const goToGame = (event) => {
     display: flex;
     flex-direction: column;
     line-height: 1;
-    margin-bottom: 25px;
+    margin-bottom: auto;
 
     &-main {
       font-size: 80px;
