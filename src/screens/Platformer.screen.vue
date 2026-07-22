@@ -32,7 +32,7 @@ const createGame = () => {
       default: "arcade",
       arcade: {
         gravity: { x: 0, y: LEVEL_GRAVITY },
-        debug: false,
+        debug: true,
       },
     },
   });
@@ -68,6 +68,11 @@ const onAgain = () => {
     <UiAnchor anchor="top-right" :offset-x="10" :offset-y="10" target=".platformer-screen__game-wrapper">
       <LanguageSwitcher />
     </UiAnchor>
+    <GameResultModal
+      :is-game-over="playerStore.isGameOver"
+      :is-win="playerStore.isWin"
+      @again="onAgain"
+    />
     <div ref="gameContainer" class="platformer-screen__game-wrapper"></div>
   </div>
 </template>

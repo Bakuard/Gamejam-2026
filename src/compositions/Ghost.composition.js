@@ -112,6 +112,7 @@ export const ghostComposition = {
         updateGhostWithState(ghost, newState);
       } else {
         ghost.destroy();
+        ghost.isDestroyed = true;
       }
     }
   }

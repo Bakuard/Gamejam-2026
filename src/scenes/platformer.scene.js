@@ -67,6 +67,11 @@ export class PlatformerScene extends Phaser.Scene {
       if (ghost.isDestroyed) this.ghosts.splice(i, 1);
     }
     platformerComposition.moveParallaxImages(this.camera, this.backgroundNear, this.backgroundFar, this);
+
+    if (this.ghosts.length === 0) {
+      this.playerStore.isGameOver = true;
+      this.playerStore.isWin = true;
+    }
   }
 
   postUpdate() {

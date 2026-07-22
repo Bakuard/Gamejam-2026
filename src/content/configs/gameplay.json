@@ -20,7 +20,7 @@
           "detectionRadius": 300,
           "nextTempAimDistance": 500,
           "speedPxPerSec": 150,
-          "durationInMs": 10000
+          "durationInMs": 5000
         },
         {
           "animationAtlasName": "ghost-trainer-phase-1",
@@ -31,7 +31,7 @@
           "detectionRadius": 400,
           "nextTempAimDistance": 500,
           "speedPxPerSec": 200,
-          "durationInMs": 10000
+          "durationInMs": 5000
         },
         {
           "animationAtlasName": "ghost-trainer-phase-2",
@@ -42,7 +42,7 @@
           "detectionRadius": 400,
           "nextTempAimDistance": 500,
           "speedPxPerSec": 200,
-          "durationInMs": 10000
+          "durationInMs": 5000
         },
         {
           "animationAtlasName": "ghost-trainer-phase-3",
@@ -53,7 +53,7 @@
           "detectionRadius": 400,
           "nextTempAimDistance": 500,
           "speedPxPerSec": 250,
-          "durationInMs": 10000
+          "durationInMs": 5000
         },
         {
           "animationAtlasName": "ghost-trainer-death",
