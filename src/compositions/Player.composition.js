@@ -51,10 +51,7 @@ export const playerComposition = {
   },
 
   createPlayer(scene, x, y, displayWidth, displayHeight, bodyWidth, bodyHeight, speed) {
-    const player = scene.physics.add.sprite(x, y, "player-idle", "1")
-      .setDisplaySize(displayWidth, displayHeight)
-      .setOrigin(0.5, 1)
-      .play("player-idle");
+    const player = scene.physics.add.sprite(x, y, "player-idle", "1").setDisplaySize(displayWidth, displayHeight).setOrigin(0.5, 1).play("player-idle");
 
     const unscaledBodyWidth = bodyWidth / player.scaleX;
     const unscaledBodyHeight = bodyHeight / player.scaleY;
@@ -111,7 +108,7 @@ export const playerComposition = {
       right: Phaser.Input.Keyboard.KeyCodes.D,
       up: Phaser.Input.Keyboard.KeyCodes.W,
       down: Phaser.Input.Keyboard.KeyCodes.S,
-      interract: Phaser.Input.Keyboard.KeyCodes.E,
+      interact: Phaser.Input.Keyboard.KeyCodes.E,
       throw: Phaser.Input.Keyboard.KeyCodes.Q,
     });
   },
@@ -136,14 +133,15 @@ export const playerComposition = {
     if (player.body.velocity.y < 0) return;
 
     //Как далеко находится игрок от основания лестницы по оси Х
-    let progressX = Phaser.Math.Clamp((player.body.center.x - currentStair.body.x) / currentStair.body.width, 0, 1);
+    const playerPosX = currentStair.stairDir === "left" ? player.body.left : player.body.right;
+    let progressX = Phaser.Math.Clamp((playerPosX - currentStair.body.x) / currentStair.body.width, 0, 1);
     if (currentStair.stairDir === "left") progressX = 1 - progressX;
 
     //На какой высоте находится ступенька лестницы рядом с которой сейчас стоит игрок
     const targetFootY = currentStair.body.bottom - currentStair.body.height * progressX;
 
     //Если линия ног отклоняется от ступенек не больше указанного значения - значит игрок на лестнице.
-    const snapThreshold = 24;
+    const snapThreshold = 15;
     player.onStair = Math.abs(player.body.bottom - targetFootY) < snapThreshold;
     if (!player.onStair) return;
 
@@ -153,7 +151,7 @@ export const playerComposition = {
   },
 
   pickUpChair(player, chair, userInput) {
-    if (Phaser.Input.Keyboard.JustDown(userInput.interract)) {
+    if (Phaser.Input.Keyboard.JustDown(userInput.interact)) {
       chair.disableBody(true, false);
       player.currentChair = chair;
     }
@@ -162,19 +160,23 @@ export const playerComposition = {
   careChair(player) {
     if (player.currentChair) {
       player.currentChair.x = player.x;
-      player.currentChair.y = player.y - player.currentChair.height;
+      player.currentChair.y = player.y - player.body.height / 2 - player.currentChair.height;
     }
   },
 
   throwChair(player, userInput) {
-    if (player.currentChair && Phaser.Input.Keyboard.JustDown(userInput.interract)) {
+    if (player.currentChair && Phaser.Input.Keyboard.JustDown(userInput.interact)) {
       const direction = player.flipX ? -1 : 1;
-      const posX = player.x + (player.body.width + player.currentChair.body.width) * direction;
+      const posX = player.x + (player.body.width / 2 + player.currentChair.body.width / 2) * direction;
       const posY = player.body.bottom - player.currentChair.body.height / 2;
       player.currentChair.x = posX;
       player.currentChair.y = posY;
       player.currentChair.enableBody(true, posX, posY, true, true).refreshBody();
       player.currentChair = null;
     }
+  },
+
+  jumpOffPlatform(player, platform, userInput) {
+    return !userInput.down.isDown;
   },
 };

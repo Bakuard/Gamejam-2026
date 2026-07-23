@@ -13,9 +13,10 @@ export const platformerComposition = {
   createLevel(scene) {
     const map = scene.make.tilemap({ key: "platformer-tilemap" });
 
-    const platformLayer = tilemapComposition.createTileLayer(map, "floor-wall-roof", "Platforms", [2, 3]);
-    const wallsLayer = tilemapComposition.createTileLayer(map, "floor-wall-roof", "Walls", [2, 3]);
-    const chairLayer = tilemapComposition.createObjectLayer(scene, map, "chair_layer");
+    const platformLayer = tilemapComposition.createTileLayer(map, "floor-wall-roof", "Platforms", [4, 5, 6]);
+    const woodPlatformLayer = tilemapComposition.createTileLayer(map, "floor-wall-roof", "WoodPlatforms", [4, 5, 6], true);
+    const wallsLayer = tilemapComposition.createTileLayer(map, "floor-wall-roof", "Walls", [4, 5, 6]);
+    const chairLayer = tilemapComposition.createObjectLayer(scene, map, "chair_layer", true);
     const stairLayer = tilemapComposition.createObjectLayer(scene, map, "stair_layer");
     const startPointsLayer = tilemapComposition.createMetaObjectLayer(map, "start_points_layer");
     const ghostWanderAreaLayer = tilemapComposition.createMetaObjectLayer(map, "ghost_wander_area_layer");
@@ -23,6 +24,7 @@ export const platformerComposition = {
     return [
       map,
       platformLayer,
+      woodPlatformLayer,
       wallsLayer,
       chairLayer,
       stairLayer,

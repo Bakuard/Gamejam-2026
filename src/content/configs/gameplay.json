@@ -1,5 +1,11 @@
 {
-  "PLAYER_DISPLAY_HEIGHT": 122,
+  "PLAYER_DISPLAY_HEIGHT": 120,
+  "PLAYER_SPEED": 250,
+  "PLAYER_DISPLAY_WIDTH": 120,
+  "PLAYER_JUMP_MULTIPLICATOR": 2.5,
+  "PLAYER_PLATFORM_BODY_HEIGHT": 100,
+  "PLAYER_PLATFORM_BODY_WIDTH": 40,
+  "PLAYER_FALL_MULTIPLICATOR": 0.9,
   "GHOSTS": [
     {
       "startPointName": "ghost1",
@@ -14,7 +20,7 @@
           "physicBodyHeight": 120,
           "detectionRadius": 300,
           "physicBodyWidth": 60,
-          "durationInMs": 5000
+          "durationInMs": 15000
         },
         {
           "speedPxPerSec": 50,
@@ -25,7 +31,7 @@
           "physicBodyHeight": 120,
           "detectionRadius": 400,
           "physicBodyWidth": 60,
-          "durationInMs": 5000
+          "durationInMs": 15000
         },
         {
           "speedPxPerSec": 50,
@@ -36,7 +42,7 @@
           "physicBodyHeight": 120,
           "detectionRadius": 400,
           "physicBodyWidth": 60,
-          "durationInMs": 5000
+          "durationInMs": 15000
         },
         {
           "speedPxPerSec": 50,
@@ -47,7 +53,7 @@
           "physicBodyHeight": 120,
           "detectionRadius": 400,
           "physicBodyWidth": 60,
-          "durationInMs": 5000
+          "durationInMs": 15000
         },
         {
           "speedPxPerSec": 0,
@@ -62,14 +68,5 @@
         }
       ]
     }
-  ],
-  "PLAYER_SPEED": 250,
-  "PLAYER_DISPLAY_WIDTH": 122,
-  "BOMB_DAMAGE": 100,
-  "PLAYER_JUMP_MULTIPLICATOR": 3,
-  "PLAYER_MAX_HEALTH": 100,
-  "PLAYER_PLATFORM_BODY_HEIGHT": 92,
-  "PLAYER_PLATFORM_BODY_WIDTH": 60,
-  "HEAL_VALUE": 100,
-  "PLAYER_FALL_MULTIPLICATOR": 0.7
+  ]
 }

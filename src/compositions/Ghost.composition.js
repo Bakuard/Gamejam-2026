@@ -73,9 +73,10 @@ export const ghostComposition = {
     return ghost;
   },
 
-  handlePlayerCollision(playerStore) {
+  handlePlayerCollision(scene, playerStore) {
     playerStore.isGameOver = true;
     playerStore.isWin = false;
+    scene.pause();
   },
 
   moveGhost(player, ghost, deltaTime) {

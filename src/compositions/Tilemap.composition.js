@@ -1,7 +1,7 @@
 export const tilemapComposition = {
   createMetaObjectLayer(map, layerName) {
     const objLayerMeta = map.getObjectLayer(layerName);
-    return objLayerMeta.objects.map(objMeta => {
+    return objLayerMeta.objects.map((objMeta) => {
       const obj = {};
       Object.assign(obj, objMeta);
       copyAllProperties(objMeta, obj);
@@ -11,11 +11,11 @@ export const tilemapComposition = {
 
   toMap(layer, key) {
     const map = {};
-    layer.forEach(obj => map[obj[key]] = obj);
+    layer.forEach((obj) => (map[obj[key]] = obj));
     return map;
   },
 
-  createObjectLayer(scene, map, layerName) {
+  createObjectLayer(scene, map, layerName, onlyTopCollision) {
     const objLayerMeta = map.getObjectLayer(layerName);
     const objLayer = scene.physics.add.staticGroup();
     objLayerMeta.objects.forEach((objMeta) => {
@@ -28,14 +28,22 @@ export const tilemapComposition = {
       resultObj.setFlipX(isFlipX);
 
       copyAllProperties(objMeta, resultObj);
+
+      if (onlyTopCollision) {
+        resultObj.body.checkCollision.left = false;
+        resultObj.body.checkCollision.right = false;
+        resultObj.body.checkCollision.down = false;
+        resultObj.body.checkCollision.up = true;
+      }
     });
     return objLayer;
   },
 
-  createTileLayer(map, tilesetName, layerId, collisionIndexes) {
+  createTileLayer(map, tilesetName, layerId, collisionIndexes, onlyTopCollision) {
     const tileset = map.addTilesetImage(tilesetName);
     const tileLayer = map.createLayer(layerId, [tileset]);
-    map.setCollision(collisionIndexes);
+    tileLayer.setCollision(collisionIndexes);
+    if (onlyTopCollision) tileLayer.forEachTile(tile => tile.setCollision(false, false, true, false, false));
     return tileLayer;
   },
 };
