@@ -1,72 +1,75 @@
 {
-  "PLAYER_DISPLAY_HEIGHT": 120,
-  "PLAYER_SPEED": 250,
-  "PLAYER_DISPLAY_WIDTH": 120,
-  "PLAYER_JUMP_MULTIPLICATOR": 3,
-  "PLAYER_PLATFORM_BODY_HEIGHT": 100,
-  "PLAYER_PLATFORM_BODY_WIDTH": 60,
-  "PLAYER_FALL_MULTIPLICATOR": 0.7,
+  "PLAYER_DISPLAY_HEIGHT": 122,
   "GHOSTS": [
     {
       "startPointName": "ghost1",
       "ghostWanderAreaName": "ghost1",
       "states": [
         {
-          "animationAtlasName": "ghost-trainer-base",
+          "speedPxPerSec": 150,
           "displayWidth": 120,
           "displayHeight": 120,
-          "physicBodyWidth": 60,
+          "animationAtlasName": "ghost-trainer-base",
+          "nextTempAimDistance": 500,
           "physicBodyHeight": 120,
           "detectionRadius": 300,
-          "nextTempAimDistance": 500,
-          "speedPxPerSec": 150,
+          "physicBodyWidth": 60,
           "durationInMs": 5000
         },
         {
+          "speedPxPerSec": 200,
+          "displayWidth": 120,
+          "displayHeight": 120,
           "animationAtlasName": "ghost-trainer-phase-1",
-          "displayWidth": 120,
-          "displayHeight": 120,
-          "physicBodyWidth": 60,
+          "nextTempAimDistance": 500,
           "physicBodyHeight": 120,
           "detectionRadius": 400,
-          "nextTempAimDistance": 500,
-          "speedPxPerSec": 200,
+          "physicBodyWidth": 60,
           "durationInMs": 5000
         },
         {
+          "speedPxPerSec": 200,
+          "displayWidth": 120,
+          "displayHeight": 120,
           "animationAtlasName": "ghost-trainer-phase-2",
-          "displayWidth": 120,
-          "displayHeight": 120,
-          "physicBodyWidth": 60,
+          "nextTempAimDistance": 500,
           "physicBodyHeight": 120,
           "detectionRadius": 400,
-          "nextTempAimDistance": 500,
-          "speedPxPerSec": 200,
+          "physicBodyWidth": 60,
           "durationInMs": 5000
         },
         {
-          "animationAtlasName": "ghost-trainer-phase-3",
-          "displayWidth": 120,
-          "displayHeight": 120,
-          "physicBodyWidth": 60,
-          "physicBodyHeight": 120,
-          "detectionRadius": 400,
-          "nextTempAimDistance": 500,
           "speedPxPerSec": 250,
+          "displayWidth": 120,
+          "displayHeight": 120,
+          "animationAtlasName": "ghost-trainer-phase-3",
+          "nextTempAimDistance": 500,
+          "physicBodyHeight": 120,
+          "detectionRadius": 400,
+          "physicBodyWidth": 60,
           "durationInMs": 5000
         },
         {
-          "animationAtlasName": "ghost-trainer-death",
+          "speedPxPerSec": 0,
           "displayWidth": 120,
           "displayHeight": 120,
-          "physicBodyWidth": 60,
+          "animationAtlasName": "ghost-trainer-death",
+          "nextTempAimDistance": 500,
           "physicBodyHeight": 120,
           "detectionRadius": 400,
-          "nextTempAimDistance": 500,
-          "speedPxPerSec": 0,
+          "physicBodyWidth": 60,
           "durationInMs": 1500
         }
       ]
     }
-  ]
+  ],
+  "PLAYER_SPEED": 250,
+  "PLAYER_DISPLAY_WIDTH": 122,
+  "BOMB_DAMAGE": 100,
+  "PLAYER_JUMP_MULTIPLICATOR": 3,
+  "PLAYER_MAX_HEALTH": 100,
+  "PLAYER_PLATFORM_BODY_HEIGHT": 92,
+  "PLAYER_PLATFORM_BODY_WIDTH": 60,
+  "HEAL_VALUE": 100,
+  "PLAYER_FALL_MULTIPLICATOR": 0.7
 }

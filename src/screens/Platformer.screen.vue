@@ -23,8 +23,9 @@ const createGame = () => {
     backgroundColor: "#a09380",
     render: {
       // TODO: настройки сглаживания
-      // antialias: true,
-      // roundPixels: false,
+      antialias: true,
+      roundPixels: false,
+      pixelArt: false,
       // ВАЖНО: не должно быть pixelArt: true
     },
     scale: {
@@ -34,7 +35,7 @@ const createGame = () => {
       parent: gameContainer.value,
       autoCenter: Phaser.Scale.CENTER_BOTH,
       // TODO: при этих настройках рендер в физических пикселях
-      // zoom: 1 / window.devicePixelRatio,
+      zoom: 1 / window.devicePixelRatio,
     },
     physics: {
       default: "arcade",
