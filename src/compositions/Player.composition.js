@@ -162,14 +162,14 @@ export const playerComposition = {
   careChair(player) {
     if (player.currentChair) {
       player.currentChair.x = player.x;
-      player.currentChair.y = player.y - player.currentChair.height;
+      player.currentChair.y = player.y - player.body.height / 2 - player.currentChair.height;
     }
   },
 
   throwChair(player, userInput) {
     if (player.currentChair && Phaser.Input.Keyboard.JustDown(userInput.interract)) {
       const direction = player.flipX ? -1 : 1;
-      const posX = player.x + (player.body.width + player.currentChair.body.width) * direction;
+      const posX = player.x + (player.body.width / 2 + player.currentChair.body.width / 2) * direction;
       const posY = player.body.bottom - player.currentChair.body.height / 2;
       player.currentChair.x = posX;
       player.currentChair.y = posY;
