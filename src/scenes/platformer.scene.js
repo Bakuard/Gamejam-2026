@@ -73,7 +73,7 @@ export class PlatformerScene extends Phaser.Scene {
     if (this.ghosts.length === 0) {
       this.playerStore.isGameOver = true;
       this.playerStore.isWin = true;
-      this.pause();
+      this.scene.stop();
     }
   }
 

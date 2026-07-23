@@ -12,7 +12,7 @@
       "ghostWanderAreaName": "ghost1",
       "states": [
         {
-          "speedPxPerSec": 50,
+          "speedPxPerSec": 200,
           "displayWidth": 120,
           "displayHeight": 120,
           "animationAtlasName": "ghost-skier-base",
@@ -23,7 +23,7 @@
           "durationInMs": 15000
         },
         {
-          "speedPxPerSec": 50,
+          "speedPxPerSec": 220,
           "displayWidth": 120,
           "displayHeight": 120,
           "animationAtlasName": "ghost-skier-phase-1",
@@ -34,7 +34,7 @@
           "durationInMs": 15000
         },
         {
-          "speedPxPerSec": 50,
+          "speedPxPerSec": 240,
           "displayWidth": 120,
           "displayHeight": 120,
           "animationAtlasName": "ghost-skier-phase-2",
@@ -45,7 +45,7 @@
           "durationInMs": 15000
         },
         {
-          "speedPxPerSec": 50,
+          "speedPxPerSec": 260,
           "displayWidth": 120,
           "displayHeight": 120,
           "animationAtlasName": "ghost-skier-phase-3",
