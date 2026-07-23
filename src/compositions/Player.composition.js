@@ -177,10 +177,6 @@ export const playerComposition = {
   },
 
   jumpOffPlatform(player, platform, userInput) {
-    if (userInput.down.isDown) {
-      player.y += 5;
-      return false;
-    }
-    return true;
+    return !userInput.down.isDown;
   },
 };
