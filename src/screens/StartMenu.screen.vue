@@ -97,7 +97,7 @@ const goToGame = (event) => {
   align-items: center;
   justify-content: flex-end;
   padding-bottom: 40px;
-  background: #a09380 url("/public/assets/img/background/sky.jpg") center center;
+  background: #a09380 url("/public/assets/img/background/menu-background.jpg") center center;
   background-size: cover;
 
   &__content {
@@ -143,6 +143,7 @@ const goToGame = (event) => {
       font-weight: normal;
       opacity: 0.9;
       letter-spacing: 2px;
+      color: #d99b47;
     }
   }
 

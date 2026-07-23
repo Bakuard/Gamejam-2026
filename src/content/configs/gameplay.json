@@ -1,72 +1,75 @@
 {
-  "PLAYER_DISPLAY_HEIGHT": 120,
-  "PLAYER_SPEED": 250,
-  "PLAYER_DISPLAY_WIDTH": 120,
-  "PLAYER_JUMP_MULTIPLICATOR": 3,
-  "PLAYER_PLATFORM_BODY_HEIGHT": 100,
-  "PLAYER_PLATFORM_BODY_WIDTH": 60,
-  "PLAYER_FALL_MULTIPLICATOR": 0.7,
+  "PLAYER_DISPLAY_HEIGHT": 122,
   "GHOSTS": [
     {
       "startPointName": "ghost1",
       "ghostWanderAreaName": "ghost1",
       "states": [
         {
-          "animationAtlasName": "ghost-trainer-base",
+          "speedPxPerSec": 50,
           "displayWidth": 120,
           "displayHeight": 120,
-          "physicBodyWidth": 60,
+          "animationAtlasName": "ghost-skier-base",
+          "nextTempAimDistance": 500,
           "physicBodyHeight": 120,
           "detectionRadius": 300,
-          "nextTempAimDistance": 500,
-          "speedPxPerSec": 150,
+          "physicBodyWidth": 60,
           "durationInMs": 5000
         },
         {
-          "animationAtlasName": "ghost-trainer-phase-1",
+          "speedPxPerSec": 50,
           "displayWidth": 120,
           "displayHeight": 120,
-          "physicBodyWidth": 60,
+          "animationAtlasName": "ghost-skier-phase-1",
+          "nextTempAimDistance": 500,
           "physicBodyHeight": 120,
           "detectionRadius": 400,
-          "nextTempAimDistance": 500,
-          "speedPxPerSec": 200,
+          "physicBodyWidth": 60,
           "durationInMs": 5000
         },
         {
-          "animationAtlasName": "ghost-trainer-phase-2",
+          "speedPxPerSec": 50,
           "displayWidth": 120,
           "displayHeight": 120,
-          "physicBodyWidth": 60,
+          "animationAtlasName": "ghost-skier-phase-2",
+          "nextTempAimDistance": 500,
           "physicBodyHeight": 120,
           "detectionRadius": 400,
-          "nextTempAimDistance": 500,
-          "speedPxPerSec": 200,
+          "physicBodyWidth": 60,
           "durationInMs": 5000
         },
         {
-          "animationAtlasName": "ghost-trainer-phase-3",
+          "speedPxPerSec": 50,
           "displayWidth": 120,
           "displayHeight": 120,
-          "physicBodyWidth": 60,
+          "animationAtlasName": "ghost-skier-phase-3",
+          "nextTempAimDistance": 500,
           "physicBodyHeight": 120,
           "detectionRadius": 400,
-          "nextTempAimDistance": 500,
-          "speedPxPerSec": 250,
+          "physicBodyWidth": 60,
           "durationInMs": 5000
         },
         {
-          "animationAtlasName": "ghost-trainer-death",
-          "displayWidth": 120,
-          "displayHeight": 120,
-          "physicBodyWidth": 60,
-          "physicBodyHeight": 120,
-          "detectionRadius": 400,
-          "nextTempAimDistance": 500,
           "speedPxPerSec": 0,
+          "displayWidth": 120,
+          "displayHeight": 120,
+          "animationAtlasName": "ghost-skier-death",
+          "nextTempAimDistance": 500,
+          "physicBodyHeight": 120,
+          "detectionRadius": 400,
+          "physicBodyWidth": 60,
           "durationInMs": 1500
         }
       ]
     }
-  ]
+  ],
+  "PLAYER_SPEED": 250,
+  "PLAYER_DISPLAY_WIDTH": 122,
+  "BOMB_DAMAGE": 100,
+  "PLAYER_JUMP_MULTIPLICATOR": 3,
+  "PLAYER_MAX_HEALTH": 100,
+  "PLAYER_PLATFORM_BODY_HEIGHT": 92,
+  "PLAYER_PLATFORM_BODY_WIDTH": 60,
+  "HEAL_VALUE": 100,
+  "PLAYER_FALL_MULTIPLICATOR": 0.7
 }
