@@ -4,7 +4,6 @@ export const platformerComposition = {
   preloadLevel(scene) {
     scene.load.image("floor-wall-roof", "assets/levels/tiles/floor-wall-roof.png");
     scene.load.image("chair", "assets/levels/tiles/chair.png");
-    scene.load.image("stair", "assets/levels/tiles/stair.png");
     scene.load.tilemapTiledJSON("platformer-tilemap", "assets/levels/tilemaps/platformer.json");
     scene.load.image('mountBack', 'assets/img/background/mount-back.png');
     scene.load.image('mountFront', 'assets/img/background/mount-front.png');
@@ -17,7 +16,6 @@ export const platformerComposition = {
     const woodPlatformLayer = tilemapComposition.createTileLayer(map, "floor-wall-roof", "WoodPlatforms", [4, 5, 6], true);
     const wallsLayer = tilemapComposition.createTileLayer(map, "floor-wall-roof", "Walls", [4, 5, 6]);
     const chairLayer = tilemapComposition.createObjectLayer(scene, map, "chair_layer", true);
-    const stairLayer = tilemapComposition.createObjectLayer(scene, map, "stair_layer");
     const startPointsLayer = tilemapComposition.createMetaObjectLayer(map, "start_points_layer");
     const ghostWanderAreaLayer = tilemapComposition.createMetaObjectLayer(map, "ghost_wander_area_layer");
 
@@ -27,7 +25,6 @@ export const platformerComposition = {
       woodPlatformLayer,
       wallsLayer,
       chairLayer,
-      stairLayer,
       tilemapComposition.toMap(startPointsLayer, "name"),
       tilemapComposition.toMap(ghostWanderAreaLayer, "name")
     ];
