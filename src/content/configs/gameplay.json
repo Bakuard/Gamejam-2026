@@ -6,10 +6,10 @@
       "ghostWanderAreaName": "ghost1",
       "states": [
         {
-          "speedPxPerSec": 150,
+          "speedPxPerSec": 50,
           "displayWidth": 120,
           "displayHeight": 120,
-          "animationAtlasName": "ghost-trainer-base",
+          "animationAtlasName": "ghost-skier-base",
           "nextTempAimDistance": 500,
           "physicBodyHeight": 120,
           "detectionRadius": 300,
@@ -17,10 +17,10 @@
           "durationInMs": 5000
         },
         {
-          "speedPxPerSec": 200,
+          "speedPxPerSec": 50,
           "displayWidth": 120,
           "displayHeight": 120,
-          "animationAtlasName": "ghost-trainer-phase-1",
+          "animationAtlasName": "ghost-skier-phase-1",
           "nextTempAimDistance": 500,
           "physicBodyHeight": 120,
           "detectionRadius": 400,
@@ -28,10 +28,10 @@
           "durationInMs": 5000
         },
         {
-          "speedPxPerSec": 200,
+          "speedPxPerSec": 50,
           "displayWidth": 120,
           "displayHeight": 120,
-          "animationAtlasName": "ghost-trainer-phase-2",
+          "animationAtlasName": "ghost-skier-phase-2",
           "nextTempAimDistance": 500,
           "physicBodyHeight": 120,
           "detectionRadius": 400,
@@ -39,10 +39,10 @@
           "durationInMs": 5000
         },
         {
-          "speedPxPerSec": 250,
+          "speedPxPerSec": 50,
           "displayWidth": 120,
           "displayHeight": 120,
-          "animationAtlasName": "ghost-trainer-phase-3",
+          "animationAtlasName": "ghost-skier-phase-3",
           "nextTempAimDistance": 500,
           "physicBodyHeight": 120,
           "detectionRadius": 400,
@@ -53,7 +53,7 @@
           "speedPxPerSec": 0,
           "displayWidth": 120,
           "displayHeight": 120,
-          "animationAtlasName": "ghost-trainer-death",
+          "animationAtlasName": "ghost-skier-death",
           "nextTempAimDistance": 500,
           "physicBodyHeight": 120,
           "detectionRadius": 400,
