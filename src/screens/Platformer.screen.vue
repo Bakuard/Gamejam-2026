@@ -21,12 +21,20 @@ const createGame = () => {
     type: Phaser.AUTO,
     scene: new PlatformerScene(playerStore),
     backgroundColor: "#a09380",
+    render: {
+      // TODO: настройки сглаживания
+      // antialias: true,
+      // roundPixels: false,
+      // ВАЖНО: не должно быть pixelArt: true
+    },
     scale: {
       width: LEVEL_WIDTH,
       height: LEVEL_HEIGHT,
       mode: Phaser.Scale.FIT,
       parent: gameContainer.value,
       autoCenter: Phaser.Scale.CENTER_BOTH,
+      // TODO: при этих настройках рендер в физических пикселях
+      // zoom: 1 / window.devicePixelRatio,
     },
     physics: {
       default: "arcade",
