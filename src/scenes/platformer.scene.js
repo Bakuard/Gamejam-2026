@@ -54,7 +54,11 @@ export class PlatformerScene extends Phaser.Scene {
       this.physics.add.overlap(this.player, ghost, (player, ghost) => ghostComposition.handlePlayerCollision(this, this.playerStore));
     }
 
-    this.events.on('postupdate', this.postUpdate.bind(this));
+    // убрать эту строку:
+    this.events.on(Phaser.Scenes.Events.POST_UPDATE, this.postUpdate, this);
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+      this.events.off(Phaser.Scenes.Events.POST_UPDATE, this.postUpdate, this);
+    });
   }
 
   update(time, delta) {
