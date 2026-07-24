@@ -26,32 +26,32 @@ const next = () => {
 </script>
 
 <template>
-  <div class="tutorial-slider">
-    <div class="tutorial-slider__viewport">
+  <div class="tutorial-modal">
+    <div class="tutorial-modal__viewport">
       <div
-        class="tutorial-slider__track"
+        class="tutorial-modal__track"
         :style="{ transform: `translateX(-${currentIndex * 100}%)` }"
       >
         <div
           v-for="(slide, index) in slides"
           :key="index"
-          class="tutorial-slider__slide"
+          class="tutorial-modal__slide"
         >
           <component :is="slide" />
         </div>
       </div>
     </div>
 
-    <div class="tutorial-slider__controls">
+    <div class="tutorial-modal__controls">
       <button
-        class="tutorial-slider__btn"
+        class="tutorial-modal__btn"
         :disabled="currentIndex === 0"
         @click="prev"
       >
         Prev
       </button>
       <button
-        class="tutorial-slider__btn"
+        class="tutorial-modal__btn"
         :disabled="currentIndex === total - 1"
         @click="next"
       >
@@ -61,35 +61,62 @@ const next = () => {
   </div>
 </template>
 
-<style scoped lang="scss">
-.tutorial-slider {
-  width: 100%;
+<style lang="scss">
+.tutorial-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  width: 100vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   gap: 12px;
   background: rgba(20, 10, 5, 0.65);
   backdrop-filter: blur(6px);
-  border: 1px solid rgba(217, 155, 71, 0.3);
-  border-radius: 4px;
   padding: 16px;
   box-sizing: border-box;
 
   &__viewport {
+    flex: 1;
+    min-height: 0;
     width: 100%;
     overflow: hidden;
   }
 
   &__track {
     display: flex;
+    align-items: flex-start;
+    height: 100%;
     transition: transform 0.3s ease;
   }
 
   &__slide {
     min-width: 100%;
+    width: 100%;
+    height: 100%;
     box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    div {
+      height: 100%;
+    }
+
+    img {
+      display: block;
+      width: auto;
+      height: 100%;
+      max-width: 100%;
+      object-fit: contain;
+    }
   }
 
   &__controls {
+    flex-shrink: 0;
     display: flex;
     justify-content: center;
     gap: 12px;

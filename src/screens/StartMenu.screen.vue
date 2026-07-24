@@ -3,7 +3,7 @@ import { useRouter } from "vue-router";
 import { createI18nContentHelpers } from "@/utils/utils.js";
 import i18next from "@/i18n.js";
 import { UI_LOCALIZATION } from "@/configs/uiLocalization.config.js";
-import TutorialSlider from "@/ui-components/TutorialSlider.component.vue";
+import TutorialModal from "@/ui-components/TutorialModal.component.vue";
 import { ref } from "vue";
 
 const router = useRouter();
@@ -24,57 +24,33 @@ const goToGame = (event) => {
 
 <template>
   <div class="start-menu-screen">
+    <TutorialModal v-if="isSliderVisible">
+      <div>
+        <img class="tutorial-modal__image" src="https://placehold.co/1920x1080" alt="placeholder" />
+      </div>
+      <div>
+        <img class="tutorial-modal__image" src="https://placehold.co/1920x1080" alt="placeholder" />
+      </div>
+      <div>
+        <img class="tutorial-modal__image" src="https://placehold.co/1920x1080" alt="placeholder" />
+      </div>
+      <div>
+        <img class="tutorial-modal__image" src="https://placehold.co/1920x1080" alt="placeholder" />
+      </div>
+      <div>
+        <img class="tutorial-modal__image" src="https://placehold.co/1920x1080" alt="placeholder" />
+      </div>
+      <div class="slide-with-btn">
+        <img class="tutorial-modal__image" src="https://placehold.co/1920x1080" alt="placeholder" />
+        <button class="slide-lets-go-btn" @click="goToGame">Let's go</button>
+      </div>
+    </TutorialModal>
     <div class="start-menu-screen__content">
       <h1 class="start-menu-screen__title">
         <span class="start-menu-screen__title-main">{{ tContent(UI_LOCALIZATION.main_title) }}</span>
         <span class="start-menu-screen__title-sub">{{ tContent(UI_LOCALIZATION.main_description) }}</span>
       </h1>
       <form class="start-menu-screen__form">
-        <TutorialSlider v-if="isSliderVisible">
-          <div>
-            <div class="slide-images">
-              <img src="https://placehold.co/540x360" alt="placeholder" />
-              <img src="https://placehold.co/540x360" alt="placeholder" />
-            </div>
-            <p class="slide-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          </div>
-          <div>
-            <div class="slide-images">
-              <img src="https://placehold.co/540x360" alt="placeholder" />
-              <img src="https://placehold.co/540x360" alt="placeholder" />
-            </div>
-            <p class="slide-text">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-          </div>
-          <div>
-            <div class="slide-images">
-              <img src="https://placehold.co/540x360" alt="placeholder" />
-              <img src="https://placehold.co/540x360" alt="placeholder" />
-            </div>
-            <p class="slide-text">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-          </div>
-          <div>
-            <div class="slide-images">
-              <img src="https://placehold.co/540x360" alt="placeholder" />
-              <img src="https://placehold.co/540x360" alt="placeholder" />
-            </div>
-            <p class="slide-text">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-          </div>
-          <div>
-            <div class="slide-images">
-              <img src="https://placehold.co/540x360" alt="placeholder" />
-              <img src="https://placehold.co/540x360" alt="placeholder" />
-            </div>
-            <p class="slide-text">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede.</p>
-          </div>
-          <div>
-            <div class="slide-images">
-              <img src="https://placehold.co/540x360" alt="placeholder" />
-              <img src="https://placehold.co/540x360" alt="placeholder" />
-            </div>
-            <p class="slide-text">Nunc fringilla lorem at ipsum semper sagittis. Curabitur congue ipsum at arcu faucibus, vel tincidunt nunc vehicula.</p>
-            <button class="slide-lets-go-btn" @click="goToGame">Let's go</button>
-          </div>
-        </TutorialSlider>
         <button
           v-if="!isSliderVisible"
           class="start-menu-screen__btn"
@@ -96,7 +72,6 @@ const goToGame = (event) => {
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
-  padding-bottom: 40px;
   background: #a09380 url("/public/assets/img/background/menu-background.jpg") center center;
   background-size: cover;
 
@@ -153,6 +128,7 @@ const goToGame = (event) => {
     align-items: center;
     gap: 10px;
     width: 900px;
+    transform: translateY(30px);
   }
 
   &__btn {
@@ -230,6 +206,18 @@ const goToGame = (event) => {
 
   &:hover {
     background: #b56f44;
+  }
+}
+
+.slide-with-btn {
+  position: relative;
+
+  .slide-lets-go-btn {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
   }
 }
 </style>
