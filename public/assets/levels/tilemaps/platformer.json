@@ -570,6 +570,32 @@
                  "width":0,
                  "x":-836,
                  "y":1122
+                }, 
+                {
+                 "height":0,
+                 "id":66,
+                 "name":"ghost3",
+                 "opacity":1,
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":-892,
+                 "y":1036
+                }, 
+                {
+                 "height":0,
+                 "id":67,
+                 "name":"ghost4",
+                 "opacity":1,
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":-1042,
+                 "y":1022
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -591,8 +617,8 @@
                  "type":"",
                  "visible":true,
                  "width":1902,
-                 "x":-1966,
-                 "y":62
+                 "x":-1968,
+                 "y":60
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -601,7 +627,7 @@
          "y":0
         }],
  "nextlayerid":12,
- "nextobjectid":66,
+ "nextobjectid":68,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.12.2",
@@ -620,12 +646,12 @@
          "name":"chairs",
          "spacing":0,
          "tilecount":1,
-         "tileheight":87,
+         "tileheight":96,
          "tiles":[
                 {
                  "id":0,
                  "image":"..\/tiles\/chair.png",
-                 "imageheight":87,
+                 "imageheight":96,
                  "imagewidth":55
                 }],
          "tilewidth":55
@@ -643,15 +669,15 @@
          "name":"stairs",
          "spacing":0,
          "tilecount":1,
-         "tileheight":64,
+         "tileheight":349,
          "tiles":[
                 {
                  "id":1,
                  "image":"..\/tiles\/stair.png",
-                 "imageheight":64,
-                 "imagewidth":134
+                 "imageheight":349,
+                 "imagewidth":436
                 }],
-         "tilewidth":134
+         "tilewidth":436
         }, 
         {
          "columns":3,

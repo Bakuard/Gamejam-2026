@@ -62,7 +62,7 @@ export class PlatformerScene extends Phaser.Scene {
     playerComposition.throwChair(this.player, this.userInput);
     for (let i = this.ghosts.length - 1; i >= 0; i--) {
       const ghost = this.ghosts[i];
-      ghostComposition.moveGhost(this.player, ghost, delta);
+      ghostComposition.moveGhost(this.player, ghost, time, delta);
       ghostComposition.ghostStateTimer(ghost, delta);
       if (ghost.isDestroyed) this.ghosts.splice(i, 1);
     }

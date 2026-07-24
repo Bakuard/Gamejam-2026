@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="60" tileheight="60" infinite="1" nextlayerid="12" nextobjectid="66">
+<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="60" tileheight="60" infinite="1" nextlayerid="12" nextobjectid="68">
  <editorsettings>
   <export target="../public/assets/levels/tilemaps/platformer.json" format="json"/>
  </editorsettings>
- <tileset firstgid="1" name="chairs" tilewidth="55" tileheight="87" tilecount="1" columns="0">
+ <tileset firstgid="1" name="chairs" tilewidth="55" tileheight="96" tilecount="1" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
-   <image source="../public/assets/levels/tiles/chair.png" width="55" height="87"/>
+   <image source="../public/assets/levels/tiles/chair.png" width="55" height="96"/>
   </tile>
  </tileset>
- <tileset firstgid="2" name="stairs" tilewidth="134" tileheight="64" tilecount="1" columns="0">
+ <tileset firstgid="2" name="stairs" tilewidth="436" tileheight="349" tilecount="1" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="1">
-   <image source="../public/assets/levels/tiles/stair.png" width="134" height="64"/>
+   <image source="../public/assets/levels/tiles/stair.png" width="436" height="349"/>
   </tile>
  </tileset>
  <tileset firstgid="4" name="floor-wall-roof" tilewidth="60" tileheight="60" tilecount="3" columns="3">
@@ -386,8 +386,14 @@
   <object id="65" name="ghost2" x="-836" y="1122">
    <point/>
   </object>
+  <object id="66" name="ghost3" x="-892" y="1036">
+   <point/>
+  </object>
+  <object id="67" name="ghost4" x="-1042" y="1022">
+   <point/>
+  </object>
  </objectgroup>
  <objectgroup id="9" name="ghost_wander_area_layer">
-  <object id="54" name="ghost1" x="-1966" y="62" width="1902" height="1794"/>
+  <object id="54" name="ghost1" x="-1968" y="60" width="1902" height="1794"/>
  </objectgroup>
 </map>
