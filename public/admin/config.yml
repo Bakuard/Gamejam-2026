@@ -56,14 +56,153 @@ collections:
         label: "Gameplay"
         name: "gameplay"
         format: "json"
+
         fields:
-          - { label: "PLAYER_SPEED", name: "PLAYER_SPEED", widget: "number" }
-          - { label: "PLAYER_JUMP_MULTIPLICATOR", name: "PLAYER_JUMP_MULTIPLICATOR", widget: "number" }
-          - { label: "PLAYER_FALL_MULTIPLICATOR", name: "PLAYER_FALL_MULTIPLICATOR", widget: "number" }
-          - { label: "PLAYER_PLATFORM_BODY_WIDTH", name: "PLAYER_PLATFORM_BODY_WIDTH", widget: "number" }
-          - { label: "PLAYER_PLATFORM_BODY_HEIGHT", name: "PLAYER_PLATFORM_BODY_HEIGHT", widget: "number" }
-          - { label: "PLAYER_DISPLAY_WIDTH", name: "PLAYER_DISPLAY_WIDTH", widget: "number" }
-          - { label: "PLAYER_DISPLAY_HEIGHT", name: "PLAYER_DISPLAY_HEIGHT", widget: "number" }
-          - { label: "PLAYER_MAX_HEALTH", name: "PLAYER_MAX_HEALTH", widget: "number" }
-          - { label: "HEAL_VALUE", name: "HEAL_VALUE", widget: "number" }
-          - { label: "BOMB_DAMAGE", name: "BOMB_DAMAGE", widget: "number" }
+          - label: "Высота отображения игрока"
+            name: "PLAYER_DISPLAY_HEIGHT"
+            widget: number
+            value_type: int
+            min: 0
+            step: 1
+
+          - label: "Скорость игрока"
+            name: "PLAYER_SPEED"
+            widget: number
+            value_type: int
+            min: 0
+            step: 1
+
+          - label: "Ширина отображения игрока"
+            name: "PLAYER_DISPLAY_WIDTH"
+            widget: number
+            value_type: int
+            min: 0
+            step: 1
+
+          - label: "Множитель прыжка"
+            name: "PLAYER_JUMP_MULTIPLICATOR"
+            widget: number
+            value_type: float
+            min: 0
+            step: 0.1
+
+          - label: "Высота физического тела игрока"
+            name: PLAYER_PLATFORM_BODY_HEIGHT
+            widget: number
+            value_type: int
+            min: 0
+            step: 1
+
+          - label: "Ширина физического тела игрока"
+            name: PLAYER_PLATFORM_BODY_WIDTH
+            widget: number
+            value_type: int
+            min: 0
+            step: 1
+
+          - label: "Множитель падения"
+            name: PLAYER_FALL_MULTIPLICATOR
+            widget: number
+            value_type: float
+            min: 0
+            step: 0.1
+
+          - label: "Призраки"
+            label_singular: Призрак
+            name: GHOSTS
+            widget: list
+            collapsed: true
+            minimize_collapsed: true
+            summary: "{{fields.startPointName}} — {{fields.movementType}}"
+            fields:
+              - label: "Имя стартовой точки"
+                name: startPointName
+                widget: string
+                hint: "Имя объекта или точки появления призрака"
+
+              - label: "Область перемещения"
+                name: ghostWanderAreaName
+                widget: string
+                hint: "Имя области, внутри которой перемещается призрак"
+
+              - label: "Тип движения"
+                name: movementType
+                widget: select
+                options:
+                  - label: "Дуга вправо"
+                    value: arc_right
+                  - label: "Дуга влево"
+                    value: arc_left
+                  - label: "По прямой"
+                    value: straight
+                  - label: "Волна"
+                    value: wave
+
+              - label: Состояния
+                label_singular: Состояние
+                name: states
+                widget: list
+                collapsed: true
+                minimize_collapsed: true
+                summary: "{{fields.animationAtlasName}} — {{fields.durationInMs}} мс"
+
+                fields:
+                  - label: "Скорость, пикселей в секунду"
+                    name: speedPxPerSec
+                    widget: number
+                    value_type: int
+                    min: 0
+                    step: 1
+
+                  - label: "Ширина отображения"
+                    name: displayWidth
+                    widget: number
+                    value_type: int
+                    min: 0
+                    step: 1
+
+                  - label: "Высота отображения"
+                    name: displayHeight
+                    widget: number
+                    value_type: int
+                    min: 0
+                    step: 1
+
+                  - label: "Атлас анимации"
+                    name: animationAtlasName
+                    widget: string
+
+                  - label: "Расстояние до следующей временной цели"
+                    name: nextTempAimDistance
+                    widget: number
+                    value_type: int
+                    min: 0
+                    step: 1
+
+                  - label: "Высота физического тела"
+                    name: physicBodyHeight
+                    widget: number
+                    value_type: int
+                    min: 0
+                    step: 1
+
+                  - label: "Радиус обнаружения"
+                    name: detectionRadius
+                    widget: number
+                    value_type: int
+                    min: 0
+                    step: 1
+
+                  - label: "Ширина физического тела"
+                    name: physicBodyWidth
+                    widget: number
+                    value_type: int
+                    min: 0
+                    step: 1
+
+                  - label: "Длительность состояния, мс"
+                    name: durationInMs
+                    widget: number
+                    value_type: int
+                    min: 0
+                    step: 1
