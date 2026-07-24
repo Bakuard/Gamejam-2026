@@ -112,7 +112,7 @@ export const playerComposition = {
   },
 
   pickUpChair(player, chair, userInput) {
-    if (Phaser.Input.Keyboard.JustDown(userInput.interact)) {
+    if (Phaser.Input.Keyboard.JustDown(userInput.interact) && !player.currentChair) {
       chair.disableBody(true, false);
       player.currentChair = chair;
     }
