@@ -150,9 +150,9 @@ function calculateStraightVelocity(ghost, moveDistance) {
 
 function changeVelocityByMovementType(ghost, totalTime) {
   if (ghost.movementType === "arc_left") {
-    rotateVector(ghost.velocity, -0.6);
+    rotateVector(ghost.velocity, -0.65);
   } else if (ghost.movementType === "arc_right") {
-    rotateVector(ghost.velocity, 0.6);
+    rotateVector(ghost.velocity, 0.45);
   } else if (ghost.movementType === "wave") {
     const waveSpeed = 2.5;
     const waveAmplitude = 0.6;
