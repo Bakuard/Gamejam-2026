@@ -65,9 +65,7 @@ onBeforeUnmount(() => {
 const onAgain = () => {
   playerStore.isGameOver = false;
   playerStore.isWin = false;
-  game?.destroy(true);
-  game = null;
-  createGame();
+  game.scene.getScene('MainScene').scene.restart();
 };
 </script>
 
@@ -77,11 +75,7 @@ const onAgain = () => {
     <UiAnchor anchor="top-right" :offset-x="10" :offset-y="10" target=".platformer-screen__game-wrapper">
       <LanguageSwitcher />
     </UiAnchor>
-    <GameResultModal
-      :is-game-over="playerStore.isGameOver"
-      :is-win="playerStore.isWin"
-      @again="onAgain"
-    />
+    <GameResultModal :is-game-over="playerStore.isGameOver" :is-win="playerStore.isWin" @again="onAgain" />
     <div ref="gameContainer" class="platformer-screen__game-wrapper"></div>
   </div>
 </template>

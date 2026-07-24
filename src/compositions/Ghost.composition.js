@@ -3,7 +3,8 @@ import Phaser from "phaser";
 export const ghostComposition = {
   preloadGhostAnimation(scene, ghostsConfig) {
     for (let ghostConfig of ghostsConfig) {
-      for (let state of ghostConfig.states) scene.load.atlas(state.animationAtlasName, `assets/animation/ghosts/${state.animationAtlasName}.png`, `assets/animation/ghosts/${state.animationAtlasName}.json`);
+      for (let state of ghostConfig.states)
+        scene.load.atlas(state.animationAtlasName, `assets/animation/ghosts/${state.animationAtlasName}.png`, `assets/animation/ghosts/${state.animationAtlasName}.json`);
     }
   },
 
@@ -48,7 +49,8 @@ export const ghostComposition = {
         firstState.detectionRadius,
         firstState.nextTempAimDistance,
         wanderArea,
-        ghostConfig.states
+        ghostConfig.states,
+        ghostConfig.movementType
       );
 
       result.push(ghost);
@@ -57,11 +59,8 @@ export const ghostComposition = {
     return result;
   },
 
-  createGhost(scene, x, y, animationAtlasName, displayWidth, displayHeight, bodyWidth, bodyHeight, speed, detectionRadius, nextTempAimDistance, wanderArea, states) {
-    const ghost = scene.physics.add
-      .sprite(x, y, animationAtlasName, "1")
-      .setOrigin(0.5, 1)
-      .refreshBody();
+  createGhost(scene, x, y, animationAtlasName, displayWidth, displayHeight, bodyWidth, bodyHeight, speed, detectionRadius, nextTempAimDistance, wanderArea, states, movementType) {
+    const ghost = scene.physics.add.sprite(x, y, animationAtlasName, "1").setOrigin(0.5, 1).refreshBody();
     ghost.body.setAllowGravity(false);
     ghost.velocity = new Phaser.Math.Vector2();
     ghost.tempAim = new Phaser.Math.Vector2(x, y);
@@ -69,6 +68,7 @@ export const ghostComposition = {
     ghost.stateIndex = 0;
     ghost.states = states;
     ghost.currentStateDurationInMs = 0;
+    ghost.movementType = movementType;
     updateGhostWithState(ghost, states[0]);
     return ghost;
   },
@@ -76,31 +76,24 @@ export const ghostComposition = {
   handlePlayerCollision(scene, playerStore) {
     playerStore.isGameOver = true;
     playerStore.isWin = false;
-    scene.pause();
+    setTimeout(() => scene.scene.stop(), 0);
   },
 
-  moveGhost(player, ghost, deltaTime) {
-    ghost.velocity.set(player.x - ghost.x, player.y - ghost.y);
-    const distanceToPlayer = ghost.velocity.length();
+  moveGhost(player, ghost, totalTime, deltaTime) {
     const currentSpeed = (ghost.speed * deltaTime) / 1000;
-    if (distanceToPlayer <= ghost.detectionRadius && distanceToPlayer > currentSpeed) {
-      ghost.velocity.scale(1 / distanceToPlayer).scale(currentSpeed);
-      ghost.x += ghost.velocity.x;
-      ghost.y += ghost.velocity.y;
-      ghost.setFlipX(player.x < ghost.x);
+
+    calculateDirectionAndDistanceToAim(ghost, player);
+    if (ghost.distanceToAim <= ghost.detectionRadius) {
+      calculateStraightVelocity(ghost, currentSpeed);
+      changeVelocityByMovementType(ghost, totalTime);
+      moveToAim(ghost, player, currentSpeed);
       return;
     }
 
-    ghost.velocity.set(ghost.tempAim.x - ghost.x, ghost.tempAim.y - ghost.y);
-    const distanceToTempAim = ghost.velocity.length();
-    if (distanceToTempAim >= currentSpeed) {
-      ghost.velocity.scale(1 / distanceToTempAim).scale(currentSpeed);
-      ghost.x += ghost.velocity.x;
-      ghost.y += ghost.velocity.y;
-    } else {
-      setNextTempAim(ghost);
-    }
-    ghost.setFlipX(ghost.tempAim.x < ghost.x);
+    calculateDirectionAndDistanceToAim(ghost, ghost.tempAim);
+    calculateStraightVelocity(ghost, currentSpeed);
+    const reachedAim = moveToAim(ghost, ghost.tempAim, currentSpeed);
+    if (reachedAim) setNextTempAim(ghost);
   },
 
   ghostStateTimer(ghost, delta) {
@@ -116,7 +109,7 @@ export const ghostComposition = {
         ghost.isDestroyed = true;
       }
     }
-  }
+  },
 };
 
 function updateGhostWithState(ghost, state) {
@@ -142,4 +135,50 @@ function setNextTempAim(ghost) {
     Phaser.Math.Clamp(ghost.x + Math.cos(angle) * ghost.nextTempAimDistance, ghost.wanderArea.left, ghost.wanderArea.right),
     Phaser.Math.Clamp(ghost.y + Math.sin(angle) * ghost.nextTempAimDistance, ghost.wanderArea.top, ghost.wanderArea.bottom)
   );
+}
+
+function calculateDirectionAndDistanceToAim(ghost, aim) {
+  ghost.directionToAim ??= new Phaser.Math.Vector2();
+  ghost.directionToAim.set(aim.x - ghost.x, aim.y - ghost.y);
+  ghost.distanceToAim = ghost.directionToAim.length();
+}
+
+function calculateStraightVelocity(ghost, moveDistance) {
+  if (ghost.distanceToAim <= moveDistance) ghost.velocity.set(0, 0);
+  else ghost.velocity.copy(ghost.directionToAim).scale(moveDistance / ghost.distanceToAim);
+}
+
+function changeVelocityByMovementType(ghost, totalTime) {
+  if (ghost.movementType === "arc_left") {
+    rotateVector(ghost.velocity, -0.6);
+  } else if (ghost.movementType === "arc_right") {
+    rotateVector(ghost.velocity, 0.6);
+  } else if (ghost.movementType === "wave") {
+    const waveSpeed = 2.5;
+    const waveAmplitude = 0.6;
+    const totalTimeInSec = totalTime / 1000;
+    const waveAngle = Math.sin(totalTimeInSec * waveSpeed) * waveAmplitude;
+    rotateVector(ghost.velocity, waveAngle);
+  }
+}
+
+function moveToAim(ghost, aim, moveDistance) {
+  const reachedAim = ghost.distanceToAim <= moveDistance;
+  if (reachedAim) {
+    ghost.x = aim.x;
+    ghost.y = aim.y;
+  } else {
+    ghost.x += ghost.velocity.x;
+    ghost.y += ghost.velocity.y;
+  }
+  ghost.setFlipX(ghost.velocity.x < 0);
+  return reachedAim;
+}
+
+function rotateVector(vector, angle) {
+  const x = vector.x;
+  const y = vector.y;
+  const cos = Math.cos(angle);
+  const sin = Math.sin(angle);
+  vector.set(x * cos - y * sin, x * sin + y * cos);
 }

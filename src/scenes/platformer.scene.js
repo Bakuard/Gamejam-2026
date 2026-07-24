@@ -26,8 +26,7 @@ export class PlatformerScene extends Phaser.Scene {
     this.backgroundNear = backgroundNear;
     this.backgroundFar = backgroundFar;
 
-    const [map, platformLayer, woodPlatformLayer, wallsLayer, chairLayer, stairLayer, startPointsLayer, ghostWanderAreaLayer] = platformerComposition.createLevel(this);
-    this.stairLayer = stairLayer;
+    const [map, platformLayer, woodPlatformLayer, wallsLayer, chairLayer, startPointsLayer, ghostWanderAreaLayer] = platformerComposition.createLevel(this);
 
     this.userInput = playerComposition.createUserInput(this);
     playerComposition.preparePlayerAnimation(this);
@@ -60,11 +59,10 @@ export class PlatformerScene extends Phaser.Scene {
 
   update(time, delta) {
     playerComposition.movePlayerOnPlatformers(this.player, this.userInput);
-    playerComposition.moveOnStair(this, this.player, this.stairLayer, this.userInput);
     playerComposition.throwChair(this.player, this.userInput);
     for (let i = this.ghosts.length - 1; i >= 0; i--) {
       const ghost = this.ghosts[i];
-      ghostComposition.moveGhost(this.player, ghost, delta);
+      ghostComposition.moveGhost(this.player, ghost, time, delta);
       ghostComposition.ghostStateTimer(ghost, delta);
       if (ghost.isDestroyed) this.ghosts.splice(i, 1);
     }
@@ -73,7 +71,7 @@ export class PlatformerScene extends Phaser.Scene {
     if (this.ghosts.length === 0) {
       this.playerStore.isGameOver = true;
       this.playerStore.isWin = true;
-      this.pause();
+      this.scene.stop();
     }
   }
 

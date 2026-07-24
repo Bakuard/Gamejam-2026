@@ -74,9 +74,7 @@ export const playerComposition = {
   },
 
   movePlayerOnPlatformers(player, userInput) {
-    const isOnGround = player.body.blocked.down || player.onStair;
-
-    if (userInput.up.isDown && isOnGround) {
+    if (userInput.up.isDown && player.body.blocked.down) {
       player.body.velocity.y = -player.speed * PLAYER_JUMP_MULTIPLICATOR;
 
       if (player.inStairArea) {
@@ -90,7 +88,7 @@ export const playerComposition = {
     if (player.body.velocity.equals(Phaser.Math.Vector2.ZERO)) {
       if (player.currentChair) player.anims.play("player-idle-chair", true);
       else player.anims.play("player-idle", true);
-    } else if (isOnGround && player.body.velocity.y === 0) {
+    } else if (player.body.blocked.down && player.body.velocity.y === 0) {
       if (player.currentChair) player.anims.play("player-run-chair", true);
       else player.anims.play("player-run", true);
     } else {
@@ -111,43 +109,6 @@ export const playerComposition = {
       interact: Phaser.Input.Keyboard.KeyCodes.E,
       throw: Phaser.Input.Keyboard.KeyCodes.Q,
     });
-  },
-
-  moveOnStair(scene, player, stairLayer, userInput) {
-    let currentStair = null;
-    player.inStairArea = scene.physics.overlap(player, stairLayer, (player, stair) => (currentStair = stair));
-    if (!player.inStairArea || player.ignoreStair) {
-      player.body.setAllowGravity(true);
-      player.ignoreStair = false;
-      player.onStair = false;
-      return;
-    }
-
-    //Если нажали "Вниз" - включаем режим игнорирования до выхода из зоны
-    if (userInput.down.isDown) player.ignoreStair = true;
-
-    //Если лестница проигнорирована (игрок спрыгивает), прерываем метод
-    if (player.ignoreStair) return;
-
-    //Если набирает высоту во время прыжка, то же игнорируем лестницу.
-    if (player.body.velocity.y < 0) return;
-
-    //Как далеко находится игрок от основания лестницы по оси Х
-    const playerPosX = currentStair.stairDir === "left" ? player.body.left : player.body.right;
-    let progressX = Phaser.Math.Clamp((playerPosX - currentStair.body.x) / currentStair.body.width, 0, 1);
-    if (currentStair.stairDir === "left") progressX = 1 - progressX;
-
-    //На какой высоте находится ступенька лестницы рядом с которой сейчас стоит игрок
-    const targetFootY = currentStair.body.bottom - currentStair.body.height * progressX;
-
-    //Если линия ног отклоняется от ступенек не больше указанного значения - значит игрок на лестнице.
-    const snapThreshold = 15;
-    player.onStair = Math.abs(player.body.bottom - targetFootY) < snapThreshold;
-    if (!player.onStair) return;
-
-    player.body.setAllowGravity(false);
-    player.body.setVelocityY(0);
-    player.body.y = targetFootY - player.body.height;
   },
 
   pickUpChair(player, chair, userInput) {
