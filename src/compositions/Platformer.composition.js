@@ -51,7 +51,7 @@ export const platformerComposition = {
     const scrollX = camera.scrollX;
     const scrollY = camera.scrollY;
 
-    backgroundFar.setPosition(-scrollX * 0.3, scene.scale.height - scrollY * 0.3);
-    backgroundNear.setPosition(-scrollX * 0.6, scene.scale.height - scrollY * 0.6);
+    backgroundFar.setPosition(-scrollX * 0.3, scene.scale.height - scrollY * 0.55);
+    backgroundNear.setPosition(-scrollX * 0.7, scene.scale.height - scrollY * 0.8);
   }
 };
