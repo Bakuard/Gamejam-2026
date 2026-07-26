@@ -32,7 +32,7 @@ const onAgain = () => {
 
       <div class="game-result-modal__image">
         <img
-          :src="isWin ? 'https://placehold.co/540x360/4a7c59/d99b47' : 'https://placehold.co/540x360/7f4837/d99b47'"
+          :src="isWin ? '/assets/img/Winner_stamp.png' : '/assets/img/Loser_stamp.png'"
           alt="result"
         />
       </div>
