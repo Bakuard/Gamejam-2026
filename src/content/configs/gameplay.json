@@ -3,7 +3,7 @@
     "morningDurationInSec": 180,
     "dayDurationInSec": 60,
     "eveningDurationInSec": 60,
-    "nightDurationInSec": 120,
+    "nightDurationInSec": 60,
     "morningPhaseTransitionFraction": 0.6,
     "afternoonPhaseTransitionFraction": 0.2,
     "eveningPhaseTransitionFraction": 0.2,
@@ -32,7 +32,7 @@
           "physicBodyHeight": 100,
           "detectionRadius": 2000,
           "physicBodyWidth": 30,
-          "durationInMs": 120000
+          "durationInMs": 60000
         },
         {
           "speedPxPerSec": 45,
@@ -94,7 +94,7 @@
           "physicBodyHeight": 100,
           "detectionRadius": 350,
           "physicBodyWidth": 30,
-          "durationInMs": 120000
+          "durationInMs": 60000
         },
         {
           "speedPxPerSec": 100,
@@ -156,7 +156,7 @@
           "physicBodyHeight": 100,
           "detectionRadius": 160,
           "physicBodyWidth": 30,
-          "durationInMs": 120000
+          "durationInMs": 60000
         },
         {
           "speedPxPerSec": 150,
@@ -218,7 +218,7 @@
           "physicBodyHeight": 100,
           "detectionRadius": 160,
           "physicBodyWidth": 30,
-          "durationInMs": 120000
+          "durationInMs": 60000
         },
         {
           "speedPxPerSec": 45,
