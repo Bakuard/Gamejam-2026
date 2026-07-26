@@ -11,6 +11,13 @@ export const playerComposition = {
     scene.load.atlas("player-jump-chair", "assets/animation/player/player-jump-chair.png", "assets/animation/player/player-jump-chair.json");
   },
 
+  preloadPlayerSounds(scene) {
+    scene.load.audio("footsteps-on-wood", "sounds/footsteps-on-wood.mp3");
+    scene.load.audio("footsteps-on-bricks", "sounds/footsteps-on-bricks.mp3");
+    scene.load.audio("wood-creaking", "sounds/wood-creaking.mp3");
+    scene.load.audio("footsteps-on-concrete", "sounds/footsteps-on-concrete.mp3");
+  },
+
   preparePlayerAnimation(scene) {
     scene.anims.create({
       key: "player-run",
@@ -63,6 +70,16 @@ export const playerComposition = {
 
     player.speed = speed;
     player.depth = 100;
+
+    player.footstepsOnBricks = scene.sound.add("footsteps-on-bricks");
+    player.footstepsOnBricks.addMarker({ name: "step1", start: 0, duration: 0.5 });
+    player.footstepsOnWood = scene.sound.add("footsteps-on-wood");
+    player.footstepsOnWood.addMarker({ name: "step1", start: 0.5, duration: 0.5 });
+    player.woodCreaking = scene.sound.add("wood-creaking");
+    player.woodCreaking.addMarker({ name: "step1", start: 0, duration: 0.5 });
+    player.footstepsOnConcrete = scene.sound.add("footsteps-on-concrete");
+    player.footstepsOnConcrete.addMarker({ name: "step1", start: 0, duration: 1 });
+
     return player;
   },
 
@@ -73,7 +90,7 @@ export const playerComposition = {
     scene.cameras.main.setZoom(1.2);
   },
 
-  movePlayerOnPlatformers(player, userInput) {
+  movePlayerOnPlatformers(scene, player, userInput, platformLayer, woodPlatformLayer, camera) {
     if (userInput.up.isDown && player.body.blocked.down) {
       player.body.velocity.y = -player.speed * PLAYER_JUMP_MULTIPLICATOR;
 
@@ -84,6 +101,8 @@ export const playerComposition = {
     }
 
     player.body.velocity.x = (userInput.right.isDown - userInput.left.isDown) * player.speed;
+    const solidTile = platformLayer.getTileAtWorldXY(player.body.center.x, player.body.bottom + 2, false, camera);
+    const woodTile = woodPlatformLayer.getTileAtWorldXY(player.body.center.x, player.body.bottom + 2, false, camera);
 
     if (player.body.velocity.equals(Phaser.Math.Vector2.ZERO)) {
       if (player.currentChair) player.anims.play("player-idle-chair", true);
@@ -91,13 +110,17 @@ export const playerComposition = {
     } else if (player.body.blocked.down && player.body.velocity.y === 0) {
       if (player.currentChair) player.anims.play("player-run-chair", true);
       else player.anims.play("player-run", true);
+      playFootstepSound(scene, player, solidTile ?? woodTile);
     } else {
       if (player.currentChair) player.anims.play("player-jump-chair", true);
       else player.anims.play("player-jump", true);
       player.body.velocity.x *= PLAYER_FALL_MULTIPLICATOR;
+      playChairCreakingSound(player, userInput);
     }
 
     if (player.body.velocity.x !== 0) player.setFlipX(userInput.left.isDown);
+
+    player.isStandingOnChair = false;
   },
 
   createUserInput(scene) {
@@ -153,4 +176,22 @@ function isAreaFree(scene, chair, posX, posY, wallsLayer) {
   const collidingTiles = wallsLayer.getTilesWithinWorldXY(startX, startY, width, height, { isColliding: true });
 
   return collidingTiles.length === 0;
+}
+
+function playFootstepSound(scene, player, tile) {
+  if (!tile) return;
+
+  if (tile.properties.tileType === "brick" && !player.footstepsOnBricks.isPlaying) {
+    player.footstepsOnBricks.play("step1");
+  } else if (tile.properties.tileType === "wood" && !player.footstepsOnWood.isPlaying) {
+    player.footstepsOnWood.play("step1");
+  } else if (tile.properties.tileType === "stone" && !player.footstepsOnConcrete.isPlaying) {
+    player.footstepsOnConcrete.play("step1");
+  }
+}
+
+function playChairCreakingSound(player, userInput) {
+  if (player.isStandingOnChair && userInput.up.isDown && !player.woodCreaking.isPlaying) {
+    player.woodCreaking.play("step1");
+  }
 }

@@ -17,6 +17,21 @@
  </tileset>
  <tileset firstgid="4" name="floor-wall-roof" tilewidth="60" tileheight="60" tilecount="3" columns="3">
   <image source="../public/assets/levels/tiles/floor-wall-roof.png" width="180" height="60"/>
+  <tile id="0">
+   <properties>
+    <property name="tileType" value="brick"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="tileType" value="stone"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="tileType" value="wood"/>
+   </properties>
+  </tile>
  </tileset>
  <tileset firstgid="7" name="decor" tilewidth="60" tileheight="60" tilecount="30" columns="6">
   <image source="../public/assets/levels/tiles/level-art-tiles.png" width="419" height="300"/>
