@@ -29,7 +29,7 @@ export class PlatformerScene extends Phaser.Scene {
     this.backgroundNear = backgroundNear;
     this.backgroundFar = backgroundFar;
 
-    this.calendar = new Calendar(5, 5, 5, 5);
+    this.calendar = new Calendar(Config.TIME.morningDurationInSec, Config.TIME.dayDurationInSec, Config.TIME.eveningDurationInSec, Config.TIME.nightDurationInSec);
 
     const [map, platformLayer, woodPlatformLayer, wallsLayer, chairLayer, startPointsLayer, ghostWanderAreaLayer] = platformerComposition.createLevel(this);
 
@@ -69,10 +69,10 @@ export class PlatformerScene extends Phaser.Scene {
 
     this.nightPipeline = dynamicLightingComposition.prepareAmbientLightPipeline(
       this,
-      0.2,
-      0.2,
-      0.2,
-      0.2,
+      Config.TIME.morningPhaseTransitionFraction,
+      Config.TIME.afternoonPhaseTransitionFraction,
+      Config.TIME.eveningPhaseTransitionFraction,
+      Config.TIME.nightPhaseTransitionFraction,
       this.calendar.getCurrentDayPhase(),
       this.calendar.getCurrentPhaseProgress()
     );

@@ -1,4 +1,14 @@
 {
+  "TIME": {
+    "morningDurationInSec": 5,
+    "dayDurationInSec": 5,
+    "eveningDurationInSec": 5,
+    "nightDurationInSec": 5,
+    "morningPhaseTransitionFraction": 0.2,
+    "afternoonPhaseTransitionFraction": 0.2,
+    "eveningPhaseTransitionFraction": 0.2,
+    "nightPhaseTransitionFraction": 0.2
+  },
   "PLAYER_DISPLAY_HEIGHT": 120,
   "PLAYER_SPEED": 220,
   "PLAYER_DISPLAY_WIDTH": 120,

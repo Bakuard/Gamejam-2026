@@ -10,3 +10,4 @@ export const PLAYER_PLATFORM_BODY_HEIGHT = gameplay.PLAYER_PLATFORM_BODY_HEIGHT;
 export const PLAYER_DISPLAY_WIDTH = gameplay.PLAYER_DISPLAY_WIDTH;
 export const PLAYER_DISPLAY_HEIGHT = gameplay.PLAYER_DISPLAY_HEIGHT;
 export const GHOSTS = structuredClone(gameplay.GHOSTS);
+export const TIME = structuredClone(gameplay.TIME);
