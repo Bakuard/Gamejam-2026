@@ -20,7 +20,6 @@ const createGame = () => {
   game = new Phaser.Game({
     type: Phaser.WEBGL,
     scene: new PlatformerScene(playerStore),
-    backgroundColor: "#a09380",
     render: {
       // TODO: настройки сглаживания
       antialias: true,

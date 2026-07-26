@@ -6,8 +6,8 @@ export const platformerComposition = {
     scene.load.image("decor", "assets/levels/tiles/level-art-tiles.png");
     scene.load.image("chair", "assets/levels/tiles/chair.png");
     scene.load.tilemapTiledJSON("platformer-tilemap", "assets/levels/tilemaps/platformer.json");
-    scene.load.image('mountBack', 'assets/img/background/mount-back.png');
-    scene.load.image('mountFront', 'assets/img/background/mount-front.png');
+    scene.load.image("mountBack", "assets/img/background/mount-back.png");
+    scene.load.image("mountFront", "assets/img/background/mount-front.png");
   },
 
   createLevel(scene) {
@@ -22,29 +22,17 @@ export const platformerComposition = {
     const startPointsLayer = tilemapComposition.createMetaObjectLayer(map, "start_points_layer");
     const ghostWanderAreaLayer = tilemapComposition.createMetaObjectLayer(map, "ghost_wander_area_layer");
 
-    return [
-      map,
-      platformLayer,
-      woodPlatformLayer,
-      wallsLayer,
-      chairLayer,
-      tilemapComposition.toMap(startPointsLayer, "name"),
-      tilemapComposition.toMap(ghostWanderAreaLayer, "name")
-    ];
+    return [map, platformLayer, woodPlatformLayer, wallsLayer, chairLayer, tilemapComposition.toMap(startPointsLayer, "name"), tilemapComposition.toMap(ghostWanderAreaLayer, "name")];
   },
 
   createParallaxImages(scene) {
     const camera = scene.cameras.main;
 
-    const backgroundFar = scene.add.image(-1755, 1706, 'mountBack')
-      .setOrigin(0.5, 0.04)
-      .setScrollFactor(0);
+    const backgroundFar = scene.add.image(-1755, 1706, "mountBack").setOrigin(0.5, 0.04).setScrollFactor(0);
 
-    const backgroundNear = scene.add.image(-1755, 1706, 'mountFront')
-      .setOrigin(0.9, -2)
-      .setScrollFactor(0);
+    const backgroundNear = scene.add.image(-1755, 1706, "mountFront").setOrigin(0.9, -2).setScrollFactor(0);
 
-      return [camera, backgroundNear, backgroundFar];
+    return [camera, backgroundNear, backgroundFar];
   },
 
   moveParallaxImages(camera, backgroundNear, backgroundFar, scene) {
@@ -53,5 +41,13 @@ export const platformerComposition = {
 
     backgroundFar.setPosition(-scrollX * 0.3, scene.scale.height - scrollY * 0.68);
     backgroundNear.setPosition(-scrollX * 0.7, scene.scale.height - scrollY * 0.9);
-  }
+  },
+
+  createBackground(scene, camera) {
+    const bg = scene.add.rectangle(0, 0, camera.width, camera.height, 0x98e5fe);
+    bg.setOrigin(0, 0);
+    bg.setScrollFactor(0);
+    bg.setDepth(-1000);
+    scene.scale.on("resize", (gameSize) => bg.setSize(gameSize.width, gameSize.height));
+  },
 };

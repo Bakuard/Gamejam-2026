@@ -1,14 +1,14 @@
 {
   "TIME": {
-    "morningDurationInSec": 5,
-    "dayDurationInSec": 5,
-    "eveningDurationInSec": 5,
-    "nightDurationInSec": 5,
-    "morningPhaseTransitionFraction": 0.2,
+    "morningDurationInSec": 180,
+    "dayDurationInSec": 60,
+    "eveningDurationInSec": 60,
+    "nightDurationInSec": 120,
+    "morningPhaseTransitionFraction": 0.6,
     "afternoonPhaseTransitionFraction": 0.2,
-    "eveningPhaseTransitionFraction": 0,
-    "nightPhaseTransitionFraction": 0.2,
-    "startDayPhase": "evening"
+    "eveningPhaseTransitionFraction": 0.2,
+    "nightPhaseTransitionFraction": 0,
+    "startDayPhase": "night"
   },
   "PLAYER_DISPLAY_HEIGHT": 120,
   "PLAYER_SPEED": 220,
