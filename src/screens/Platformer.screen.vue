@@ -18,7 +18,7 @@ let game = null;
 
 const createGame = () => {
   game = new Phaser.Game({
-    type: Phaser.AUTO,
+    type: Phaser.WEBGL,
     scene: new PlatformerScene(playerStore),
     backgroundColor: "#a09380",
     render: {
@@ -65,7 +65,7 @@ onBeforeUnmount(() => {
 const onAgain = () => {
   playerStore.isGameOver = false;
   playerStore.isWin = false;
-  game.scene.getScene('MainScene').scene.restart();
+  game.scene.getScene("MainScene").scene.restart();
 };
 </script>
 
