@@ -64,39 +64,43 @@ const goToGame = (event) => {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  background: #a09380 url("/assets/img/background/main_menu.jpg") center center;
+
+  // Было: центрирование и прижатие к низу — из‑за этого контент «уезжает» на персонажа справа
+  align-items: flex-start;
+  justify-content: center;
+
+  // Смещаем композицию фона вправо, чтобы персонаж оставался справа
+  background: #a09380 url("/assets/img/background/main_menu2.jpg") right center;
   background-size: cover;
+
+  // Отступы, чтобы контент уверенно был слева и не залезал на правую часть
+  padding: clamp(16px, 4vw, 64px);
+  box-sizing: border-box;
 
   &__content {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    height: 100%;
-    transform: scale(0.8);
-  }
 
-  &__logo-container {
-    width: 180px;
+    // Было: align-items: center; height: 100%;
+    align-items: flex-start;
     height: auto;
-    margin-bottom: -15px;
-    filter: drop-shadow(4px 4px 0px #2c1f1a);
-    animation: float 4s ease-in-out infinite;
-  }
 
-  &__logo {
-    width: 100%;
-    height: 100%;
+    // Ограничиваем ширину левой «колонки», чтобы текст/кнопка не расползались вправо
+    width: min(520px, 45vw);
+
+    transform: scale(0.9);
   }
 
   &__title {
     color: #2c1f1a;
-    text-align: center;
+
+    // Было: text-align: center;
+    text-align: left;
+
     display: flex;
     flex-direction: column;
     line-height: 1;
-    margin-bottom: auto;
+    margin-bottom: 240px;
 
     &-main {
       font-size: 80px;
@@ -119,10 +123,17 @@ const goToGame = (event) => {
   &__form {
     display: flex;
     flex-direction: column;
-    align-items: center;
+
+    // Было: align-items: center;
+    align-items: flex-start;
+
     gap: 10px;
-    width: 900px;
-    transform: translateY(30px);
+
+    // Было: width: 900px;
+    width: 100%;
+
+    // Было: transform: translateY(30px);
+    transform: none;
   }
 
   &__btn {
@@ -148,10 +159,11 @@ const goToGame = (event) => {
 @media (min-height: 800px) {
   .start-menu-screen__content {
     transform: scale(1);
-    margin-bottom: 100px;
+    margin-bottom: 0;
   }
 }
 
+/* остальной стиль без изменений */
 @keyframes float {
   0%,
   100% {
@@ -208,7 +220,7 @@ const goToGame = (event) => {
 
   .slide-lets-go-btn {
     position: absolute;
-    bottom: 40px;
+    bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
     margin: 0;
