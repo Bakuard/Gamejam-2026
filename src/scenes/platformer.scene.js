@@ -20,6 +20,7 @@ export class PlatformerScene extends Phaser.Scene {
     musicComposition.preload(this);
     platformerComposition.preloadLevel(this);
     playerComposition.preloadPlayerAnimation(this);
+    playerComposition.preloadPlayerSounds(this);
     ghostComposition.preloadGhostAnimation(this, Config.GHOSTS);
     ghostComposition.preloadGhostParticles(this);
     dynamicLightingComposition.preloadShaders(this);
@@ -42,7 +43,8 @@ export class PlatformerScene extends Phaser.Scene {
     );
 
     const [map, platformLayer, woodPlatformLayer, wallsLayer, chairLayer, startPointsLayer, ghostWanderAreaLayer] = platformerComposition.createLevel(this);
-
+    this.platformLayer = platformLayer;
+    this.woodPlatformLayer = woodPlatformLayer;
     this.wallsLayer = wallsLayer;
 
     this.userInput = playerComposition.createUserInput(this);
@@ -65,7 +67,10 @@ export class PlatformerScene extends Phaser.Scene {
     this.physics.add.collider(this.player, platformLayer);
     this.physics.add.collider(this.player, wallsLayer);
     this.physics.add.collider(this.player, woodPlatformLayer, null, (player, platform) => playerComposition.jumpOff(player, platform, this.userInput));
-    this.physics.add.collider(this.player, chairLayer, null, (player, chair) => playerComposition.jumpOff(player, chair, this.userInput));
+    this.physics.add.collider(this.player, chairLayer,
+      (player, chair) => player.isStandingOnChair = player.body.touching.down && chair.body.touching.up,
+        (player, chair) => playerComposition.jumpOff(player, chair, this.userInput)
+    );
     this.physics.add.overlap(this.player, chairLayer, (player, chair) => playerComposition.pickUpChair(player, chair, this.userInput));
     for (const ghost of this.ghosts) {
       this.physics.add.overlap(this.player, ghost, (player, ghost) => ghostComposition.handlePlayerCollision(this, this.playerStore));
@@ -97,7 +102,7 @@ export class PlatformerScene extends Phaser.Scene {
     }
     this._wasMorning = isMorning;
 
-    playerComposition.movePlayerOnPlatformers(this.player, this.userInput);
+    playerComposition.movePlayerOnPlatformers(this, this.player, this.userInput, this.platformLayer, this.woodPlatformLayer, this.camera);
     playerComposition.throwChair(this.player, this.userInput, this.wallsLayer);
     ghostComposition.moveAllGhosts(this.ghosts, this.player, time, delta);
     ghostComposition.updateGhostsStateTimer(this.ghosts, delta);
