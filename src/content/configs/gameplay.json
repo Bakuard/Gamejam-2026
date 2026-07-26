@@ -24,7 +24,7 @@
       "movementType": "straight",
       "states": [
         {
-          "speedPxPerSec": 50,
+          "speedPxPerSec": 25,
           "displayWidth": 120,
           "displayHeight": 120,
           "animationAtlasName": "ghost-photographer-base",
@@ -86,7 +86,7 @@
       "movementType": "arc_right",
       "states": [
         {
-          "speedPxPerSec": 120,
+          "speedPxPerSec": 60,
           "displayWidth": 120,
           "displayHeight": 120,
           "animationAtlasName": "ghost-skier-base",
@@ -148,7 +148,7 @@
       "movementType": "wave",
       "states": [
         {
-          "speedPxPerSec": 220,
+          "speedPxPerSec": 110,
           "displayWidth": 120,
           "displayHeight": 120,
           "animationAtlasName": "ghost-trainer-base",
@@ -210,7 +210,7 @@
       "movementType": "arc_left",
       "states": [
         {
-          "speedPxPerSec": 50,
+          "speedPxPerSec": 25,
           "displayWidth": 120,
           "displayHeight": 120,
           "animationAtlasName": "ghost-meloman-base",
@@ -266,5 +266,59 @@
         }
       ]
     }
+  ],
+  "GHOSTS_VFX": {
+    "smoke": {
+      "textureKey": "smoke-puff-particle",
+      "particleSizePx": 50,
+      "depthOffset": -1,
+      "followOffsetX": 0,
+      "followOffsetYFactor": -0.55,
+      "scale": { "start": 0.5, "end": 1.4 },
+      "alpha": { "start": 0.75, "end": 0 },
+      "speed": { "min": 10, "max": 35 },
+      "angle": { "min": 240, "max": 300 },
+      "trailVelocityFactor": 100,
+      "trailRandom": 10,
+      "gravityY": -40,
+      "quantity": 1,
+      "lifespan": 1200,
+      "frequency": 60,
+      "tint": 4934475,
+      "blendMode": "NORMAL"
+    },
+    "fire": {
+      "textureKey": "fire-particle",
+      "particleSizePx": 30,
+      "depthOffset": 1,
+      "followOffsetX": 0,
+      "followOffsetYFactor": -0.5,
+      "scale": { "start": 1, "end": 0 },
+      "alpha": { "start": 1, "end": 0.2 },
+      "speed": { "min": 20, "max": 55 },
+      "angle": { "min": 250, "max": 290 },
+      "gravityY": -120,
+      "quantity": 2,
+      "lifespan": 450,
+      "frequency": 25,
+      "tint": [16766287, 16740608, 16007990],
+      "blendMode": "NORMAL"
+    }
+  },
+  "GHOSTS_VFX_BY_PHASE_INDEX": [
+    null,
+    {
+      "fire": { "frequency": 60, "quantity": 1, "particleSizePx": 20 },
+      "smoke": { "frequency": 90, "quantity": 1, "particleSizePx": 40 }
+    },
+    {
+      "fire": { "frequency": 35, "quantity": 2, "particleSizePx": 25 },
+      "smoke": { "frequency": 60, "quantity": 1, "particleSizePx": 50 }
+    },
+    {
+      "fire": { "frequency": 18, "quantity": 3, "particleSizePx": 30 },
+      "smoke": { "frequency": 35, "quantity": 2, "particleSizePx": 55 }
+    },
+    null
   ]
 }
