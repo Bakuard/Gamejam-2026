@@ -21,11 +21,11 @@ export const dynamicLightingComposition = {
         fragShader: scene.cache.shader.get("night").fragmentSrc,
       });
 
-      dynamicLightingComposition.updateAmbientLightPipeline(nightPipeline, currentDayPhase, currentDayPhaseProgress);
       nightPipeline.morningPhaseTransitionFraction = morningPhaseTransitionFraction;
       nightPipeline.afternoonPhaseTransitionFraction = afternoonPhaseTransitionFraction;
       nightPipeline.eveningPhaseTransitionFraction = eveningPhaseTransitionFraction;
       nightPipeline.nightPhaseTransitionFraction = nightPhaseTransitionFraction;
+      dynamicLightingComposition.updateAmbientLightPipeline(nightPipeline, currentDayPhase, currentDayPhaseProgress);
 
       nightPipeline.onPreRender = function () {
         this.set1i("uDayPhase", this.dayPhase);

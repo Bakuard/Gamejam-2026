@@ -5,12 +5,12 @@ export const dayPhases = Object.freeze({
   night: "night",
 });
 
-export function Calendar(morningInSec, afternoonInSec, eveningInSec, nightInSec) {
-  this.totalElapsedTimeInMs = 0;
+export function Calendar(morningInSec, afternoonInSec, eveningInSec, nightInSec, startDayPhase) {
   this.morningInMs = morningInSec * 1000;
   this.afternoonInMs = afternoonInSec * 1000;
   this.eveningInMs = eveningInSec * 1000;
   this.nightInMs = nightInSec * 1000;
+  this.totalElapsedTimeInMs = getDayPhaseStartOffsetInMs(this, startDayPhase);
 
   this.setCurrentTime(0);
 }
@@ -78,4 +78,11 @@ function getDaylightHoursInMs(calendar) {
 
 function getTotalDayDurationInMs(calendar) {
   return calendar.morningInMs + calendar.afternoonInMs + calendar.eveningInMs + calendar.nightInMs;
+}
+
+function getDayPhaseStartOffsetInMs(calendar, dayPhase) {
+  if (dayPhase === dayPhases.morning) return 0;
+  else if (dayPhase === dayPhases.afternoon) return calendar.morningInMs + 1;
+  else if (dayPhase === dayPhases.evening) return getFirstPartOfDayInMs(calendar) + 1;
+  else return getDaylightHoursInMs(calendar) + 1;
 }

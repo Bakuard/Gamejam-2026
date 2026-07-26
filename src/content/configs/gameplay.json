@@ -6,8 +6,9 @@
     "nightDurationInSec": 5,
     "morningPhaseTransitionFraction": 0.2,
     "afternoonPhaseTransitionFraction": 0.2,
-    "eveningPhaseTransitionFraction": 0.2,
-    "nightPhaseTransitionFraction": 0.2
+    "eveningPhaseTransitionFraction": 0,
+    "nightPhaseTransitionFraction": 0.2,
+    "startDayPhase": "evening"
   },
   "PLAYER_DISPLAY_HEIGHT": 120,
   "PLAYER_SPEED": 220,
