@@ -76,7 +76,7 @@ export class PlatformerScene extends Phaser.Scene {
       this.physics.add.overlap(this.player, ghost, (player, ghost) => ghostComposition.handlePlayerCollision(this, this.playerStore));
     }
 
-    musicComposition.playMusic(this, musicComposition.KEYS.TAVERN_8BIT, { volume: 0.5, loop: true, fadeInMs: 500 });
+    musicComposition.playMusic(this, musicComposition.KEYS.MOUNTAINS, { volume: 0.5, loop: true, fadeInMs: 500 });
     this.events.on(Phaser.Scenes.Events.POST_UPDATE, this.postUpdate, this);
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
       this.events.off(Phaser.Scenes.Events.POST_UPDATE, this.postUpdate, this);

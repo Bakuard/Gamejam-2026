@@ -8,11 +8,8 @@ export const musicComposition = {
   },
 
   preload(scene) {
-    scene.load.audio(this.KEYS.TAVERN_8BIT, "assets/sounds/8-bit_Tavern.mp3");
     scene.load.audio(this.KEYS.CHEMICAL_X, "assets/sounds/Chemical_X.mp3");
-    // scene.load.audio(this.KEYS.CHILL, "assets/sounds/chill.mp3");
-    // scene.load.audio(this.KEYS.MOUNTAINS, "assets/sounds/mountains-sounds.mp3");
-    // scene.load.audio(this.KEYS.SHORT_SHILL, "assets/sounds/short-shill.mp3");
+    scene.load.audio(this.KEYS.MOUNTAINS, "assets/sounds/mountains-sounds.mp3");
   },
 
   _currentByScene: new WeakMap(),
