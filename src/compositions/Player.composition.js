@@ -182,11 +182,17 @@ function playFootstepSound(scene, player, tile) {
   if (!tile) return;
 
   if (tile.properties.tileType === "brick" && !player.footstepsOnBricks.isPlaying) {
-    player.footstepsOnBricks.play("step1");
+    player.footstepsOnBricks.play("step1", {
+      volume: 0.5,
+    });
   } else if (tile.properties.tileType === "wood" && !player.footstepsOnWood.isPlaying) {
-    player.footstepsOnWood.play("step1");
+    player.footstepsOnWood.play("step1", {
+      volume: 0.5,
+    });
   } else if (tile.properties.tileType === "stone" && !player.footstepsOnConcrete.isPlaying) {
-    player.footstepsOnConcrete.play("step1");
+    player.footstepsOnConcrete.play("step1", {
+      volume: 0.5,
+    });
   }
 }
 

@@ -16,15 +16,14 @@ const showSlider = (event) => {
   isSliderVisible.value = true;
 };
 
-const goToGame = (event) => {
-  event.preventDefault();
+const goToGame = () => {
   router.push("/platformer");
 };
 </script>
 
 <template>
   <div class="start-menu-screen">
-    <TutorialModal v-if="isSliderVisible">
+    <TutorialModal v-if="isSliderVisible" @lets-go="goToGame">
       <div>
         <img class="tutorial-modal__image" src="/assets/img/tutorial/introduction_1.jpg" alt="placeholder" />
       </div>
@@ -34,8 +33,7 @@ const goToGame = (event) => {
       <div>
         <img class="tutorial-modal__image" src="/assets/img/tutorial/introduction_3.jpg" alt="placeholder" />
       </div>
-      <div class="slide-with-btn">
-        <button class="slide-lets-go-btn" @click="goToGame">Let's go</button>
+      <div>
         <img class="tutorial-modal__image" src="/assets/img/tutorial/introduction_4.jpg" alt="placeholder" />
       </div>
     </TutorialModal>
@@ -86,7 +84,7 @@ const goToGame = (event) => {
     height: auto;
 
     // Ограничиваем ширину левой «колонки», чтобы текст/кнопка не расползались вправо
-    width: min(520px, 45vw);
+    width: min(520px, 50vw);
 
     transform: scale(0.9);
   }
@@ -100,14 +98,19 @@ const goToGame = (event) => {
     display: flex;
     flex-direction: column;
     line-height: 1;
-    margin-bottom: 240px;
 
     &-main {
-      font-size: 80px;
+      font-size: 125px;
+      font-weight: bold;
       text-transform: uppercase;
       letter-spacing: 4px;
-      text-shadow: 4px 4px 0px #7f4837;
+      text-shadow: 4px 4px 0 #7f4837;
       color: #d99b47;
+      margin-left: -10px;
+
+      @media (min-width: 1368px) {
+        font-size:160px;
+      }
     }
 
     &-sub {

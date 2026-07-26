@@ -98,7 +98,7 @@ export class PlatformerScene extends Phaser.Scene {
 
     const isMorning = this.calendar.isMorning();
     if (!this._wasMorning && isMorning) {
-      musicComposition.playMusic(this, musicComposition.KEYS.SHORT_SHILL, { volume: 0.5, loop: true, fadeInMs: 500 });
+      musicComposition.playMusic(this, musicComposition.KEYS.CHEMICAL_X, { volume: 0.5, loop: true, fadeInMs: 500 });
     }
     this._wasMorning = isMorning;
 

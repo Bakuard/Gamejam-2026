@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref, useSlots, computed } from "vue";
 
+const emit = defineEmits(["lets-go"]);
+
 const slots = useSlots();
 const currentIndex = ref(0);
 
@@ -11,6 +13,7 @@ const slides = computed(() => {
 });
 
 const total = computed(() => slides.value.length);
+const isLastSlide = computed(() => total.value > 0 && currentIndex.value === total.value - 1);
 
 const prev = () => {
   if (currentIndex.value > 0) {
@@ -22,6 +25,10 @@ const next = () => {
   if (currentIndex.value < total.value - 1) {
     currentIndex.value++;
   }
+};
+
+const letsGo = () => {
+  emit("lets-go");
 };
 </script>
 
@@ -50,12 +57,18 @@ const next = () => {
       >
         Prev
       </button>
+
       <button
+        v-if="!isLastSlide"
         class="tutorial-modal__btn"
         :disabled="currentIndex === total - 1"
         @click="next"
       >
         Next
+      </button>
+
+      <button v-else class="tutorial-modal__btn" @click="letsGo">
+        Let's go
       </button>
     </div>
   </div>
