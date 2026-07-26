@@ -49,8 +49,8 @@ export class PlatformerScene extends Phaser.Scene {
 
     this.physics.add.collider(this.player, platformLayer);
     this.physics.add.collider(this.player, wallsLayer);
-    this.physics.add.collider(this.player, woodPlatformLayer, null, (player, platform) => playerComposition.jumpOffPlatform(player, platform, this.userInput));
-    this.physics.add.collider(this.player, chairLayer);
+    this.physics.add.collider(this.player, woodPlatformLayer, null, (player, platform) => playerComposition.jumpOff(player, platform, this.userInput));
+    this.physics.add.collider(this.player, chairLayer, null, (player, chair) => playerComposition.jumpOff(player, chair, this.userInput));
     this.physics.add.overlap(this.player, chairLayer, (player, chair) => playerComposition.pickUpChair(player, chair, this.userInput));
     for (const ghost of this.ghosts) {
       this.physics.add.overlap(this.player, ghost, (player, ghost) => ghostComposition.handlePlayerCollision(this, this.playerStore));

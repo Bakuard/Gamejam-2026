@@ -138,7 +138,7 @@ export const playerComposition = {
     }
   },
 
-  jumpOffPlatform(player, platform, userInput) {
+  jumpOff(player, platform, userInput) {
     return !userInput.down.isDown;
   },
 };
