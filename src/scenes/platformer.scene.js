@@ -25,6 +25,7 @@ export class PlatformerScene extends Phaser.Scene {
 
   create() {
     const [camera, backgroundNear, backgroundFar] = platformerComposition.createParallaxImages(this);
+    platformerComposition.createBackground(this, camera);
 
     this.camera = camera;
     this.backgroundNear = backgroundNear;
