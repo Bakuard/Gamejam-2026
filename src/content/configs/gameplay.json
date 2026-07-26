@@ -24,7 +24,7 @@
       "movementType": "straight",
       "states": [
         {
-          "speedPxPerSec": 25,
+          "speedPxPerSec": 30,
           "displayWidth": 120,
           "displayHeight": 120,
           "animationAtlasName": "ghost-photographer-base",
@@ -35,7 +35,7 @@
           "durationInMs": 120000
         },
         {
-          "speedPxPerSec": 60,
+          "speedPxPerSec": 45,
           "displayWidth": 120,
           "displayHeight": 120,
           "animationAtlasName": "ghost-photographer-phase-1",
@@ -46,7 +46,7 @@
           "durationInMs": 60000
         },
         {
-          "speedPxPerSec": 70,
+          "speedPxPerSec": 60,
           "displayWidth": 120,
           "displayHeight": 120,
           "animationAtlasName": "ghost-photographer-phase-2",
@@ -57,7 +57,7 @@
           "durationInMs": 60000
         },
         {
-          "speedPxPerSec": 90,
+          "speedPxPerSec": 75,
           "displayWidth": 120,
           "displayHeight": 120,
           "animationAtlasName": "ghost-photographer-phase-3",
@@ -97,7 +97,7 @@
           "durationInMs": 120000
         },
         {
-          "speedPxPerSec": 140,
+          "speedPxPerSec": 100,
           "displayWidth": 120,
           "displayHeight": 120,
           "animationAtlasName": "ghost-skier-phase-1",
@@ -108,7 +108,7 @@
           "durationInMs": 60000
         },
         {
-          "speedPxPerSec": 160,
+          "speedPxPerSec": 120,
           "displayWidth": 120,
           "displayHeight": 120,
           "animationAtlasName": "ghost-skier-phase-2",
@@ -119,7 +119,7 @@
           "durationInMs": 60000
         },
         {
-          "speedPxPerSec": 180,
+          "speedPxPerSec": 140,
           "displayWidth": 120,
           "displayHeight": 120,
           "animationAtlasName": "ghost-skier-phase-3",
@@ -159,7 +159,7 @@
           "durationInMs": 120000
         },
         {
-          "speedPxPerSec": 350,
+          "speedPxPerSec": 150,
           "displayWidth": 120,
           "displayHeight": 120,
           "animationAtlasName": "ghost-trainer-phase-1",
@@ -170,7 +170,7 @@
           "durationInMs": 60000
         },
         {
-          "speedPxPerSec": 450,
+          "speedPxPerSec": 200,
           "displayWidth": 120,
           "displayHeight": 120,
           "animationAtlasName": "ghost-trainer-phase-2",
@@ -181,7 +181,7 @@
           "durationInMs": 60000
         },
         {
-          "speedPxPerSec": 500,
+          "speedPxPerSec": 300,
           "displayWidth": 120,
           "displayHeight": 120,
           "animationAtlasName": "ghost-trainer-phase-3",
@@ -210,7 +210,7 @@
       "movementType": "arc_left",
       "states": [
         {
-          "speedPxPerSec": 25,
+          "speedPxPerSec": 30,
           "displayWidth": 120,
           "displayHeight": 120,
           "animationAtlasName": "ghost-meloman-base",
@@ -221,7 +221,7 @@
           "durationInMs": 120000
         },
         {
-          "speedPxPerSec": 60,
+          "speedPxPerSec": 45,
           "displayWidth": 150,
           "displayHeight": 150,
           "animationAtlasName": "ghost-meloman-phase-1",
@@ -232,7 +232,7 @@
           "durationInMs": 30000
         },
         {
-          "speedPxPerSec": 70,
+          "speedPxPerSec": 60,
           "displayWidth": 190,
           "displayHeight": 190,
           "animationAtlasName": "ghost-meloman-phase-2",
@@ -243,7 +243,7 @@
           "durationInMs": 30000
         },
         {
-          "speedPxPerSec": 80,
+          "speedPxPerSec": 75,
           "displayWidth": 230,
           "displayHeight": 230,
           "animationAtlasName": "ghost-meloman-phase-3",
