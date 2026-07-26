@@ -28,6 +28,8 @@ export class PlatformerScene extends Phaser.Scene {
 
     const [map, platformLayer, woodPlatformLayer, wallsLayer, chairLayer, startPointsLayer, ghostWanderAreaLayer] = platformerComposition.createLevel(this);
 
+    this.wallsLayer = wallsLayer;
+
     this.userInput = playerComposition.createUserInput(this);
     playerComposition.preparePlayerAnimation(this);
     this.player = playerComposition.createPlayer(
@@ -47,8 +49,8 @@ export class PlatformerScene extends Phaser.Scene {
 
     this.physics.add.collider(this.player, platformLayer);
     this.physics.add.collider(this.player, wallsLayer);
-    this.physics.add.collider(this.player, woodPlatformLayer, null, (player, platform) => playerComposition.jumpOffPlatform(player, platform, this.userInput));
-    this.physics.add.collider(this.player, chairLayer);
+    this.physics.add.collider(this.player, woodPlatformLayer, null, (player, platform) => playerComposition.jumpOff(player, platform, this.userInput));
+    this.physics.add.collider(this.player, chairLayer, null, (player, chair) => playerComposition.jumpOff(player, chair, this.userInput));
     this.physics.add.overlap(this.player, chairLayer, (player, chair) => playerComposition.pickUpChair(player, chair, this.userInput));
     for (const ghost of this.ghosts) {
       this.physics.add.overlap(this.player, ghost, (player, ghost) => ghostComposition.handlePlayerCollision(this, this.playerStore));
@@ -63,7 +65,7 @@ export class PlatformerScene extends Phaser.Scene {
 
   update(time, delta) {
     playerComposition.movePlayerOnPlatformers(this.player, this.userInput);
-    playerComposition.throwChair(this.player, this.userInput);
+    playerComposition.throwChair(this.player, this.userInput, this.wallsLayer);
     for (let i = this.ghosts.length - 1; i >= 0; i--) {
       const ghost = this.ghosts[i];
       ghostComposition.moveGhost(this.player, ghost, time, delta);

@@ -81,7 +81,7 @@
           "animationAtlasName": "ghost-skier-base",
           "nextTempAimDistance": 750,
           "physicBodyHeight": 100,
-          "detectionRadius": 450,
+          "detectionRadius": 350,
           "physicBodyWidth": 30,
           "durationInMs": 60000
         },
@@ -92,7 +92,7 @@
           "animationAtlasName": "ghost-skier-phase-1",
           "nextTempAimDistance": 750,
           "physicBodyHeight": 100,
-          "detectionRadius": 450,
+          "detectionRadius": 350,
           "physicBodyWidth": 30,
           "durationInMs": 60000
         },
@@ -205,7 +205,7 @@
           "animationAtlasName": "ghost-meloman-base",
           "nextTempAimDistance": 500,
           "physicBodyHeight": 100,
-          "detectionRadius": 300,
+          "detectionRadius": 160,
           "physicBodyWidth": 30,
           "durationInMs": 30000
         },
@@ -216,7 +216,7 @@
           "animationAtlasName": "ghost-meloman-phase-1",
           "nextTempAimDistance": 500,
           "physicBodyHeight": 120,
-          "detectionRadius": 450,
+          "detectionRadius": 300,
           "physicBodyWidth": 40,
           "durationInMs": 30000
         },
@@ -249,7 +249,7 @@
           "animationAtlasName": "ghost-meloman-death",
           "nextTempAimDistance": 500,
           "physicBodyHeight": 200,
-          "detectionRadius": 1000,
+          "detectionRadius": 1,
           "physicBodyWidth": 60,
           "durationInMs": 1500
         }
