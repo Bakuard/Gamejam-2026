@@ -19,6 +19,7 @@ export class PlatformerScene extends Phaser.Scene {
     platformerComposition.preloadLevel(this);
     playerComposition.preloadPlayerAnimation(this);
     ghostComposition.preloadGhostAnimation(this, Config.GHOSTS);
+    ghostComposition.preloadGhostParticles(this);
     dynamicLightingComposition.preloadShaders(this);
   }
 

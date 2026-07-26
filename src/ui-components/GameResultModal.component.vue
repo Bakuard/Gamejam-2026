@@ -1,5 +1,9 @@
 <script setup>
 import UiModal from "@/ui-components/UiModal.component.vue";
+import { computed, onBeforeUnmount, onMounted } from "vue";
+const baseUrl = import.meta.env.BASE_URL || "/";
+const winnerSrc = `${baseUrl}assets/img/Winner_stamp.png`;
+const loserSrc = `${baseUrl}assets/img/Loser_stamp.png`;
 
 const props = defineProps({
   isGameOver: {
@@ -17,6 +21,21 @@ const emit = defineEmits(["again"]);
 const onAgain = () => {
   emit("again");
 };
+
+const onKeyDown = (e) => {
+  if (!props.isGameOver) return;
+  if (e.key === "Enter") onAgain();
+};
+
+const resultImageSrc = computed(() => (props.isWin ? winnerSrc : loserSrc));
+
+onMounted(() => {
+  window.addEventListener("keydown", onKeyDown);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("keydown", onKeyDown);
+});
 </script>
 
 <template>
@@ -31,10 +50,7 @@ const onAgain = () => {
       </h2>
 
       <div class="game-result-modal__image">
-        <img
-          :src="isWin ? '/assets/img/Winner_stamp.png' : '/assets/img/Loser_stamp.png'"
-          alt="result"
-        />
+        <img :src="resultImageSrc" alt="result" />
       </div>
 
       <p class="game-result-modal__text">
@@ -45,7 +61,7 @@ const onAgain = () => {
         }}
       </p>
 
-      <button class="game-result-modal__btn" @click="onAgain">Again</button>
+      <button class="game-result-modal__btn" @click="onAgain">Again (Enter)</button>
     </div>
   </UiModal>
 </template>
