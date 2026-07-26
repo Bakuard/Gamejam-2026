@@ -53,14 +53,6 @@ onBeforeUnmount(() => {
         <img :src="resultImageSrc" alt="result" />
       </div>
 
-      <p class="game-result-modal__text">
-        {{
-          isWin
-            ? "Congratulations! You have successfully completed the level. Your skills are truly impressive!"
-            : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore."
-        }}
-      </p>
-
       <button class="game-result-modal__btn" @click="onAgain">Again (Enter)</button>
     </div>
   </UiModal>
