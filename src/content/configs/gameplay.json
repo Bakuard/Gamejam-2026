@@ -21,7 +21,7 @@
           "physicBodyHeight": 100,
           "detectionRadius": 2000,
           "physicBodyWidth": 30,
-          "durationInMs": 60000
+          "durationInMs": 120000
         },
         {
           "speedPxPerSec": 60,
@@ -83,7 +83,7 @@
           "physicBodyHeight": 100,
           "detectionRadius": 350,
           "physicBodyWidth": 30,
-          "durationInMs": 60000
+          "durationInMs": 120000
         },
         {
           "speedPxPerSec": 140,
@@ -145,7 +145,7 @@
           "physicBodyHeight": 100,
           "detectionRadius": 160,
           "physicBodyWidth": 30,
-          "durationInMs": 60000
+          "durationInMs": 120000
         },
         {
           "speedPxPerSec": 350,
@@ -207,7 +207,7 @@
           "physicBodyHeight": 100,
           "detectionRadius": 160,
           "physicBodyWidth": 30,
-          "durationInMs": 30000
+          "durationInMs": 120000
         },
         {
           "speedPxPerSec": 60,
