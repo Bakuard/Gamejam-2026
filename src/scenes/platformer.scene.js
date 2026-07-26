@@ -3,6 +3,7 @@ import { sceneComposition } from "@/compositions/scene.composition.js";
 import {playerComposition} from "@/compositions/Player.composition.js";
 import {platformerComposition} from "@/compositions/Platformer.composition.js";
 import * as Config from "@/configs/gameplay.config.js";
+import { musicComposition } from "@/compositions/music.composition.js";
 import { ghostComposition } from "@/compositions/Ghost.composition.js";
 import { dynamicLightingComposition } from "@/compositions/DynamicLighting.composition.js";
 import { Calendar } from "@/compositions/Calendar.composition.js";
@@ -16,6 +17,7 @@ export class PlatformerScene extends Phaser.Scene {
   preload() {
     sceneComposition.preload(this);
 
+    musicComposition.preload(this);
     platformerComposition.preloadLevel(this);
     playerComposition.preloadPlayerAnimation(this);
     ghostComposition.preloadGhostAnimation(this, Config.GHOSTS);
@@ -69,7 +71,7 @@ export class PlatformerScene extends Phaser.Scene {
       this.physics.add.overlap(this.player, ghost, (player, ghost) => ghostComposition.handlePlayerCollision(this, this.playerStore));
     }
 
-    // убрать эту строку:
+    musicComposition.playMusic(this, musicComposition.KEYS.MOUNTAINS, { volume: 0.5, loop: true, fadeInMs: 500 });
     this.events.on(Phaser.Scenes.Events.POST_UPDATE, this.postUpdate, this);
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
       this.events.off(Phaser.Scenes.Events.POST_UPDATE, this.postUpdate, this);
@@ -87,7 +89,13 @@ export class PlatformerScene extends Phaser.Scene {
   }
 
   update(time, delta) {
-    this.calendar.setCurrentTime(delta);
+      this.calendar.setCurrentTime(delta);
+
+    const isMorning = this.calendar.isMorning();
+    if (!this._wasMorning && isMorning) {
+      musicComposition.playMusic(this, musicComposition.KEYS.SHORT_SHILL, { volume: 0.5, loop: true, fadeInMs: 500 });
+    }
+    this._wasMorning = isMorning;
 
     playerComposition.movePlayerOnPlatformers(this.player, this.userInput);
     playerComposition.throwChair(this.player, this.userInput, this.wallsLayer);
