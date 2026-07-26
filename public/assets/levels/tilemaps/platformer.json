@@ -1233,7 +1233,7 @@
                  "y":74
                 }, 
                 {
-                 "height":954,
+                 "height":726.727272727273,
                  "id":76,
                  "name":"bottomFloors",
                  "opacity":1,
@@ -1242,7 +1242,7 @@
                  "visible":true,
                  "width":1888,
                  "x":-1966,
-                 "y":908
+                 "y":1135.27272727273
                 }],
          "opacity":1,
          "type":"objectgroup",

@@ -824,6 +824,6 @@
   <object id="54" name="wholeLevel" x="-1976" y="64" width="1902" height="1794"/>
   <object id="71" name="leftHalf" x="-1972" y="68" width="776" height="1784"/>
   <object id="72" name="topFloors" x="-1974" y="74" width="1892" height="818"/>
-  <object id="76" name="bottomFloors" x="-1966" y="908" width="1888" height="954"/>
+  <object id="76" name="bottomFloors" x="-1966" y="1135.27" width="1888" height="726.727"/>
  </objectgroup>
 </map>
