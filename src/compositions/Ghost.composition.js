@@ -79,38 +79,44 @@ export const ghostComposition = {
     setTimeout(() => scene.scene.stop(), 0);
   },
 
-  moveGhost(player, ghost, totalTime, deltaTime) {
-    const currentSpeed = (ghost.speed * deltaTime) / 1000;
-
-    calculateDirectionAndDistanceToAim(ghost, player);
-    if (ghost.distanceToAim <= ghost.detectionRadius) {
-      calculateStraightVelocity(ghost, currentSpeed);
-      changeVelocityByMovementType(ghost, totalTime);
-      moveToAim(ghost, player, currentSpeed);
-      return;
+  moveAllGhosts(allGhosts, player, time, deltaTime) {
+    for (const ghost of allGhosts) {
+      moveGhost(player, ghost, time, deltaTime);
     }
-
-    calculateDirectionAndDistanceToAim(ghost, ghost.tempAim);
-    calculateStraightVelocity(ghost, currentSpeed);
-    const reachedAim = moveToAim(ghost, ghost.tempAim, currentSpeed);
-    if (reachedAim) setNextTempAim(ghost);
   },
 
-  ghostStateTimer(ghost, delta) {
-    const currentState = ghost.states[ghost.stateIndex];
-    ghost.currentStateDurationInMs += delta;
-    if (ghost.currentStateDurationInMs >= currentState.durationInMs) {
-      ghost.currentStateDurationInMs = 0;
-      if (ghost.stateIndex + 1 < ghost.states.length) {
-        const newState = ghost.states[++ghost.stateIndex];
-        updateGhostWithState(ghost, newState);
-      } else {
-        ghost.destroy();
-        ghost.isDestroyed = true;
-      }
+  updateGhostsStateTimer(allGhosts, deltaTime) {
+    for (let i = allGhosts.length - 1; i >= 0; i--) {
+      const ghost = allGhosts[i];
+      const isDestroyed = updateGhostStateTimer(ghost, deltaTime);
+      if (isDestroyed) allGhosts.splice(i, 1);
+    }
+  },
+
+  gameOverIfAllGhostsDead(scene, allGhosts, playerStore) {
+    if (allGhosts.length === 0) {
+      playerStore.isGameOver = true;
+      playerStore.isWin = true;
+      scene.stop();
     }
   },
 };
+
+function updateGhostStateTimer(ghost, deltaTime) {
+  const currentState = ghost.states[ghost.stateIndex];
+  ghost.currentStateDurationInMs += deltaTime;
+  if (ghost.currentStateDurationInMs >= currentState.durationInMs) {
+    ghost.currentStateDurationInMs = 0;
+    if (ghost.stateIndex + 1 < ghost.states.length) {
+      const newState = ghost.states[++ghost.stateIndex];
+      updateGhostWithState(ghost, newState);
+    } else {
+      ghost.destroy();
+      return true;
+    }
+  }
+  return false;
+}
 
 function updateGhostWithState(ghost, state) {
   ghost.speed = state.speedPxPerSec;
@@ -127,6 +133,23 @@ function updateGhostWithState(ghost, state) {
   const offsetX = (ghost.width - unscaledBodyWidth) / 2; // По центру по горизонтали
   const offsetY = ghost.height - unscaledBodyHeight;
   ghost.body.setOffset(offsetX, offsetY);
+}
+
+function moveGhost(player, ghost, totalTime, deltaTime) {
+  const currentSpeed = (ghost.speed * deltaTime) / 1000;
+
+  calculateDirectionAndDistanceToAim(ghost, player);
+  if (ghost.distanceToAim <= ghost.detectionRadius) {
+    calculateStraightVelocity(ghost, currentSpeed);
+    changeVelocityByMovementType(ghost, totalTime);
+    moveToAim(ghost, player, currentSpeed);
+    return;
+  }
+
+  calculateDirectionAndDistanceToAim(ghost, ghost.tempAim);
+  calculateStraightVelocity(ghost, currentSpeed);
+  const reachedAim = moveToAim(ghost, ghost.tempAim, currentSpeed);
+  if (reachedAim) setNextTempAim(ghost);
 }
 
 function setNextTempAim(ghost) {
