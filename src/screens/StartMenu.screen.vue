@@ -16,15 +16,14 @@ const showSlider = (event) => {
   isSliderVisible.value = true;
 };
 
-const goToGame = (event) => {
-  event.preventDefault();
+const goToGame = () => {
   router.push("/platformer");
 };
 </script>
 
 <template>
   <div class="start-menu-screen">
-    <TutorialModal v-if="isSliderVisible">
+    <TutorialModal v-if="isSliderVisible" @lets-go="goToGame">
       <div>
         <img class="tutorial-modal__image" src="/assets/img/tutorial/introduction_1.jpg" alt="placeholder" />
       </div>
@@ -34,8 +33,7 @@ const goToGame = (event) => {
       <div>
         <img class="tutorial-modal__image" src="/assets/img/tutorial/introduction_3.jpg" alt="placeholder" />
       </div>
-      <div class="slide-with-btn">
-        <button class="slide-lets-go-btn" @click="goToGame">Let's go</button>
+      <div>
         <img class="tutorial-modal__image" src="/assets/img/tutorial/introduction_4.jpg" alt="placeholder" />
       </div>
     </TutorialModal>
