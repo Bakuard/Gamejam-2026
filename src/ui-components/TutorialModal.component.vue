@@ -110,7 +110,7 @@ const next = () => {
       display: block;
       width: auto;
       height: 100%;
-      max-width: 100%;
+      max-width: 960px;
       object-fit: contain;
     }
   }

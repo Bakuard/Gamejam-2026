@@ -26,23 +26,17 @@ const goToGame = (event) => {
   <div class="start-menu-screen">
     <TutorialModal v-if="isSliderVisible">
       <div>
-        <img class="tutorial-modal__image" src="https://placehold.co/1920x1080" alt="placeholder" />
+        <img class="tutorial-modal__image" src="/assets/img/tutorial/introduction_1.jpg" alt="placeholder" />
       </div>
       <div>
-        <img class="tutorial-modal__image" src="https://placehold.co/1920x1080" alt="placeholder" />
+        <img class="tutorial-modal__image" src="/assets/img/tutorial/introduction_2.jpg" alt="placeholder" />
       </div>
       <div>
-        <img class="tutorial-modal__image" src="https://placehold.co/1920x1080" alt="placeholder" />
-      </div>
-      <div>
-        <img class="tutorial-modal__image" src="https://placehold.co/1920x1080" alt="placeholder" />
-      </div>
-      <div>
-        <img class="tutorial-modal__image" src="https://placehold.co/1920x1080" alt="placeholder" />
+        <img class="tutorial-modal__image" src="/assets/img/tutorial/introduction_3.jpg" alt="placeholder" />
       </div>
       <div class="slide-with-btn">
-        <img class="tutorial-modal__image" src="https://placehold.co/1920x1080" alt="placeholder" />
         <button class="slide-lets-go-btn" @click="goToGame">Let's go</button>
+        <img class="tutorial-modal__image" src="/assets/img/tutorial/introduction_4.jpg" alt="placeholder" />
       </div>
     </TutorialModal>
     <div class="start-menu-screen__content">
@@ -72,7 +66,7 @@ const goToGame = (event) => {
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
-  background: #a09380 url("/public/assets/img/background/menu-background.jpg") center center;
+  background: #a09380 url("/assets/img/background/main_menu.jpg") center center;
   background-size: cover;
 
   &__content {
