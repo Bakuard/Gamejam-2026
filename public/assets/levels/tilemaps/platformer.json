@@ -188,7 +188,7 @@
          "starty":0,
          "type":"tilelayer",
          "visible":true,
-         "width":64,
+         "width":48,
          "x":0,
          "y":0
         }, 
@@ -1270,6 +1270,34 @@
          "spacing":0,
          "tilecount":3,
          "tileheight":60,
+         "tiles":[
+                {
+                 "id":0,
+                 "properties":[
+                        {
+                         "name":"tileType",
+                         "type":"string",
+                         "value":"brick"
+                        }]
+                }, 
+                {
+                 "id":1,
+                 "properties":[
+                        {
+                         "name":"tileType",
+                         "type":"string",
+                         "value":"stone"
+                        }]
+                }, 
+                {
+                 "id":2,
+                 "properties":[
+                        {
+                         "name":"tileType",
+                         "type":"string",
+                         "value":"wood"
+                        }]
+                }],
          "tilewidth":60
         }, 
         {
