@@ -125,15 +125,16 @@ export const playerComposition = {
     }
   },
 
-  throwChair(player, userInput) {
+  throwChair(player, userInput, wallsLayer) {
     if (player.currentChair && Phaser.Input.Keyboard.JustDown(userInput.interact)) {
       const direction = player.flipX ? -1 : 1;
       const posX = player.x + (player.body.width / 2 + player.currentChair.body.width / 2) * direction;
       const posY = player.body.bottom - player.currentChair.body.height / 2;
-      player.currentChair.x = posX;
-      player.currentChair.y = posY;
-      player.currentChair.enableBody(true, posX, posY, true, true).refreshBody();
-      player.currentChair = null;
+
+      if (isAreaFree(player.scene, player.currentChair, posX, posY, wallsLayer)) {
+        player.currentChair.enableBody(true, posX, posY, true, true).refreshBody();
+        player.currentChair = null;
+      }
     }
   },
 
@@ -141,3 +142,15 @@ export const playerComposition = {
     return !userInput.down.isDown;
   },
 };
+
+function isAreaFree(scene, chair, posX, posY, wallsLayer) {
+  const width = chair.body.width;
+  const height = chair.body.height;
+
+  const startX = posX - width / 2 + chair.body.offset.x;
+  const startY = posY - height / 2 + chair.body.offset.y;
+
+  const collidingTiles = wallsLayer.getTilesWithinWorldXY(startX, startY, width, height, { isColliding: true });
+
+  return collidingTiles.length === 0;
+}

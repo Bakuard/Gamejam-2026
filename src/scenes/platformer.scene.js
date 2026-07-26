@@ -28,6 +28,8 @@ export class PlatformerScene extends Phaser.Scene {
 
     const [map, platformLayer, woodPlatformLayer, wallsLayer, chairLayer, startPointsLayer, ghostWanderAreaLayer] = platformerComposition.createLevel(this);
 
+    this.wallsLayer = wallsLayer;
+
     this.userInput = playerComposition.createUserInput(this);
     playerComposition.preparePlayerAnimation(this);
     this.player = playerComposition.createPlayer(
@@ -63,7 +65,7 @@ export class PlatformerScene extends Phaser.Scene {
 
   update(time, delta) {
     playerComposition.movePlayerOnPlatformers(this.player, this.userInput);
-    playerComposition.throwChair(this.player, this.userInput);
+    playerComposition.throwChair(this.player, this.userInput, this.wallsLayer);
     for (let i = this.ghosts.length - 1; i >= 0; i--) {
       const ghost = this.ghosts[i];
       ghostComposition.moveGhost(this.player, ghost, time, delta);
