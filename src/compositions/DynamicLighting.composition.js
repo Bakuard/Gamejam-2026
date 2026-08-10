@@ -1,4 +1,4 @@
-import { Calendar, dayPhases } from "@/compositions/Calendar.composition.js";
+import { dayPhases } from "@/compositions/Calendar.composition.js";
 
 export const dynamicLightingComposition = {
   preloadShaders: function(scene) {

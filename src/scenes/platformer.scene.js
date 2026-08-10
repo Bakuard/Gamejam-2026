@@ -6,12 +6,13 @@ import * as Config from "@/configs/gameplay.config.js";
 import { musicComposition } from "@/compositions/music.composition.js";
 import { ghostComposition } from "@/compositions/Ghost.composition.js";
 import { dynamicLightingComposition } from "@/compositions/DynamicLighting.composition.js";
-import { Calendar } from "@/compositions/Calendar.composition.js";
+import { calendarComposition } from "@/compositions/Calendar.composition.js";
 
 export class PlatformerScene extends Phaser.Scene {
-  constructor(playerStore) {
+  constructor(playerStore, calendarStore) {
     super("MainScene");
     this.playerStore = playerStore;
+    this.calendarStore = calendarStore;
   }
 
   preload() {
@@ -34,13 +35,7 @@ export class PlatformerScene extends Phaser.Scene {
     this.backgroundNear = backgroundNear;
     this.backgroundFar = backgroundFar;
 
-    this.calendar = new Calendar(
-      Config.TIME.morningDurationInSec,
-      Config.TIME.dayDurationInSec,
-      Config.TIME.eveningDurationInSec,
-      Config.TIME.nightDurationInSec,
-      Config.TIME.startDayPhase
-    );
+    calendarComposition.initCalendar(this.calendarStore, Config.TIME);
 
     const [map, platformLayer, woodPlatformLayer, wallsLayer, chairLayer, startPointsLayer, ghostWanderAreaLayer] = platformerComposition.createLevel(this);
     this.platformLayer = platformLayer;
@@ -67,9 +62,11 @@ export class PlatformerScene extends Phaser.Scene {
     this.physics.add.collider(this.player, platformLayer);
     this.physics.add.collider(this.player, wallsLayer);
     this.physics.add.collider(this.player, woodPlatformLayer, null, (player, platform) => playerComposition.jumpOff(player, platform, this.userInput));
-    this.physics.add.collider(this.player, chairLayer,
-      (player, chair) => player.isStandingOnChair = player.body.touching.down && chair.body.touching.up,
-        (player, chair) => playerComposition.jumpOff(player, chair, this.userInput)
+    this.physics.add.collider(
+      this.player,
+      chairLayer,
+      (player, chair) => (player.isStandingOnChair = player.body.touching.down && chair.body.touching.up),
+      (player, chair) => playerComposition.jumpOff(player, chair, this.userInput)
     );
     this.physics.add.overlap(this.player, chairLayer, (player, chair) => playerComposition.pickUpChair(player, chair, this.userInput));
     for (const ghost of this.ghosts) {
@@ -88,15 +85,15 @@ export class PlatformerScene extends Phaser.Scene {
       Config.TIME.afternoonPhaseTransitionFraction,
       Config.TIME.eveningPhaseTransitionFraction,
       Config.TIME.nightPhaseTransitionFraction,
-      this.calendar.getCurrentDayPhase(),
-      this.calendar.getCurrentPhaseProgress()
+      this.calendarStore.currentPhase,
+      calendarComposition.getCurrentPhaseProgress(this.calendarStore)
     );
   }
 
   update(time, delta) {
-      this.calendar.setCurrentTime(delta);
+    calendarComposition.setCurrentTime(this.calendarStore, delta);
 
-    const isMorning = this.calendar.isMorning();
+    const isMorning = calendarComposition.isMorning(this.calendarStore);
     if (!this._wasMorning && isMorning) {
       musicComposition.playMusic(this, musicComposition.KEYS.CHEMICAL_X, { volume: 0.5, loop: true, fadeInMs: 500 });
     }
@@ -109,7 +106,7 @@ export class PlatformerScene extends Phaser.Scene {
     ghostComposition.gameOverIfAllGhostsDead(this, this.ghosts, this.playerStore);
 
     platformerComposition.moveParallaxImages(this.camera, this.backgroundNear, this.backgroundFar, this);
-    dynamicLightingComposition.updateAmbientLightPipeline(this.nightPipeline, this.calendar.getCurrentDayPhase(), this.calendar.getCurrentPhaseProgress());
+    dynamicLightingComposition.updateAmbientLightPipeline(this.nightPipeline, this.calendarStore.currentPhase, calendarComposition.getCurrentPhaseProgress(this.calendarStore));
   }
 
   postUpdate() {
