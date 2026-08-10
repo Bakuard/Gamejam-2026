@@ -10,6 +10,56 @@
     "nightPhaseTransitionFraction": 0,
     "startDayPhase": "night"
   },
+  "AUDIO": [
+    {
+      "key": "footsteps-on-wood",
+      "filePath": "sounds/footsteps-on-wood.mp3",
+      "ignoreIfPlaying": true,
+      "volume": 0.5,
+      "loop": false,
+      "fadeInMs": 0
+    },
+    {
+      "key": "footsteps-on-bricks",
+      "filePath": "sounds/footsteps-on-bricks.mp3",
+      "ignoreIfPlaying": true,
+      "volume": 0.5,
+      "loop": false,
+      "fadeInMs": 0
+    },
+    {
+      "key": "wood-creaking",
+      "filePath": "sounds/wood-creaking.mp3",
+      "ignoreIfPlaying": false,
+      "volume": 1,
+      "loop": false,
+      "fadeInMs": 0
+    },
+    {
+      "key": "footsteps-on-concrete",
+      "filePath": "sounds/footsteps-on-concrete.mp3",
+      "ignoreIfPlaying": true,
+      "volume": 0.5,
+      "loop": false,
+      "fadeInMs": 0
+    },
+    {
+      "key": "music:chemical_x",
+      "filePath": "sounds/Chemical_X.mp3",
+      "ignoreIfPlaying": true,
+      "volume": 0.5,
+      "loop": true,
+      "fadeInMs": 0
+    },
+    {
+      "key": "music:mountains",
+      "filePath": "sounds/mountains-sounds.mp3",
+      "ignoreIfPlaying": true,
+      "volume": 0.5,
+      "loop": true,
+      "fadeInMs": 5000
+    }
+  ],
   "PLAYER_DISPLAY_HEIGHT": 120,
   "PLAYER_SPEED": 220,
   "PLAYER_DISPLAY_WIDTH": 120,

@@ -11,5 +11,6 @@ export const PLAYER_DISPLAY_WIDTH = gameplay.PLAYER_DISPLAY_WIDTH;
 export const PLAYER_DISPLAY_HEIGHT = gameplay.PLAYER_DISPLAY_HEIGHT;
 export const GHOSTS = structuredClone(gameplay.GHOSTS);
 export const TIME = structuredClone(gameplay.TIME);
+export const AUDIO = structuredClone(gameplay.AUDIO);
 export const GHOSTS_VFX = structuredClone(gameplay.GHOSTS_VFX);
 export const GHOSTS_VFX_BY_PHASE_INDEX = structuredClone(gameplay.GHOSTS_VFX_BY_PHASE_INDEX);
