@@ -10,6 +10,102 @@
     "nightPhaseTransitionFraction": 0,
     "startDayPhase": "night"
   },
+  "AUDIO": [
+    {
+      "key": "footsteps-on-wood",
+      "filePath": "sounds/footsteps-on-wood.mp3",
+      "ignoreIfPlaying": true,
+      "volume": 0.5,
+      "loop": false,
+      "fadeInMs": 0
+    },
+    {
+      "key": "footsteps-on-bricks",
+      "filePath": "sounds/footsteps-on-bricks.mp3",
+      "ignoreIfPlaying": true,
+      "volume": 0.5,
+      "loop": false,
+      "fadeInMs": 0
+    },
+    {
+      "key": "wood-creaking",
+      "filePath": "sounds/wood-creaking.mp3",
+      "ignoreIfPlaying": false,
+      "volume": 1,
+      "loop": false,
+      "fadeInMs": 0
+    },
+    {
+      "key": "footsteps-on-concrete",
+      "filePath": "sounds/footsteps-on-concrete.mp3",
+      "ignoreIfPlaying": true,
+      "volume": 0.5,
+      "loop": false,
+      "fadeInMs": 0
+    },
+    {
+      "key": "music:chemical_x",
+      "filePath": "sounds/Chemical_X.mp3",
+      "ignoreIfPlaying": true,
+      "volume": 0.5,
+      "loop": true,
+      "fadeInMs": 0
+    },
+    {
+      "key": "music:mountains",
+      "filePath": "sounds/mountains-sounds.mp3",
+      "ignoreIfPlaying": true,
+      "volume": 0.5,
+      "loop": true,
+      "fadeInMs": 5000
+    }
+  ],
+  "ANALYTICS": {
+    "apiKey": "AIzaSyDVM9dq-offM1KpRoGJIlfi8CrUa8P2JGo",
+    "authDomain": "bakuardgamestudio-916ff.firebaseapp.com",
+    "projectId": "bakuardgamestudio-916ff",
+    "storageBucket": "bakuardgamestudio-916ff.firebasestorage.app",
+    "messagingSenderId": "803397816919",
+    "appId": "1:803397816919:web:9c956b2013568f13a34912",
+    "measurementId": "G-LDDY7E0HY6"
+  },
+  "PARTICLES": {
+    "VFX": {
+      "dust": {
+        "followOffsetYFactor": -0.6,
+        "textureKey": "smoke-puff-particle",
+        "lifespan": 850,
+        "speed": {
+          "min": 14,
+          "max": 25
+        },
+        "scale": {
+          "start": 0.4,
+          "end": 2
+        },
+        "quantity": 1,
+        "gravityY": -80,
+        "particleSizePx": 35,
+        "angle": {
+          "min": 300,
+          "max": 320
+        },
+        "followOffsetX": 0.5,
+        "blendMode": "NORMAL",
+        "depthOffset": -1,
+        "rotate": {
+          "min": 0,
+          "max": 360
+        },
+        "tint": 10518624,
+        "frequency": 60,
+        "alpha": {
+          "start": 0.6,
+          "end": 0
+        }
+      }
+    }
+  },
   "PLAYER_DISPLAY_HEIGHT": 120,
   "PLAYER_SPEED": 220,
   "PLAYER_DISPLAY_WIDTH": 120,

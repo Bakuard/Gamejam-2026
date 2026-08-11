@@ -1,4 +1,4 @@
-import { Calendar, dayPhases } from "@/compositions/Calendar.composition.js";
+import { dayPhases } from "@/compositions/Calendar.composition.js";
 
 export const dynamicLightingComposition = {
   preloadShaders: function(scene) {
@@ -7,10 +7,7 @@ export const dynamicLightingComposition = {
 
   prepareAmbientLightPipeline: function(
     scene,
-    morningPhaseTransitionFraction,
-    afternoonPhaseTransitionFraction,
-    eveningPhaseTransitionFraction,
-    nightPhaseTransitionFraction,
+    timeConfig,
     currentDayPhase,
     currentDayPhaseProgress
   ) {
@@ -21,10 +18,10 @@ export const dynamicLightingComposition = {
         fragShader: scene.cache.shader.get("night").fragmentSrc,
       });
 
-      nightPipeline.morningPhaseTransitionFraction = morningPhaseTransitionFraction;
-      nightPipeline.afternoonPhaseTransitionFraction = afternoonPhaseTransitionFraction;
-      nightPipeline.eveningPhaseTransitionFraction = eveningPhaseTransitionFraction;
-      nightPipeline.nightPhaseTransitionFraction = nightPhaseTransitionFraction;
+      nightPipeline.morningPhaseTransitionFraction = timeConfig.morningPhaseTransitionFraction;
+      nightPipeline.afternoonPhaseTransitionFraction = timeConfig.afternoonPhaseTransitionFraction;
+      nightPipeline.eveningPhaseTransitionFraction = timeConfig.eveningPhaseTransitionFraction;
+      nightPipeline.nightPhaseTransitionFraction = timeConfig.nightPhaseTransitionFraction;
       dynamicLightingComposition.updateAmbientLightPipeline(nightPipeline, currentDayPhase, currentDayPhaseProgress);
 
       nightPipeline.onPreRender = function () {
