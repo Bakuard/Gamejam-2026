@@ -5,9 +5,10 @@ export const platformerComposition = {
     scene.load.image("floor-wall-roof", "assets/levels/tiles/floor-wall-roof.png");
     scene.load.image("decor", "assets/levels/tiles/level-art-tiles.png");
     scene.load.image("chair", "assets/levels/tiles/chair.png");
-    scene.load.tilemapTiledJSON("platformer-tilemap", "assets/levels/tilemaps/platformer.json");
+    scene.load.image("stairs-tiles", "assets/levels/tiles/stairs-tiles.png");
     scene.load.image("mountBack", "assets/img/background/mount-back.png");
     scene.load.image("mountFront", "assets/img/background/mount-front.png");
+    scene.load.tilemapTiledJSON("platformer-tilemap", "assets/levels/tilemaps/platformer.json");
   },
 
   createLevel(scene) {
@@ -15,14 +16,15 @@ export const platformerComposition = {
 
     tilemapComposition.createTileLayer(map, "decor", "BackgroundWalls", []);
     tilemapComposition.createTileLayer(map, "decor", "DecorItems", []);
-    const platformLayer = tilemapComposition.createTileLayer(map, "floor-wall-roof", "Platforms", [4, 5, 6]);
-    const woodPlatformLayer = tilemapComposition.createTileLayer(map, "floor-wall-roof", "WoodPlatforms", [4, 5, 6], true);
-    const wallsLayer = tilemapComposition.createTileLayer(map, "floor-wall-roof", "Walls", [4, 5, 6]);
+    const platformLayer = tilemapComposition.createTileLayer(map, "floor-wall-roof", "Platforms", [2, 3, 4, 18, 19, 35, 36]);
+    const woodPlatformLayer = tilemapComposition.createTileLayer(map, "floor-wall-roof", "WoodPlatforms", [2, 3, 4, 18, 19, 35, 36], true);
+    const wallsLayer = tilemapComposition.createTileLayer(map, "floor-wall-roof", "Walls", [2, 3, 4, 18, 19, 35, 36]);
+    const stairsLayer = tilemapComposition.createTileLayer(map, "stairs-tiles", "Stairs", [2, 3, 4, 18, 19, 35, 36]);
     const chairLayer = tilemapComposition.createObjectLayer(scene, map, "chair_layer", true);
     const startPointsLayer = tilemapComposition.createMetaObjectLayer(map, "start_points_layer");
     const ghostWanderAreaLayer = tilemapComposition.createMetaObjectLayer(map, "ghost_wander_area_layer");
 
-    return [map, platformLayer, woodPlatformLayer, wallsLayer, chairLayer, tilemapComposition.toMap(startPointsLayer, "name"), tilemapComposition.toMap(ghostWanderAreaLayer, "name")];
+    return [map, platformLayer, woodPlatformLayer, wallsLayer, chairLayer, stairsLayer, tilemapComposition.toMap(startPointsLayer, "name"), tilemapComposition.toMap(ghostWanderAreaLayer, "name")];
   },
 
   createParallaxImages(scene) {

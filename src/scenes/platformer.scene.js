@@ -41,7 +41,7 @@ export class PlatformerScene extends Phaser.Scene {
 
     calendarComposition.initCalendar(this.calendarStore, Config.TIME);
 
-    const [map, platformLayer, woodPlatformLayer, wallsLayer, chairLayer, startPointsLayer, ghostWanderAreaLayer] = platformerComposition.createLevel(this);
+    const [map, platformLayer, woodPlatformLayer, wallsLayer, chairLayer, stairsLayer, startPointsLayer, ghostWanderAreaLayer] = platformerComposition.createLevel(this);
     this.platformLayer = platformLayer;
     this.woodPlatformLayer = woodPlatformLayer;
     this.wallsLayer = wallsLayer;
