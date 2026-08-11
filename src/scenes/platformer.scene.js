@@ -7,6 +7,7 @@ import { ghostComposition } from "@/compositions/Ghost.composition.js";
 import { dynamicLightingComposition } from "@/compositions/DynamicLighting.composition.js";
 import { calendarComposition } from "@/compositions/Calendar.composition.js";
 import { audioComposition } from "@/compositions/Audio.composition.js";
+import { analyticsComposition } from "@/compositions/Analytics.composition.js";
 
 export class PlatformerScene extends Phaser.Scene {
   constructor(playerStore, calendarStore) {
@@ -86,6 +87,8 @@ export class PlatformerScene extends Phaser.Scene {
       this.calendarStore.currentPhase,
       calendarComposition.getCurrentPhaseProgress(this.calendarStore)
     );
+
+    analyticsComposition.createAnalytics(Config.ANALYTICS);
   }
 
   update(time, delta) {

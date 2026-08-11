@@ -60,6 +60,15 @@
       "fadeInMs": 5000
     }
   ],
+  "ANALYTICS": {
+    "apiKey": "AIzaSyDVM9dq-offM1KpRoGJIlfi8CrUa8P2JGo",
+    "authDomain": "bakuardgamestudio-916ff.firebaseapp.com",
+    "projectId": "bakuardgamestudio-916ff",
+    "storageBucket": "bakuardgamestudio-916ff.firebasestorage.app",
+    "messagingSenderId": "803397816919",
+    "appId": "1:803397816919:web:9c956b2013568f13a34912",
+    "measurementId": "G-LDDY7E0HY6"
+  },
   "PLAYER_DISPLAY_HEIGHT": 120,
   "PLAYER_SPEED": 220,
   "PLAYER_DISPLAY_WIDTH": 120,
