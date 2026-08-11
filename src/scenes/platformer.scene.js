@@ -8,6 +8,7 @@ import { dynamicLightingComposition } from "@/compositions/DynamicLighting.compo
 import { calendarComposition } from "@/compositions/Calendar.composition.js";
 import { audioComposition } from "@/compositions/Audio.composition.js";
 import { analyticsComposition } from "@/compositions/Analytics.composition.js";
+import { particlesComposition } from "@/compositions/Particles.composition.js";
 
 export class PlatformerScene extends Phaser.Scene {
   constructor(playerStore, calendarStore) {
@@ -25,6 +26,7 @@ export class PlatformerScene extends Phaser.Scene {
     ghostComposition.preloadGhostParticles(this);
     audioComposition.preloadAudioFiles(this, Config.AUDIO);
     dynamicLightingComposition.preloadShaders(this);
+    particlesComposition.preloadParticlesTextures(this);
   }
 
   create() {
@@ -81,12 +83,7 @@ export class PlatformerScene extends Phaser.Scene {
       this.events.off(Phaser.Scenes.Events.POST_UPDATE, this.postUpdate, this);
     });
 
-    this.nightPipeline = dynamicLightingComposition.prepareAmbientLightPipeline(
-      this,
-      Config.TIME,
-      this.calendarStore.currentPhase,
-      calendarComposition.getCurrentPhaseProgress(this.calendarStore)
-    );
+    this.nightPipeline = dynamicLightingComposition.prepareAmbientLightPipeline(this, Config.TIME, this.calendarStore.currentPhase, calendarComposition.getCurrentPhaseProgress(this.calendarStore));
 
     analyticsComposition.createAnalytics(Config.ANALYTICS);
   }

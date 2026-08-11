@@ -69,6 +69,43 @@
     "appId": "1:803397816919:web:9c956b2013568f13a34912",
     "measurementId": "G-LDDY7E0HY6"
   },
+  "PARTICLES": {
+    "VFX": {
+      "dust": {
+        "followOffsetYFactor": -0.6,
+        "textureKey": "smoke-puff-particle",
+        "lifespan": 850,
+        "speed": {
+          "min": 14,
+          "max": 25
+        },
+        "scale": {
+          "start": 0.4,
+          "end": 2
+        },
+        "quantity": 1,
+        "gravityY": -80,
+        "particleSizePx": 35,
+        "angle": {
+          "min": 300,
+          "max": 320
+        },
+        "followOffsetX": 0.5,
+        "blendMode": "NORMAL",
+        "depthOffset": -1,
+        "rotate": {
+          "min": 0,
+          "max": 360
+        },
+        "tint": 10518624,
+        "frequency": 60,
+        "alpha": {
+          "start": 0.6,
+          "end": 0
+        }
+      }
+    }
+  },
   "PLAYER_DISPLAY_HEIGHT": 120,
   "PLAYER_SPEED": 220,
   "PLAYER_DISPLAY_WIDTH": 120,
