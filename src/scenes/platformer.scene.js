@@ -42,9 +42,11 @@ export class PlatformerScene extends Phaser.Scene {
     calendarComposition.initCalendar(this.calendarStore, Config.TIME);
 
     const [map, platformLayer, woodPlatformLayer, wallsLayer, chairLayer, stairsLayer, startPointsLayer, ghostWanderAreaLayer] = platformerComposition.createLevel(this);
+    this.map = map;
     this.platformLayer = platformLayer;
     this.woodPlatformLayer = woodPlatformLayer;
     this.wallsLayer = wallsLayer;
+    this.stairsLayer = stairsLayer;
 
     this.userInput = playerComposition.createUserInput(this);
     playerComposition.preparePlayerAnimation(this);
@@ -98,7 +100,7 @@ export class PlatformerScene extends Phaser.Scene {
     }
     this._wasMorning = isMorning;
 
-    playerComposition.movePlayerOnPlatformers(this, this.player, this.userInput, this.platformLayer, this.woodPlatformLayer, this.camera);
+    playerComposition.movePlayerOnPlatformers(this, this.player, this.userInput, this.platformLayer, this.woodPlatformLayer, this.stairsLayer, this.map, this.camera);
     playerComposition.throwChair(this.player, this.userInput, this.wallsLayer);
     ghostComposition.moveAllGhosts(this.ghosts, this.player, time, delta);
     ghostComposition.updateGhostsStateTimer(this.ghosts, delta);

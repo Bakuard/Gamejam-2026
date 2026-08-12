@@ -75,7 +75,7 @@ export const playerComposition = {
     scene.cameras.main.setZoom(1.2);
   },
 
-  movePlayerOnPlatformers(scene, player, userInput, platformLayer, woodPlatformLayer, camera) {
+  movePlayerOnPlatformers(scene, player, userInput, platformLayer, woodPlatformLayer, stairsLayer, tileMap, camera) {
     if (userInput.up.isDown && player.body.blocked.down) {
       player.body.velocity.y = -player.speed * PLAYER_JUMP_MULTIPLICATOR;
 
@@ -86,8 +86,11 @@ export const playerComposition = {
     }
 
     player.body.velocity.x = (userInput.right.isDown - userInput.left.isDown) * player.speed;
-    const solidTile = platformLayer.getTileAtWorldXY(player.body.center.x, player.body.bottom + 2, false, camera);
-    const woodTile = woodPlatformLayer.getTileAtWorldXY(player.body.center.x, player.body.bottom + 2, false, camera);
+    const solidTile = getTileBelowFeet(player, platformLayer, camera);
+    const woodTile = getTileBelowFeet(player, woodPlatformLayer, camera);
+    const stairTile = getTileAtFeetLevel(player, stairsLayer, camera);
+    const onStair = stairTile && checkOnStair(player, stairTile, tileMap, 4);
+    if (onStair) console.log("----------------------> " + stairTile.properties.direction);
 
     if (player.body.velocity.equals(Phaser.Math.Vector2.ZERO)) {
       if (player.currentChair) player.anims.play("player-idle-chair", true);
@@ -163,6 +166,13 @@ function isAreaFree(scene, chair, posX, posY, wallsLayer) {
   return collidingTiles.length === 0;
 }
 
+function checkOnStair(player, stairTile, tileMap, tolerance) {
+  const localX = player.body.center.x - tileMap.tileToWorldX(stairTile.x);
+  const localY = stairTile.height - (player.body.bottom - tileMap.tileToWorldY(stairTile.y));
+  const stairY = stairTile.properties.direction === "left" ? stairTile.width - localX : localX;
+  return Phaser.Math.Within(localY, stairY, tolerance);
+}
+
 function playFootstepSound(scene, player, tile) {
   if (!tile) return;
 
@@ -179,4 +189,16 @@ function playChairCreakingSound(scene, player, userInput) {
   if (player.isStandingOnChair && userInput.up.isDown) {
     audioComposition.play(scene, "wood-creaking");
   }
+}
+
+function getTileBelowFeet(player, tileLayer, camera) {
+  const x = player.body.center.x;
+  const y = player.body.bottom + 2;
+  return tileLayer.getTileAtWorldXY(x, y, false, camera);
+}
+
+function getTileAtFeetLevel(player, tileLayer, camera) {
+  const x = player.body.center.x;
+  const y = player.body.bottom - 1;
+  return tileLayer.getTileAtWorldXY(x, y, false, camera);
 }
