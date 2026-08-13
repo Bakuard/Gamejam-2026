@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import {PLAYER_JUMP_MULTIPLICATOR, PLAYER_FALL_MULTIPLICATOR} from "@/configs/gameplay.config.js";
+import { PLAYER_JUMP_MULTIPLICATOR, PLAYER_FALL_MULTIPLICATOR, PLAYER_STAIRS_DROP_ACCELERATION, STAIR_FOOT_TOLERANCE, STAIR_COYOTE_TIME } from "@/configs/gameplay.config.js";
 import { audioComposition } from "@/compositions/Audio.composition.js";
 
 export const playerComposition = {
@@ -76,28 +76,34 @@ export const playerComposition = {
   },
 
   movePlayerOnPlatformers(scene, player, userInput, platformLayer, woodPlatformLayer, stairsLayer, tileMap, camera) {
-    if (userInput.up.isDown && player.body.blocked.down) {
-      player.body.velocity.y = -player.speed * PLAYER_JUMP_MULTIPLICATOR;
-
-      if (player.inStairArea) {
-        player.body.setAllowGravity(true);
-        player.inStairArea = false;
-      }
-    }
+    const stairTile = getTileAtFeetLevel(player, stairsLayer, camera);
+    const onStair = stairTile && checkOnStair(player, stairTile, tileMap, STAIR_FOOT_TOLERANCE);
+    player.body.setAllowGravity(!onStair);
 
     player.body.velocity.x = (userInput.right.isDown - userInput.left.isDown) * player.speed;
-    const solidTile = getTileBelowFeet(player, platformLayer, camera);
-    const woodTile = getTileBelowFeet(player, woodPlatformLayer, camera);
-    const stairTile = getTileAtFeetLevel(player, stairsLayer, camera);
-    const onStair = stairTile && checkOnStair(player, stairTile, tileMap, 4);
-    if (onStair) console.log("----------------------> " + stairTile.properties.direction);
+
+    if (userInput.up.isDown && (onStair || player.body.blocked.down)) {
+      player.body.velocity.y = -player.speed * PLAYER_JUMP_MULTIPLICATOR;
+      player.onStairInPreviousFrame = 0;
+    } else if (onStair) {
+      if (userInput.down.isDown) player.body.velocity.y = PLAYER_STAIRS_DROP_ACCELERATION;
+      else if (stairTile.properties.direction === "right" && player.body.velocity.x !== 0) player.body.velocity.y = -player.body.velocity.x;
+      else if (stairTile.properties.direction === "left" && player.body.velocity.x !== 0) player.body.velocity.y = player.body.velocity.x;
+      else if (player.body.velocity.y > 0) player.body.velocity.y = 0;
+      player.onStairInPreviousFrame = STAIR_COYOTE_TIME;
+    } else if (--player.onStairInPreviousFrame === 0 && player.body.velocity.y < 0) {
+      player.body.velocity.y = 0;
+    }
 
     if (player.body.velocity.equals(Phaser.Math.Vector2.ZERO)) {
       if (player.currentChair) player.anims.play("player-idle-chair", true);
       else player.anims.play("player-idle", true);
-    } else if (player.body.blocked.down && player.body.velocity.y === 0) {
+    } else if ((player.body.blocked.down && player.body.velocity.y === 0) || player.onStairInPreviousFrame > 0) {
       if (player.currentChair) player.anims.play("player-run-chair", true);
       else player.anims.play("player-run", true);
+
+      const solidTile = getTileBelowFeet(player, platformLayer, camera);
+      const woodTile = getTileBelowFeet(player, woodPlatformLayer, camera);
       playFootstepSound(scene, player, solidTile ?? woodTile);
     } else {
       if (player.currentChair) player.anims.play("player-jump-chair", true);
