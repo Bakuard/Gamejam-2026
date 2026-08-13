@@ -1,0 +1,100 @@
+{"frames": {
+
+"Armature_jump_00.png":
+{
+	"frame": {"x":0,"y":0,"w":226,"h":331},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":226,"h":331},
+	"sourceSize": {"w":226,"h":331}
+},
+"Armature_jump_01.png":
+{
+	"frame": {"x":226,"y":0,"w":226,"h":331},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":226,"h":331},
+	"sourceSize": {"w":226,"h":331}
+},
+"Armature_jump_02.png":
+{
+	"frame": {"x":452,"y":0,"w":226,"h":331},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":226,"h":331},
+	"sourceSize": {"w":226,"h":331}
+},
+"Armature_jump_03.png":
+{
+	"frame": {"x":678,"y":0,"w":226,"h":331},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":226,"h":331},
+	"sourceSize": {"w":226,"h":331}
+},
+"Armature_jump_04.png":
+{
+	"frame": {"x":904,"y":0,"w":226,"h":331},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":226,"h":331},
+	"sourceSize": {"w":226,"h":331}
+},
+"Armature_jump_05.png":
+{
+	"frame": {"x":1130,"y":0,"w":226,"h":331},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":226,"h":331},
+	"sourceSize": {"w":226,"h":331}
+},
+"Armature_jump_06.png":
+{
+	"frame": {"x":0,"y":331,"w":226,"h":331},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":226,"h":331},
+	"sourceSize": {"w":226,"h":331}
+},
+"Armature_jump_07.png":
+{
+	"frame": {"x":226,"y":331,"w":226,"h":331},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":226,"h":331},
+	"sourceSize": {"w":226,"h":331}
+},
+"Armature_jump_08.png":
+{
+	"frame": {"x":452,"y":331,"w":226,"h":331},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":226,"h":331},
+	"sourceSize": {"w":226,"h":331}
+},
+"Armature_jump_09.png":
+{
+	"frame": {"x":678,"y":331,"w":226,"h":331},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":226,"h":331},
+	"sourceSize": {"w":226,"h":331}
+},
+"Armature_jump_10.png":
+{
+	"frame": {"x":904,"y":331,"w":226,"h":331},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":226,"h":331},
+	"sourceSize": {"w":226,"h":331}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "player-jump.png",
+	"format": "RGBA8888",
+	"size": {"w":1356,"h":662},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:6e73511530828c838be9deb145299efd:880a2c0d05b4975d67d0a570aa6a5855:b0467466f8249d69521c5f032940b598$"
+}
+}
