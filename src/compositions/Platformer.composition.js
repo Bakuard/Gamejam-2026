@@ -22,9 +22,20 @@ export const platformerComposition = {
     const stairsLayer = tilemapComposition.createTileLayer(map, "stairs-tiles", "Stairs", [2, 3, 4, 18, 19, 35, 36]);
     const chairLayer = tilemapComposition.createObjectLayer(scene, map, "chair_layer", true);
     const startPointsLayer = tilemapComposition.createMetaObjectLayer(map, "start_points_layer");
-    const ghostWanderAreaLayer = tilemapComposition.createMetaObjectLayer(map, "ghost_wander_area_layer");
+    const ghostsWanderAreaLayer = tilemapComposition.createMetaObjectLayer(map, "ghost_wander_area_layer");
+    const prowlGhostPointsLayer = tilemapComposition.createMetaObjectLayer(map, "prowl_ghost_points_layer");
 
-    return [map, platformLayer, woodPlatformLayer, wallsLayer, chairLayer, stairsLayer, tilemapComposition.toMap(startPointsLayer, "name"), tilemapComposition.toMap(ghostWanderAreaLayer, "name")];
+    return [
+      map,
+      platformLayer,
+      woodPlatformLayer,
+      wallsLayer,
+      chairLayer,
+      stairsLayer,
+      tilemapComposition.toMap(startPointsLayer, "name"),
+      tilemapComposition.toMap(ghostsWanderAreaLayer, "name"),
+      prowlGhostPointsLayer
+    ];
   },
 
   createParallaxImages(scene) {
