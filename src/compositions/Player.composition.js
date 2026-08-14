@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import {PLAYER_JUMP_MULTIPLICATOR, PLAYER_FALL_MULTIPLICATOR} from "@/configs/gameplay.config.js";
+import { PLAYER_JUMP_MULTIPLICATOR, PLAYER_FALL_MULTIPLICATOR, PLAYER_STAIRS_DROP_ACCELERATION, STAIR_FOOT_TOLERANCE, STAIR_COYOTE_TIME } from "@/configs/gameplay.config.js";
 import { audioComposition } from "@/compositions/Audio.composition.js";
 
 export const playerComposition = {
@@ -75,26 +75,35 @@ export const playerComposition = {
     scene.cameras.main.setZoom(1.2);
   },
 
-  movePlayerOnPlatformers(scene, player, userInput, platformLayer, woodPlatformLayer, camera) {
-    if (userInput.up.isDown && player.body.blocked.down) {
-      player.body.velocity.y = -player.speed * PLAYER_JUMP_MULTIPLICATOR;
-
-      if (player.inStairArea) {
-        player.body.setAllowGravity(true);
-        player.inStairArea = false;
-      }
-    }
+  movePlayerOnPlatformers(scene, player, userInput, platformLayer, woodPlatformLayer, stairsLayer, tileMap, camera) {
+    const stairTile = getTileAtFeetLevel(player, stairsLayer, camera);
+    const onStair = stairTile && checkOnStair(player, stairTile, tileMap, STAIR_FOOT_TOLERANCE);
+    player.body.setAllowGravity(!onStair);
 
     player.body.velocity.x = (userInput.right.isDown - userInput.left.isDown) * player.speed;
-    const solidTile = platformLayer.getTileAtWorldXY(player.body.center.x, player.body.bottom + 2, false, camera);
-    const woodTile = woodPlatformLayer.getTileAtWorldXY(player.body.center.x, player.body.bottom + 2, false, camera);
+
+    if (userInput.up.isDown && (onStair || player.body.blocked.down)) {
+      player.body.velocity.y = -player.speed * PLAYER_JUMP_MULTIPLICATOR;
+      player.onStairInPreviousFrame = 0;
+    } else if (onStair) {
+      if (userInput.down.isDown) player.body.velocity.y = PLAYER_STAIRS_DROP_ACCELERATION;
+      else if (stairTile.properties.direction === "right" && player.body.velocity.x !== 0) player.body.velocity.y = -player.body.velocity.x;
+      else if (stairTile.properties.direction === "left" && player.body.velocity.x !== 0) player.body.velocity.y = player.body.velocity.x;
+      else if (player.body.velocity.y > 0) player.body.velocity.y = 0;
+      player.onStairInPreviousFrame = STAIR_COYOTE_TIME;
+    } else if (--player.onStairInPreviousFrame === 0 && player.body.velocity.y < 0) {
+      player.body.velocity.y = 0;
+    }
 
     if (player.body.velocity.equals(Phaser.Math.Vector2.ZERO)) {
       if (player.currentChair) player.anims.play("player-idle-chair", true);
       else player.anims.play("player-idle", true);
-    } else if (player.body.blocked.down && player.body.velocity.y === 0) {
+    } else if ((player.body.blocked.down && player.body.velocity.y === 0) || player.onStairInPreviousFrame > 0) {
       if (player.currentChair) player.anims.play("player-run-chair", true);
       else player.anims.play("player-run", true);
+
+      const solidTile = getTileBelowFeet(player, platformLayer, camera);
+      const woodTile = getTileBelowFeet(player, woodPlatformLayer, camera);
       playFootstepSound(scene, player, solidTile ?? woodTile);
     } else {
       if (player.currentChair) player.anims.play("player-jump-chair", true);
@@ -163,6 +172,13 @@ function isAreaFree(scene, chair, posX, posY, wallsLayer) {
   return collidingTiles.length === 0;
 }
 
+function checkOnStair(player, stairTile, tileMap, tolerance) {
+  const localX = player.body.center.x - tileMap.tileToWorldX(stairTile.x);
+  const localY = stairTile.height - (player.body.bottom - tileMap.tileToWorldY(stairTile.y));
+  const stairY = stairTile.properties.direction === "left" ? stairTile.width - localX : localX;
+  return Phaser.Math.Within(localY, stairY, tolerance);
+}
+
 function playFootstepSound(scene, player, tile) {
   if (!tile) return;
 
@@ -179,4 +195,16 @@ function playChairCreakingSound(scene, player, userInput) {
   if (player.isStandingOnChair && userInput.up.isDown) {
     audioComposition.play(scene, "wood-creaking");
   }
+}
+
+function getTileBelowFeet(player, tileLayer, camera) {
+  const x = player.body.center.x;
+  const y = player.body.bottom + 2;
+  return tileLayer.getTileAtWorldXY(x, y, false, camera);
+}
+
+function getTileAtFeetLevel(player, tileLayer, camera) {
+  const x = player.body.center.x;
+  const y = player.body.bottom - 1;
+  return tileLayer.getTileAtWorldXY(x, y, false, camera);
 }
