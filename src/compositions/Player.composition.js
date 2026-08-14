@@ -1,69 +1,97 @@
 import Phaser from "phaser";
-import { PLAYER_JUMP_MULTIPLICATOR, PLAYER_FALL_MULTIPLICATOR, PLAYER_STAIRS_DROP_ACCELERATION, STAIR_FOOT_TOLERANCE, STAIR_COYOTE_TIME } from "@/configs/gameplay.config.js";
+
+import {
+  PLAYER_JUMP_MULTIPLICATOR,
+  PLAYER_FALL_MULTIPLICATOR,
+  PLAYER_BODY_OFFSET_Y,
+  STAIR_FOOT_TOLERANCE,
+  STAIR_COYOTE_TIME,
+  PLAYER_STAIRS_DROP_ACCELERATION,
+  PLAYER_ON_GROUND_COYOTE_TIME,
+} from "@/configs/gameplay.config.js";
 import { audioComposition } from "@/compositions/Audio.composition.js";
 
 export const playerComposition = {
   preloadPlayerAnimation(scene) {
-    scene.load.atlas("player-run", "assets/animation/player/player-run.png", "assets/animation/player/player-run.json");
-    scene.load.atlas("player-run-chair", "assets/animation/player/player-run-chair.png", "assets/animation/player/player-run-chair.json");
-    scene.load.atlas("player-idle", "assets/animation/player/player-idle.png", "assets/animation/player/player-idle.json");
-    scene.load.atlas("player-idle-chair", "assets/animation/player/player-idle-chair.png", "assets/animation/player/player-idle-chair.json");
-    scene.load.atlas("player-jump", "assets/animation/player/player-jump.png", "assets/animation/player/player-jump.json");
-    scene.load.atlas("player-jump-chair", "assets/animation/player/player-jump-chair.png", "assets/animation/player/player-jump-chair.json");
+    scene.load.atlas("player-run", "assets/animation/player/16x/player-run.png", "assets/animation/player/16x/player-run.json");
+    scene.load.atlas("player-run-chair", "assets/animation/player/16x/player-run-item.png", "assets/animation/player/16x/player-run-item.json");
+    scene.load.atlas("player-idle", "assets/animation/player/16x/player-idle.png", "assets/animation/player/16x/player-idle.json");
+    scene.load.atlas("player-idle-chair", "assets/animation/player/16x/player-idle-item.png", "assets/animation/player/16x/player-idle-item.json");
+    scene.load.atlas("player-jump", "assets/animation/player/16x/player-jump.png", "assets/animation/player/16x/player-jump.json");
+    scene.load.atlas("player-jump-chair", "assets/animation/player/16x/player-jump-item.png", "assets/animation/player/16x/player-jump-item.json");
+    scene.load.atlas("player-fall", "assets/animation/player/16x/player-fall.png", "assets/animation/player/16x/player-fall.json");
+    scene.load.atlas("player-fall-chair", "assets/animation/player/16x/player-fall-item.png", "assets/animation/player/16x/player-fall-item.json");
   },
 
   preparePlayerAnimation(scene) {
     scene.anims.create({
       key: "player-run",
       frames: scene.anims.generateFrameNames("player-run"),
-      frameRate: 10,
+      frameRate: 28,
       repeat: -1,
     });
     scene.anims.create({
       key: "player-run-chair",
       frames: scene.anims.generateFrameNames("player-run-chair"),
-      frameRate: 10,
+      frameRate: 28,
       repeat: -1,
     });
     scene.anims.create({
       key: "player-idle",
       frames: scene.anims.generateFrameNames("player-idle"),
-      frameRate: 10,
+      frameRate: 14,
       repeat: -1,
     });
     scene.anims.create({
       key: "player-idle-chair",
       frames: scene.anims.generateFrameNames("player-idle-chair"),
-      frameRate: 10,
+      frameRate: 14,
       repeat: -1,
     });
     scene.anims.create({
       key: "player-jump",
       frames: scene.anims.generateFrameNames("player-jump"),
-      frameRate: 10,
-      repeat: -1,
+      frameRate: 34,
+      repeat: 0,
     });
     scene.anims.create({
       key: "player-jump-chair",
       frames: scene.anims.generateFrameNames("player-jump-chair"),
-      frameRate: 10,
+      frameRate: 34,
+      repeat: 0,
+    });
+    scene.anims.create({
+      key: "player-fall",
+      frames: scene.anims.generateFrameNames("player-fall"),
+      frameRate: 40,
+      repeat: -1,
+    });
+    scene.anims.create({
+      key: "player-fall-chair",
+      frames: scene.anims.generateFrameNames("player-fall-chair"),
+      frameRate: 40,
       repeat: -1,
     });
   },
 
   createPlayer(scene, x, y, displayWidth, displayHeight, bodyWidth, bodyHeight, speed) {
-    const player = scene.physics.add.sprite(x, y, "player-idle", "1").setDisplaySize(displayWidth, displayHeight).setOrigin(0.5, 1).play("player-idle");
+    const player = scene.physics.add.sprite(x, y, "player-idle", "1")
+      .setDisplaySize(displayWidth, displayHeight)
+      .setOrigin(0.5, 1)
+      .play("player-idle");
 
     const unscaledBodyWidth = bodyWidth / player.scaleX;
     const unscaledBodyHeight = bodyHeight / player.scaleY;
     player.body.setSize(unscaledBodyWidth, unscaledBodyHeight, false);
 
     const offsetX = (player.width - unscaledBodyWidth) / 2;
-    const offsetY = player.height - unscaledBodyHeight;
+    const offsetY = player.height - unscaledBodyHeight - PLAYER_BODY_OFFSET_Y;
     player.body.setOffset(offsetX, offsetY);
 
     player.speed = speed;
     player.depth = 100;
+    player.groundedCoyoteTime = 0;
+    player.onStairInPreviousFrame = 0;
 
     return player;
   },
@@ -80,11 +108,19 @@ export const playerComposition = {
     const onStair = stairTile && checkOnStair(player, stairTile, tileMap, STAIR_FOOT_TOLERANCE);
     player.body.setAllowGravity(!onStair);
 
-    player.body.velocity.x = (userInput.right.isDown - userInput.left.isDown) * player.speed;
+    if (player.body.blocked.down) player.groundedCoyoteTime = PLAYER_ON_GROUND_COYOTE_TIME;
 
-    if (userInput.up.isDown && (onStair || player.body.blocked.down)) {
+    const isGrounded = player.groundedCoyoteTime-- > 0;
+
+    if (userInput.up.isDown && (onStair || isGrounded)) {
       player.body.velocity.y = -player.speed * PLAYER_JUMP_MULTIPLICATOR;
+      player.groundedCoyoteTime = 0;
       player.onStairInPreviousFrame = 0;
+
+      if (player.currentChair) player.anims.play("player-jump-chair", true);
+      else player.anims.play("player-jump", true);
+
+      playChairCreakingSound(scene, player, userInput);
     } else if (onStair) {
       if (userInput.down.isDown) player.body.velocity.y = PLAYER_STAIRS_DROP_ACCELERATION;
       else if (stairTile.properties.direction === "right" && player.body.velocity.x !== 0) player.body.velocity.y = -player.body.velocity.x;
@@ -95,21 +131,27 @@ export const playerComposition = {
       player.body.velocity.y = 0;
     }
 
-    if (player.body.velocity.equals(Phaser.Math.Vector2.ZERO)) {
-      if (player.currentChair) player.anims.play("player-idle-chair", true);
-      else player.anims.play("player-idle", true);
-    } else if ((player.body.blocked.down && player.body.velocity.y === 0) || player.onStairInPreviousFrame > 0) {
-      if (player.currentChair) player.anims.play("player-run-chair", true);
-      else player.anims.play("player-run", true);
+    player.body.velocity.x = (userInput.right.isDown - userInput.left.isDown) * player.speed;
 
-      const solidTile = getTileBelowFeet(player, platformLayer, camera);
-      const woodTile = getTileBelowFeet(player, woodPlatformLayer, camera);
-      playFootstepSound(scene, player, solidTile ?? woodTile);
+    if (isGrounded || player.onStairInPreviousFrame > 0) {
+      if (player.body.velocity.x === 0) {
+        if (player.currentChair) player.anims.play("player-idle-chair", true);
+        else player.anims.play("player-idle", true);
+      } else {
+        if (player.currentChair) player.anims.play("player-run-chair", true);
+        else player.anims.play("player-run", true);
+
+        const solidTile = getTileBelowFeet(player, platformLayer, camera);
+        const woodTile = getTileBelowFeet(player, woodPlatformLayer, camera);
+        playFootstepSound(scene, player, solidTile ?? woodTile);
+      }
     } else {
-      if (player.currentChair) player.anims.play("player-jump-chair", true);
-      else player.anims.play("player-jump", true);
-      player.body.velocity.x *= PLAYER_FALL_MULTIPLICATOR;
-      playChairCreakingSound(scene, player, userInput);
+      if (player.body.velocity.y > 0) {
+        if (player.currentChair) player.anims.play("player-fall-chair", true);
+        else player.anims.play("player-fall", true);
+      } else if (player.body.velocity.y < 0) {
+        player.body.velocity.x *= PLAYER_FALL_MULTIPLICATOR;
+      }
     }
 
     if (player.body.velocity.x !== 0) player.setFlipX(userInput.left.isDown);
@@ -157,7 +199,7 @@ export const playerComposition = {
 
   jumpOff(player, platform, userInput) {
     return !userInput.down.isDown;
-  },
+  }
 };
 
 function isAreaFree(scene, chair, posX, posY, wallsLayer) {
