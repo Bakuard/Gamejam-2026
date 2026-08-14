@@ -122,7 +122,8 @@
     {
       "startPointName": "ghost-photographer",
       "ghostWanderAreaName": "wholeLevel",
-      "movementType": "straight",
+      "chaseType": "straight",
+      "roamType": "straight",
       "states": [
         {
           "speedPxPerSec": 30,
@@ -182,71 +183,10 @@
       ]
     },
     {
-      "startPointName": "ghost-skier",
-      "ghostWanderAreaName": "bottomFloors",
-      "movementType": "arc_right",
-      "states": [
-        {
-          "speedPxPerSec": 60,
-          "displayWidth": 120,
-          "displayHeight": 120,
-          "animationAtlasName": "ghost-skier-base",
-          "nextTempAimDistance": 750,
-          "physicBodyHeight": 100,
-          "detectionRadius": 350,
-          "physicBodyWidth": 30,
-          "durationInMs": 60000
-        },
-        {
-          "speedPxPerSec": 100,
-          "displayWidth": 120,
-          "displayHeight": 120,
-          "animationAtlasName": "ghost-skier-phase-1",
-          "nextTempAimDistance": 750,
-          "physicBodyHeight": 100,
-          "detectionRadius": 350,
-          "physicBodyWidth": 30,
-          "durationInMs": 60000
-        },
-        {
-          "speedPxPerSec": 120,
-          "displayWidth": 120,
-          "displayHeight": 120,
-          "animationAtlasName": "ghost-skier-phase-2",
-          "nextTempAimDistance": 750,
-          "physicBodyHeight": 100,
-          "detectionRadius": 450,
-          "physicBodyWidth": 30,
-          "durationInMs": 60000
-        },
-        {
-          "speedPxPerSec": 140,
-          "displayWidth": 120,
-          "displayHeight": 120,
-          "animationAtlasName": "ghost-skier-phase-3",
-          "nextTempAimDistance": 750,
-          "physicBodyHeight": 100,
-          "detectionRadius": 450,
-          "physicBodyWidth": 30,
-          "durationInMs": 60000
-        },
-        {
-          "speedPxPerSec": 0,
-          "displayWidth": 120,
-          "displayHeight": 120,
-          "animationAtlasName": "ghost-skier-death",
-          "nextTempAimDistance": 1,
-          "physicBodyHeight": 120,
-          "detectionRadius": 1,
-          "physicBodyWidth": 30,
-          "durationInMs": 1500
-        }
-      ]
-    },
-    {
       "startPointName": "ghost-trainer",
       "ghostWanderAreaName": "leftHalf",
-      "movementType": "wave",
+      "chaseType": "wave",
+      "roamType": "straight",
       "states": [
         {
           "speedPxPerSec": 110,
@@ -308,62 +248,63 @@
     {
       "startPointName": "ghost-meloman",
       "ghostWanderAreaName": "topFloors",
-      "movementType": "arc_left",
+      "chaseType": "arc_left",
+      "roamType": "prowl",
       "states": [
         {
-          "speedPxPerSec": 30,
           "displayWidth": 120,
           "displayHeight": 120,
-          "animationAtlasName": "ghost-meloman-base",
-          "nextTempAimDistance": 500,
-          "physicBodyHeight": 100,
-          "detectionRadius": 160,
           "physicBodyWidth": 30,
-          "durationInMs": 60000
+          "physicBodyHeight": 100,
+          "speedPxPerSec": 30,
+          "detectionRadius": 160,
+          "durationInMs": 60000,
+          "animationAtlasName": "ghost-meloman-base",
+          "ambushTimeLimitInMs": 2000
         },
         {
-          "speedPxPerSec": 45,
           "displayWidth": 150,
           "displayHeight": 150,
-          "animationAtlasName": "ghost-meloman-phase-1",
-          "nextTempAimDistance": 500,
-          "physicBodyHeight": 120,
-          "detectionRadius": 300,
           "physicBodyWidth": 40,
-          "durationInMs": 30000
+          "physicBodyHeight": 120,
+          "speedPxPerSec": 45,
+          "detectionRadius": 300,
+          "durationInMs": 30000,
+          "animationAtlasName": "ghost-meloman-phase-1",
+          "ambushTimeLimitInMs": 2000
         },
         {
-          "speedPxPerSec": 60,
           "displayWidth": 190,
           "displayHeight": 190,
-          "animationAtlasName": "ghost-meloman-phase-2",
-          "nextTempAimDistance": 500,
-          "physicBodyHeight": 150,
-          "detectionRadius": 600,
           "physicBodyWidth": 50,
-          "durationInMs": 30000
-        },
-        {
-          "speedPxPerSec": 75,
-          "displayWidth": 230,
-          "displayHeight": 230,
-          "animationAtlasName": "ghost-meloman-phase-3",
-          "nextTempAimDistance": 500,
-          "physicBodyHeight": 200,
+          "physicBodyHeight": 150,
+          "speedPxPerSec": 60,
           "detectionRadius": 600,
-          "physicBodyWidth": 60,
-          "durationInMs": 30000
+          "durationInMs": 30000,
+          "animationAtlasName": "ghost-meloman-phase-2",
+          "ambushTimeLimitInMs": 2000
         },
         {
-          "speedPxPerSec": 0,
           "displayWidth": 230,
           "displayHeight": 230,
-          "animationAtlasName": "ghost-meloman-death",
-          "nextTempAimDistance": 500,
-          "physicBodyHeight": 200,
-          "detectionRadius": 1,
           "physicBodyWidth": 60,
-          "durationInMs": 1500
+          "physicBodyHeight": 200,
+          "speedPxPerSec": 75,
+          "detectionRadius": 600,
+          "durationInMs": 30000,
+          "animationAtlasName": "ghost-meloman-phase-3",
+          "ambushTimeLimitInMs": 2000
+        },
+        {
+          "displayWidth": 230,
+          "displayHeight": 230,
+          "physicBodyWidth": 60,
+          "physicBodyHeight": 200,
+          "speedPxPerSec": 0,
+          "detectionRadius": 1,
+          "durationInMs": 1500,
+          "animationAtlasName": "ghost-meloman-death",
+          "ambushTimeLimitInMs": 2000
         }
       ]
     }

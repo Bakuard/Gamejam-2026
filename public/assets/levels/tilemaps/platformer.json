@@ -1452,6 +1452,25 @@
                  "width":55,
                  "x":-299.5,
                  "y":1859.83
+                }, 
+                {
+                 "gid":1,
+                 "height":65,
+                 "id":84,
+                 "name":"",
+                 "opacity":1,
+                 "properties":[
+                        {
+                         "name":"imageName",
+                         "type":"string",
+                         "value":"chair"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":55,
+                 "x":-1858.16666666667,
+                 "y":-60.5
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1474,8 +1493,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":-1919.33,
-                 "y":-110
+                 "x":-1931.33,
+                 "y":-131.333333333333
                 }, 
                 {
                  "height":0,
@@ -1500,8 +1519,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":-454,
-                 "y":398
+                 "x":-1466,
+                 "y":-194
                 }, 
                 {
                  "height":0,
@@ -1528,6 +1547,56 @@
                  "width":0,
                  "x":-1620,
                  "y":464
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":15,
+         "name":"prowl_ghost_points_layer",
+         "objects":[
+                {
+                 "height":0,
+                 "id":80,
+                 "name":"",
+                 "opacity":1,
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":-1650.66666666667,
+                 "y":-90.6666666666667
+                }, 
+                {
+                 "height":0,
+                 "id":81,
+                 "name":"",
+                 "opacity":1,
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":-1470.66666666667,
+                 "y":-326.666666666667
+                }, 
+                {
+                 "height":0,
+                 "id":82,
+                 "name":"",
+                 "opacity":1,
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":-1317.33333333333,
+                 "y":-72
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1594,8 +1663,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":15,
- "nextobjectid":80,
+ "nextlayerid":16,
+ "nextobjectid":85,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.12.2",

@@ -30,37 +30,14 @@ export const ghostComposition = {
     }
   },
 
-  createGhosts(scene, ghostsConfig, startPointsLayer, ghostWanderAreaLayer) {
+  createGhosts(scene, ghostsConfig, startPointsLayer, ghostsWanderAreaLayer, prowlGhostPointsLayer) {
     const result = [];
 
     for (let ghostConfig of ghostsConfig) {
-      const wanderAreaConfig = ghostWanderAreaLayer[ghostConfig.ghostWanderAreaName];
-
-      const wanderArea = {
-        left: wanderAreaConfig.x,
-        right: wanderAreaConfig.x + wanderAreaConfig.width,
-        top: wanderAreaConfig.y,
-        bottom: wanderAreaConfig.y + wanderAreaConfig.height,
-      };
-
+      const wanderAreaConfig = ghostsWanderAreaLayer[ghostConfig.ghostWanderAreaName];
+      const wanderArea = prepareWanderArea(wanderAreaConfig);
       const startPoint = startPointsLayer[ghostConfig.startPointName];
-      const firstState = ghostConfig.states[0];
-      const ghost = ghostComposition.createGhost(
-        scene,
-        startPoint.x,
-        startPoint.y,
-        firstState.animationAtlasName,
-        firstState.displayWidth,
-        firstState.displayHeight,
-        firstState.physicBodyWidth,
-        firstState.physicBodyHeight,
-        firstState.speedPxPerSec,
-        firstState.detectionRadius,
-        firstState.nextTempAimDistance,
-        wanderArea,
-        ghostConfig.states,
-        ghostConfig.movementType
-      );
+      const ghost = ghostComposition.createGhost(scene, startPoint.x, startPoint.y, wanderArea, prowlGhostPointsLayer, ghostConfig);
 
       result.push(ghost);
     }
@@ -68,17 +45,21 @@ export const ghostComposition = {
     return result;
   },
 
-  createGhost(scene, x, y, animationAtlasName, displayWidth, displayHeight, bodyWidth, bodyHeight, speed, detectionRadius, nextTempAimDistance, wanderArea, states, movementType) {
-    const ghost = scene.physics.add.sprite(x, y, animationAtlasName, "1").setOrigin(0.5, 1).refreshBody();
+  createGhost(scene, x, y, wanderArea, prowlGhostPointsLayer, ghostConfig) {
+    const ghost = scene.physics.add.sprite(x, y, ghostConfig.states[0].animationAtlasName, "1").setOrigin(0.5, 1).refreshBody();
     ghost.body.setAllowGravity(false);
     ghost.velocity = new Phaser.Math.Vector2();
     ghost.tempAim = new Phaser.Math.Vector2(x, y);
+    ghost.directionToAim = new Phaser.Math.Vector2();
     ghost.wanderArea = wanderArea;
     ghost.stateIndex = 0;
-    ghost.states = states;
+    ghost.states = ghostConfig.states;
     ghost.currentStateDurationInMs = 0;
-    ghost.movementType = movementType;
-    updateGhostWithState(ghost, states[0]);
+    ghost.chaseType = ghostConfig.chaseType;
+    ghost.roamType = ghostConfig.roamType;
+    ghost.prowlGhostPointsLayer = prowlGhostPointsLayer;
+    ghost.ambushTimeLimitInMs = ghostConfig.ambushTimeLimitInMs;
+    updateGhostWithState(ghost, ghostConfig.states[0]);
     createGhostParticles(scene, ghost);
     applyGhostVfxForCurrentPhase(ghost);
     return ghost;
@@ -114,6 +95,16 @@ export const ghostComposition = {
   },
 };
 
+function prepareWanderArea(wanderAreaConfig) {
+  return {
+    left: wanderAreaConfig.x,
+    right: wanderAreaConfig.x + wanderAreaConfig.width,
+    top: wanderAreaConfig.y,
+    bottom: wanderAreaConfig.y + wanderAreaConfig.height,
+  };
+}
+
+
 function updateGhostStateTimer(ghost, deltaTime) {
   const currentState = ghost.states[ghost.stateIndex];
   ghost.currentStateDurationInMs += deltaTime;
@@ -136,6 +127,7 @@ function updateGhostWithState(ghost, state) {
   ghost.speed = state.speedPxPerSec;
   ghost.detectionRadius = state.detectionRadius;
   ghost.nextTempAimDistance = state.nextTempAimDistance;
+  ghost.currentState = state;
 
   ghost.setDisplaySize(state.displayWidth, state.displayHeight)
     .play(state.animationAtlasName);
@@ -149,33 +141,41 @@ function updateGhostWithState(ghost, state) {
   ghost.body.setOffset(offsetX, offsetY);
 }
 
+
 function moveGhost(player, ghost, totalTime, deltaTime) {
-  const currentSpeed = (ghost.speed * deltaTime) / 1000;
+  const speedInCurrentFrame = (ghost.speed * deltaTime) / 1000;
 
   calculateDirectionAndDistanceToAim(ghost, player);
   if (ghost.distanceToAim <= ghost.detectionRadius) {
-    calculateStraightVelocity(ghost, currentSpeed);
+    calculateStraightVelocity(ghost, speedInCurrentFrame);
     changeVelocityByMovementType(ghost, totalTime);
-    moveToAim(ghost, player, currentSpeed);
+    moveToAim(ghost, player, speedInCurrentFrame);
+
+    ghost.setAlpha(1);
+    ghost.ambushed = false;
     return;
   }
 
-  calculateDirectionAndDistanceToAim(ghost, ghost.tempAim);
-  calculateStraightVelocity(ghost, currentSpeed);
-  const reachedAim = moveToAim(ghost, ghost.tempAim, currentSpeed);
-  if (reachedAim) setNextTempAim(ghost);
-}
+  if (ghost.roamType === "straight") {
+    calculateDirectionAndDistanceToAim(ghost, ghost.tempAim);
+    calculateStraightVelocity(ghost, speedInCurrentFrame);
+    const reachedAim = moveToAim(ghost, ghost.tempAim, speedInCurrentFrame);
+    if (reachedAim) setNextTempAim(ghost);
+  } else if (ghost.roamType === "prowl") {
+    ghost.ambushCurrentTime += deltaTime;
+    if (ghost.ambushCurrentTime < ghost.currentState.ambushTimeLimitInMs && ghost.ambushed) return;
+    ghost.ambushCurrentTime = 0;
 
-function setNextTempAim(ghost) {
-  const angle = Math.random() * Math.PI * 2;
-  ghost.tempAim.set(
-    Phaser.Math.Clamp(ghost.x + Math.cos(angle) * ghost.nextTempAimDistance, ghost.wanderArea.left, ghost.wanderArea.right),
-    Phaser.Math.Clamp(ghost.y + Math.sin(angle) * ghost.nextTempAimDistance, ghost.wanderArea.top, ghost.wanderArea.bottom)
-  );
+    const ambushPosition = getRandomAmbushPosition(ghost);
+    ghost.x = ambushPosition.x;
+    ghost.y = ambushPosition.y;
+
+    ghost.setAlpha(0.5);
+    ghost.ambushed = true;
+  }
 }
 
 function calculateDirectionAndDistanceToAim(ghost, aim) {
-  ghost.directionToAim ??= new Phaser.Math.Vector2();
   ghost.directionToAim.set(aim.x - ghost.x, aim.y - ghost.y);
   ghost.distanceToAim = ghost.directionToAim.length();
 }
@@ -186,11 +186,11 @@ function calculateStraightVelocity(ghost, moveDistance) {
 }
 
 function changeVelocityByMovementType(ghost, totalTime) {
-  if (ghost.movementType === "arc_left") {
+  if (ghost.chaseType === "arc_left") {
     rotateVector(ghost.velocity, -0.65);
-  } else if (ghost.movementType === "arc_right") {
+  } else if (ghost.chaseType === "arc_right") {
     rotateVector(ghost.velocity, 0.45);
-  } else if (ghost.movementType === "wave") {
+  } else if (ghost.chaseType === "wave") {
     const waveSpeed = 2.5;
     const waveAmplitude = 0.6;
     const totalTimeInSec = totalTime / 1000;
@@ -219,6 +219,19 @@ function rotateVector(vector, angle) {
   const sin = Math.sin(angle);
   vector.set(x * cos - y * sin, x * sin + y * cos);
 }
+
+function setNextTempAim(ghost) {
+  const angle = Math.random() * Math.PI * 2;
+  ghost.tempAim.set(
+    Phaser.Math.Clamp(ghost.x + Math.cos(angle) * ghost.nextTempAimDistance, ghost.wanderArea.left, ghost.wanderArea.right),
+    Phaser.Math.Clamp(ghost.y + Math.sin(angle) * ghost.nextTempAimDistance, ghost.wanderArea.top, ghost.wanderArea.bottom)
+  );
+}
+
+function getRandomAmbushPosition(ghost) {
+  return ghost.prowlGhostPointsLayer[Math.floor(Math.random() * ghost.prowlGhostPointsLayer.length)];
+}
+
 
 function createGhostParticles(scene, ghost) {
   const fireEmitter = createGhostEmitter(scene, ghost, GHOSTS_VFX.fire);
