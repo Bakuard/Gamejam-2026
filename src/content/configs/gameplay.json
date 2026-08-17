@@ -124,6 +124,7 @@
       "ghostWanderAreaName": "wholeLevel",
       "chaseType": "straight",
       "roamType": "straight",
+      "closeDoorProbability": 1,
       "states": [
         {
           "speedPxPerSec": 30,
@@ -187,6 +188,7 @@
       "ghostWanderAreaName": "leftHalf",
       "chaseType": "wave",
       "roamType": "straight",
+      "closeDoorProbability": 1,
       "states": [
         {
           "speedPxPerSec": 110,
@@ -250,6 +252,7 @@
       "ghostWanderAreaName": "topFloors",
       "chaseType": "arc_left",
       "roamType": "prowl",
+      "closeDoorProbability": 1,
       "states": [
         {
           "displayWidth": 120,

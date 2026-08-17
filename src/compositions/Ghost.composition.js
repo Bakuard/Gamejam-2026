@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import { GHOSTS_VFX } from "@/configs/gameplay.config.js";
 import { GHOSTS_VFX_BY_PHASE_INDEX } from "@/configs/gameplay.config.js";
+import { doorComposition } from "@/compositions/Door.composition.js";
 
 export const ghostComposition = {
   preloadGhostAnimation(scene, ghostsConfig) {
@@ -59,6 +60,7 @@ export const ghostComposition = {
     ghost.roamType = ghostConfig.roamType;
     ghost.prowlGhostPointsLayer = prowlGhostPointsLayer;
     ghost.ambushTimeLimitInMs = ghostConfig.ambushTimeLimitInMs;
+    ghost.closeDoorProbability = ghostConfig.closeDoorProbability;
     updateGhostWithState(ghost, ghostConfig.states[0]);
     createGhostParticles(scene, ghost);
     applyGhostVfxForCurrentPhase(ghost);
@@ -93,6 +95,10 @@ export const ghostComposition = {
       scene.stop();
     }
   },
+
+  tyrCloseDoor(ghost, door) {
+    if (ghost.closeDoorProbability >= Math.random()) doorComposition.lockDoor(door);
+  }
 };
 
 function prepareWanderArea(wanderAreaConfig) {
