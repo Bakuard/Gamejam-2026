@@ -1,0 +1,100 @@
+{"frames": {
+
+"Armature_hunt_00.png":
+{
+	"frame": {"x":0,"y":0,"w":274,"h":297},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":274,"h":297},
+	"sourceSize": {"w":274,"h":297}
+},
+"Armature_hunt_01.png":
+{
+	"frame": {"x":274,"y":0,"w":274,"h":297},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":274,"h":297},
+	"sourceSize": {"w":274,"h":297}
+},
+"Armature_hunt_02.png":
+{
+	"frame": {"x":548,"y":0,"w":274,"h":297},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":274,"h":297},
+	"sourceSize": {"w":274,"h":297}
+},
+"Armature_hunt_03.png":
+{
+	"frame": {"x":822,"y":0,"w":274,"h":297},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":274,"h":297},
+	"sourceSize": {"w":274,"h":297}
+},
+"Armature_hunt_04.png":
+{
+	"frame": {"x":1096,"y":0,"w":274,"h":297},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":274,"h":297},
+	"sourceSize": {"w":274,"h":297}
+},
+"Armature_hunt_05.png":
+{
+	"frame": {"x":1370,"y":0,"w":274,"h":297},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":274,"h":297},
+	"sourceSize": {"w":274,"h":297}
+},
+"Armature_hunt_06.png":
+{
+	"frame": {"x":0,"y":297,"w":274,"h":297},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":274,"h":297},
+	"sourceSize": {"w":274,"h":297}
+},
+"Armature_hunt_07.png":
+{
+	"frame": {"x":274,"y":297,"w":274,"h":297},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":274,"h":297},
+	"sourceSize": {"w":274,"h":297}
+},
+"Armature_hunt_08.png":
+{
+	"frame": {"x":548,"y":297,"w":274,"h":297},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":274,"h":297},
+	"sourceSize": {"w":274,"h":297}
+},
+"Armature_hunt_09.png":
+{
+	"frame": {"x":822,"y":297,"w":274,"h":297},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":274,"h":297},
+	"sourceSize": {"w":274,"h":297}
+},
+"Armature_hunt_10.png":
+{
+	"frame": {"x":1096,"y":297,"w":274,"h":297},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":274,"h":297},
+	"sourceSize": {"w":274,"h":297}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "meloman-hunt.png",
+	"format": "RGBA8888",
+	"size": {"w":1644,"h":594},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:4fd68c4592bffe8c8cc7665d99131ee1:421e8368f22558a5b026dcc8075fa917:8158e14bdd0c66af719d943a17832383$"
+}
+}
