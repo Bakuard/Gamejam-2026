@@ -9,6 +9,7 @@ import { calendarComposition } from "@/compositions/Calendar.composition.js";
 import { audioComposition } from "@/compositions/Audio.composition.js";
 import { analyticsComposition } from "@/compositions/Analytics.composition.js";
 import { particlesComposition } from "@/compositions/Particles.composition.js";
+import { doorComposition } from "@/compositions/Door.composition.js";
 
 export class PlatformerScene extends Phaser.Scene {
   constructor(playerStore, calendarStore) {
@@ -21,6 +22,7 @@ export class PlatformerScene extends Phaser.Scene {
     sceneComposition.preload(this);
 
     platformerComposition.preloadLevel(this);
+    doorComposition.preloadDoorAnimations(this);
     playerComposition.preloadPlayerAnimation(this);
     ghostComposition.preloadGhostAnimation(this, Config.GHOSTS);
     ghostComposition.preloadGhostParticles(this);
@@ -41,12 +43,25 @@ export class PlatformerScene extends Phaser.Scene {
 
     calendarComposition.initCalendar(this.calendarStore, Config.TIME);
 
-    const [map, platformLayer, woodPlatformLayer, wallsLayer, chairLayer, stairsLayer, startPointsLayer, ghostsWanderAreaLayer, prowlGhostPointsLayer] = platformerComposition.createLevel(this);
+    const [
+      map,
+      platformLayer,
+      woodPlatformLayer,
+      wallsLayer,
+      chairLayer,
+      stairsLayer,
+      startPointsLayer,
+      ghostsWanderAreaLayer,
+      prowlGhostPointsLayer,
+      doorsLayer
+    ] = platformerComposition.createLevel(this);
     this.map = map;
     this.platformLayer = platformLayer;
     this.woodPlatformLayer = woodPlatformLayer;
     this.wallsLayer = wallsLayer;
     this.stairsLayer = stairsLayer;
+
+    this.doorsLayer = doorComposition.createDoors(this, doorsLayer);
 
     this.userInput = playerComposition.createUserInput(this);
     playerComposition.preparePlayerAnimation(this);
@@ -78,6 +93,8 @@ export class PlatformerScene extends Phaser.Scene {
     for (const ghost of this.ghosts) {
       this.physics.add.overlap(this.player, ghost, (player, ghost) => ghostComposition.handlePlayerCollision(this, this.playerStore));
     }
+    this.physics.add.overlap(this.player, this.doorsLayer, (player, door) => doorComposition.openOrClosedDoor(door, this.userInput));
+    this.physics.add.collider(this.player, this.doorsLayer, null, (player, door) => door.isClosed);
 
     audioComposition.play(this, "music:mountains");
     this.events.on(Phaser.Scenes.Events.POST_UPDATE, this.postUpdate, this);
