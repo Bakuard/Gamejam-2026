@@ -7,7 +7,7 @@ export const ghostComposition = {
   preloadGhostAnimation(scene, ghostsConfig) {
     for (let ghostConfig of ghostsConfig) {
       for (let state of ghostConfig.states)
-        scene.load.atlas(state.animationAtlasName, `assets/animation/ghosts/${state.animationAtlasName}.png`, `assets/animation/ghosts/${state.animationAtlasName}.json`);
+        scene.load.atlas(state.animationAtlasName, `assets/animation/ghosts/16x/${state.animationAtlasName}.png`, `assets/animation/ghosts/16x/${state.animationAtlasName}.json`);
     }
   },
 
@@ -24,7 +24,7 @@ export const ghostComposition = {
         scene.anims.create({
           key: state.animationAtlasName,
           frames: scene.anims.generateFrameNames(state.animationAtlasName),
-          frameRate: 5,
+          frameRate: 16,
           repeat: -1,
         });
       }
@@ -135,8 +135,8 @@ function updateGhostWithState(ghost, state) {
   ghost.nextTempAimDistance = state.nextTempAimDistance;
   ghost.currentState = state;
 
-  ghost.setDisplaySize(state.displayWidth, state.displayHeight)
-    .play(state.animationAtlasName);
+  ghost.play(state.animationAtlasName);
+  ghost.setDisplaySize(state.displayWidth, state.displayHeight);
 
   const unscaledBodyWidth = state.physicBodyWidth / ghost.scaleX;
   const unscaledBodyHeight = state.physicBodyHeight / ghost.scaleY;
