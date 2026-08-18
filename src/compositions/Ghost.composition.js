@@ -2,6 +2,7 @@ import Phaser from "phaser";
 import { GHOSTS_VFX } from "@/configs/gameplay.config.js";
 import { GHOSTS_VFX_BY_PHASE_INDEX } from "@/configs/gameplay.config.js";
 import { doorComposition } from "@/compositions/Door.composition.js";
+import { pullEventManager } from "@/utils/PullEventManager.js";
 
 export const ghostComposition = {
   preloadGhostAnimation(scene, ghostsConfig) {
@@ -31,14 +32,15 @@ export const ghostComposition = {
     }
   },
 
-  createGhosts(scene, ghostsConfig, startPointsLayer, ghostsWanderAreaLayer, prowlGhostPointsLayer) {
+  createGhosts(scene, ghostsConfig, startPointsLayer, ghostsWanderAreaLayer, prowlGhostPointsLayer, ghostStore) {
     const result = [];
 
-    for (let ghostConfig of ghostsConfig) {
+    for (let i = 0; i < ghostStore.currentGhostsNumber; i++) {
+      const ghostConfig = ghostsConfig[i % ghostsConfig.length];
       const wanderAreaConfig = ghostsWanderAreaLayer[ghostConfig.ghostWanderAreaName];
       const wanderArea = prepareWanderArea(wanderAreaConfig);
       const startPoint = startPointsLayer[ghostConfig.startPointName];
-      const ghost = ghostComposition.createGhost(scene, startPoint.x, startPoint.y, wanderArea, prowlGhostPointsLayer, ghostConfig);
+      const ghost = createGhost(scene, startPoint.x, startPoint.y, wanderArea, prowlGhostPointsLayer, ghostConfig);
 
       result.push(ghost);
     }
@@ -46,31 +48,12 @@ export const ghostComposition = {
     return result;
   },
 
-  createGhost(scene, x, y, wanderArea, prowlGhostPointsLayer, ghostConfig) {
-    const ghost = scene.physics.add.sprite(x, y, ghostConfig.states[0].animationAtlasName, "1").setOrigin(0.5, 1).refreshBody();
-    ghost.body.setAllowGravity(false);
-    ghost.velocity = new Phaser.Math.Vector2();
-    ghost.tempAim = new Phaser.Math.Vector2(x, y);
-    ghost.directionToAim = new Phaser.Math.Vector2();
-    ghost.wanderArea = wanderArea;
-    ghost.stateIndex = 0;
-    ghost.states = ghostConfig.states;
-    ghost.currentStateDurationInMs = 0;
-    ghost.chaseType = ghostConfig.chaseType;
-    ghost.roamType = ghostConfig.roamType;
-    ghost.prowlGhostPointsLayer = prowlGhostPointsLayer;
-    ghost.ambushTimeLimitInMs = ghostConfig.ambushTimeLimitInMs;
-    ghost.closeDoorProbability = ghostConfig.closeDoorProbability;
-    updateGhostWithState(ghost, ghostConfig.states[0]);
-    createGhostParticles(scene, ghost);
-    applyGhostVfxForCurrentPhase(ghost);
-    return ghost;
-  },
-
-  handlePlayerCollision(scene, playerStore) {
+  handlePlayerCollision(scene, playerStore, eventStore) {
+    /*pullEventManager.clearAll();
     playerStore.isGameOver = true;
     playerStore.isWin = false;
     setTimeout(() => scene.scene.stop(), 0);
+    */
   },
 
   moveAllGhosts(allGhosts, player, time, deltaTime) {
@@ -88,17 +71,9 @@ export const ghostComposition = {
     }
   },
 
-  gameOverIfAllGhostsDead(scene, allGhosts, playerStore) {
-    if (allGhosts.length === 0) {
-      playerStore.isGameOver = true;
-      playerStore.isWin = true;
-      scene.stop();
-    }
-  },
-
-  tyrCloseDoor(ghost, door) {
+  tryCloseDoor(ghost, door) {
     if (ghost.closeDoorProbability >= Math.random()) doorComposition.lockDoor(door);
-  }
+  },
 };
 
 function prepareWanderArea(wanderAreaConfig) {
@@ -108,6 +83,27 @@ function prepareWanderArea(wanderAreaConfig) {
     top: wanderAreaConfig.y,
     bottom: wanderAreaConfig.y + wanderAreaConfig.height,
   };
+}
+
+function createGhost(scene, x, y, wanderArea, prowlGhostPointsLayer, ghostConfig) {
+  const ghost = scene.physics.add.sprite(x, y, ghostConfig.states[0].animationAtlasName, "1").setOrigin(0.5, 1).refreshBody();
+  ghost.body.setAllowGravity(false);
+  ghost.velocity = new Phaser.Math.Vector2();
+  ghost.tempAim = new Phaser.Math.Vector2(x, y);
+  ghost.directionToAim = new Phaser.Math.Vector2();
+  ghost.wanderArea = wanderArea;
+  ghost.stateIndex = 0;
+  ghost.states = ghostConfig.states;
+  ghost.currentStateDurationInMs = 0;
+  ghost.chaseType = ghostConfig.chaseType;
+  ghost.roamType = ghostConfig.roamType;
+  ghost.prowlGhostPointsLayer = prowlGhostPointsLayer;
+  ghost.ambushTimeLimitInMs = ghostConfig.ambushTimeLimitInMs;
+  ghost.closeDoorProbability = ghostConfig.closeDoorProbability;
+  updateGhostWithState(ghost, ghostConfig.states[0]);
+  createGhostParticles(scene, ghost);
+  applyGhostVfxForCurrentPhase(ghost);
+  return ghost;
 }
 
 
@@ -153,29 +149,13 @@ function moveGhost(player, ghost, totalTime, deltaTime) {
 
   calculateDirectionAndDistanceToAim(ghost, player);
   if (ghost.distanceToAim <= ghost.detectionRadius) {
-    calculateStraightVelocity(ghost, speedInCurrentFrame);
-    changeVelocityByMovementType(ghost, totalTime);
-    moveToAim(ghost, player, speedInCurrentFrame);
-
+    chasePlayer(player, ghost, speedInCurrentFrame, totalTime);
     ghost.setAlpha(1);
     ghost.ambushed = false;
-    return;
-  }
-
-  if (ghost.roamType === "straight") {
-    calculateDirectionAndDistanceToAim(ghost, ghost.tempAim);
-    calculateStraightVelocity(ghost, speedInCurrentFrame);
-    const reachedAim = moveToAim(ghost, ghost.tempAim, speedInCurrentFrame);
-    if (reachedAim) setNextTempAim(ghost);
+  } else if (ghost.roamType === "straight") {
+    roam(ghost, speedInCurrentFrame);
   } else if (ghost.roamType === "prowl") {
-    ghost.ambushCurrentTime += deltaTime;
-    if (ghost.ambushCurrentTime < ghost.currentState.ambushTimeLimitInMs && ghost.ambushed) return;
-    ghost.ambushCurrentTime = 0;
-
-    const ambushPosition = getRandomAmbushPosition(ghost);
-    ghost.x = ambushPosition.x;
-    ghost.y = ambushPosition.y;
-
+    prowl(ghost, deltaTime);
     ghost.setAlpha(0.5);
     ghost.ambushed = true;
   }
@@ -184,6 +164,29 @@ function moveGhost(player, ghost, totalTime, deltaTime) {
 function calculateDirectionAndDistanceToAim(ghost, aim) {
   ghost.directionToAim.set(aim.x - ghost.x, aim.y - ghost.y);
   ghost.distanceToAim = ghost.directionToAim.length();
+}
+
+function chasePlayer(player, ghost, speedInCurrentFrame, totalTime) {
+  calculateStraightVelocity(ghost, speedInCurrentFrame);
+  changeVelocityByMovementType(ghost, totalTime);
+  moveToAim(ghost, player, speedInCurrentFrame);
+}
+
+function roam(ghost, speedInCurrentFrame) {
+  calculateDirectionAndDistanceToAim(ghost, ghost.tempAim);
+  calculateStraightVelocity(ghost, speedInCurrentFrame);
+  const reachedAim = moveToAim(ghost, ghost.tempAim, speedInCurrentFrame);
+  if (reachedAim) setNextTempAim(ghost);
+}
+
+function prowl(ghost, deltaTime) {
+  ghost.ambushCurrentTime += deltaTime;
+  if (ghost.ambushCurrentTime < ghost.currentState.ambushTimeLimitInMs && ghost.ambushed) return;
+  ghost.ambushCurrentTime = 0;
+
+  const ambushPosition = getRandomAmbushPosition(ghost);
+  ghost.x = ambushPosition.x;
+  ghost.y = ambushPosition.y;
 }
 
 function calculateStraightVelocity(ghost, moveDistance) {
