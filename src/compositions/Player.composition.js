@@ -27,49 +27,49 @@ export const playerComposition = {
     scene.anims.create({
       key: "player-run",
       frames: scene.anims.generateFrameNames("player-run"),
-      frameRate: 28,
+      frameRate: 32,
       repeat: -1,
     });
     scene.anims.create({
       key: "player-run-chair",
       frames: scene.anims.generateFrameNames("player-run-chair"),
-      frameRate: 28,
+      frameRate: 32,
       repeat: -1,
     });
     scene.anims.create({
       key: "player-idle",
       frames: scene.anims.generateFrameNames("player-idle"),
-      frameRate: 14,
+      frameRate: 16,
       repeat: -1,
     });
     scene.anims.create({
       key: "player-idle-chair",
       frames: scene.anims.generateFrameNames("player-idle-chair"),
-      frameRate: 14,
+      frameRate: 16,
       repeat: -1,
     });
     scene.anims.create({
       key: "player-jump",
       frames: scene.anims.generateFrameNames("player-jump"),
-      frameRate: 34,
+      frameRate: 32,
       repeat: 0,
     });
     scene.anims.create({
       key: "player-jump-chair",
       frames: scene.anims.generateFrameNames("player-jump-chair"),
-      frameRate: 34,
+      frameRate: 32,
       repeat: 0,
     });
     scene.anims.create({
       key: "player-fall",
       frames: scene.anims.generateFrameNames("player-fall"),
-      frameRate: 40,
+      frameRate: 32,
       repeat: -1,
     });
     scene.anims.create({
       key: "player-fall-chair",
       frames: scene.anims.generateFrameNames("player-fall-chair"),
-      frameRate: 40,
+      frameRate: 32,
       repeat: -1,
     });
   },
@@ -133,7 +133,9 @@ export const playerComposition = {
       player.body.velocity.y = 0;
     }
 
-    if (isGrounded || player.onStairInPreviousFrame > 0) {
+    const currentlyGrounded = player.groundedCoyoteTime > 0 || player.onStairInPreviousFrame > 0;
+
+    if (currentlyGrounded) {
       if (player.body.velocity.x === 0) {
         if (player.currentChair) player.anims.play("player-idle-chair", true);
         else player.anims.play("player-idle", true);
@@ -146,11 +148,16 @@ export const playerComposition = {
         playFootstepSound(scene, player, solidTile ?? woodTile);
       }
     } else {
-      if (player.body.velocity.y > 0) {
+      const currentAnim = player.anims.currentAnim?.key;
+      const isJumpingAnim = currentAnim === "player-jump" || currentAnim === "player-jump-chair";
+
+      if (player.body.velocity.y < 0) {
+        player.body.velocity.x *= PLAYER_FALL_MULTIPLICATOR;
+      }
+
+      if (player.body.velocity.y > 0 || !isJumpingAnim || !player.anims.isPlaying) {
         if (player.currentChair) player.anims.play("player-fall-chair", true);
         else player.anims.play("player-fall", true);
-      } else if (player.body.velocity.y < 0) {
-        player.body.velocity.x *= PLAYER_FALL_MULTIPLICATOR;
       }
     }
 
