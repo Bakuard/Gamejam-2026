@@ -10,12 +10,14 @@ import { audioComposition } from "@/compositions/Audio.composition.js";
 import { analyticsComposition } from "@/compositions/Analytics.composition.js";
 import { particlesComposition } from "@/compositions/Particles.composition.js";
 import { doorComposition } from "@/compositions/Door.composition.js";
+import { pullEventManager } from "@/utils/PullEventManager.js";
 
 export class PlatformerScene extends Phaser.Scene {
-  constructor(playerStore, calendarStore) {
+  constructor(playerStore, calendarStore, ghostsStore) {
     super("MainScene");
     this.playerStore = playerStore;
     this.calendarStore = calendarStore;
+    this.ghostsStore = ghostsStore;
   }
 
   preload() {
@@ -32,6 +34,9 @@ export class PlatformerScene extends Phaser.Scene {
   }
 
   create() {
+    pullEventManager.registerInbox("changeAmbientAudio", "morning", "night");
+    pullEventManager.registerInbox("createNewGhosts", "night");
+
     const [camera, backgroundNear, backgroundFar] = platformerComposition.createParallaxImages(this);
     platformerComposition.createBackground(this, camera);
 
@@ -43,23 +48,16 @@ export class PlatformerScene extends Phaser.Scene {
 
     calendarComposition.initCalendar(this.calendarStore, Config.TIME);
 
-    const [
-      map,
-      platformLayer,
-      woodPlatformLayer,
-      wallsLayer,
-      chairLayer,
-      stairsLayer,
-      startPointsLayer,
-      ghostsWanderAreaLayer,
-      prowlGhostPointsLayer,
-      doorsLayer
-    ] = platformerComposition.createLevel(this);
+    const [map, platformLayer, woodPlatformLayer, wallsLayer, chairLayer, stairsLayer, startPointsLayer, ghostsWanderAreaLayer, prowlGhostPointsLayer, doorsLayer] =
+      platformerComposition.createLevel(this);
     this.map = map;
     this.platformLayer = platformLayer;
     this.woodPlatformLayer = woodPlatformLayer;
     this.wallsLayer = wallsLayer;
     this.stairsLayer = stairsLayer;
+    this.startPointsLayer = startPointsLayer;
+    this.ghostsWanderAreaLayer = ghostsWanderAreaLayer;
+    this.prowlGhostPointsLayer = prowlGhostPointsLayer;
 
     this.doorsLayer = doorComposition.createDoors(this, doorsLayer);
 
@@ -78,7 +76,7 @@ export class PlatformerScene extends Phaser.Scene {
     playerComposition.configureCameraFollow(this, this.player, this.cameras.main.width / 4, this.cameras.main.height / 4);
 
     ghostComposition.prepareGhostAnimation(this, Config.GHOSTS);
-    this.ghosts = ghostComposition.createGhosts(this, Config.GHOSTS, startPointsLayer, ghostsWanderAreaLayer, prowlGhostPointsLayer);
+    this.ghosts = [];
 
     this.physics.add.collider(this.player, platformLayer);
     this.physics.add.collider(this.player, wallsLayer);
@@ -90,10 +88,6 @@ export class PlatformerScene extends Phaser.Scene {
       (player, chair) => playerComposition.jumpOff(player, chair, this.userInput)
     );
     this.physics.add.overlap(this.player, chairLayer, (player, chair) => playerComposition.pickUpChair(player, chair, this.userInput));
-    for (const ghost of this.ghosts) {
-      this.physics.add.overlap(this.player, ghost, (player, ghost) => ghostComposition.handlePlayerCollision(this, this.playerStore));
-      this.physics.add.overlap(ghost, this.doorsLayer, (ghost, door) => ghostComposition.tyrCloseDoor(ghost, door));
-    }
     this.physics.add.overlap(this.player, this.doorsLayer, (player, door) => doorComposition.toggleDoor(door, this.userInput));
     this.physics.add.collider(this.player, this.doorsLayer, null, (player, door) => door.isClosed);
 
@@ -111,18 +105,13 @@ export class PlatformerScene extends Phaser.Scene {
   update(time, delta) {
     calendarComposition.setCurrentTime(this.calendarStore, delta);
 
-    const isMorning = calendarComposition.isMorning(this.calendarStore);
-    if (!this._wasMorning && isMorning) {
-      audioComposition.stop(this, "music:mountains");
-      audioComposition.play(this, "music:chemical_x");
-    }
-    this._wasMorning = isMorning;
+    changeAmbientAudio(this);
+    createNewGhosts(this);
 
     playerComposition.movePlayerOnPlatformers(this, this.player, this.userInput, this.platformLayer, this.woodPlatformLayer, this.stairsLayer, this.map, this.camera);
     playerComposition.throwChair(this.player, this.userInput, this.wallsLayer);
     ghostComposition.moveAllGhosts(this.ghosts, this.player, time, delta);
     ghostComposition.updateGhostsStateTimer(this.ghosts, delta);
-    ghostComposition.gameOverIfAllGhostsDead(this, this.ghosts, this.playerStore);
 
     platformerComposition.moveParallaxImages(this.camera, this.backgroundNear, this.backgroundFar, this);
     dynamicLightingComposition.updateAmbientLightPipeline(this.nightPipeline, this.calendarStore.currentPhase, calendarComposition.getCurrentPhaseProgress(this.calendarStore));
@@ -131,4 +120,30 @@ export class PlatformerScene extends Phaser.Scene {
   postUpdate() {
     playerComposition.careChair(this.player);
   }
+}
+
+function changeAmbientAudio(scene) {
+  if (pullEventManager.checkEvent("changeAmbientAudio", "night") && calendarComposition.getCurrentPhaseProgress(scene.calendarStore) >= Config.TIME.nightPhaseTransitionFraction) {
+    audioComposition.stop(scene, "music:mountains");
+    audioComposition.play(scene, "music:chemical_x");
+    pullEventManager.clearEvent("changeAmbientAudio", "night");
+  } else if (pullEventManager.checkEvent("changeAmbientAudio", "morning") && calendarComposition.getCurrentPhaseProgress(scene.calendarStore) >= Config.TIME.morningPhaseTransitionFraction) {
+    audioComposition.stop(scene, "music:chemical_x");
+    audioComposition.play(scene, "music:mountains");
+    pullEventManager.clearEvent("changeAmbientAudio", "morning");
+  }
+}
+
+function createNewGhosts(scene) {
+  if (!pullEventManager.checkEvent("createNewGhosts", "night") || calendarComposition.getCurrentPhaseProgress(scene.calendarStore) < Config.TIME.nightPhaseTransitionFraction) return;
+
+  scene.ghosts = ghostComposition.createGhosts(scene, Config.GHOSTS, scene.startPointsLayer, scene.ghostsWanderAreaLayer, scene.prowlGhostPointsLayer, scene.ghostsStore);
+  for (const ghost of scene.ghosts) {
+    scene.physics.add.overlap(scene.player, ghost, (player, ghost) => ghostComposition.handlePlayerCollision(scene, scene.playerStore));
+    scene.physics.add.overlap(ghost, scene.doorsLayer, (ghost, door) => ghostComposition.tryCloseDoor(ghost, door));
+  }
+
+  pullEventManager.clearEvent("createNewGhosts", "night");
+  scene.ghostsStore.currentGhostsNumber++;
+  console.log(`currentGhostsNumber: ${scene.ghostsStore.currentGhostsNumber}, night: ${pullEventManager.checkEvent("createNewGhosts", "night")}`);
 }

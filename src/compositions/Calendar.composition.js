@@ -1,3 +1,5 @@
+import { pullEventManager } from "@/utils/PullEventManager.js";
+
 export const dayPhases = Object.freeze({
   morning: "morning",
   afternoon: "afternoon",
@@ -21,10 +23,13 @@ export const calendarComposition = {
     calendarStore.msSinceDayStart = calendarStore.totalElapsedTimeInMs % getTotalDayDurationInMs(calendarStore);
     calendarStore.totalDays = Math.floor(calendarStore.totalElapsedTimeInMs / getTotalDayDurationInMs(calendarStore));
 
+    const previousPhase = calendarStore.currentPhase;
     if (calendarStore.msSinceDayStart <= calendarStore.morningInMs) calendarStore.currentPhase = dayPhases.morning;
     else if (calendarStore.msSinceDayStart <= getFirstPartOfDayInMs(calendarStore)) calendarStore.currentPhase = dayPhases.afternoon;
     else if (calendarStore.msSinceDayStart <= getDaylightHoursInMs(calendarStore)) calendarStore.currentPhase = dayPhases.evening;
     else calendarStore.currentPhase = dayPhases.night;
+
+    if (previousPhase !== calendarStore.currentPhase) pullEventManager.setEvent(calendarStore.currentPhase);
   },
 
   isMorning(calendarStore) {
@@ -55,7 +60,7 @@ export const calendarComposition = {
     else if (calendarComposition.isAfternoon(calendarStore)) return calendarComposition.getMsSincePhaseStart(calendarStore) / calendarStore.afternoonInMs;
     else if (calendarComposition.isEvening(calendarStore)) return calendarComposition.getMsSincePhaseStart(calendarStore) / calendarStore.eveningInMs;
     else return calendarComposition.getMsSincePhaseStart(calendarStore) / calendarStore.nightInMs;
-  },
+  }
 };
 
 function getFirstPartOfDayInMs(calendarStore) {

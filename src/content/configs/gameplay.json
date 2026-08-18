@@ -1,14 +1,14 @@
 {
   "TIME": {
-    "morningDurationInSec": 180,
-    "dayDurationInSec": 60,
-    "eveningDurationInSec": 60,
-    "nightDurationInSec": 60,
-    "morningPhaseTransitionFraction": 0.6,
-    "afternoonPhaseTransitionFraction": 0.2,
-    "eveningPhaseTransitionFraction": 0.2,
-    "nightPhaseTransitionFraction": 0,
-    "startDayPhase": "night"
+    "morningDurationInSec": 60,
+    "dayDurationInSec": 20,
+    "eveningDurationInSec": 30,
+    "nightDurationInSec": 120,
+    "morningPhaseTransitionFraction": 0.5,
+    "afternoonPhaseTransitionFraction": 0.1,
+    "eveningPhaseTransitionFraction": 0.1,
+    "nightPhaseTransitionFraction": 0.1,
+    "startDayPhase": "afternoon"
   },
   "AUDIO": [
     {
@@ -124,7 +124,7 @@
       "ghostWanderAreaName": "wholeLevel",
       "chaseType": "straight",
       "roamType": "straight",
-      "closeDoorProbability": 1,
+      "closeDoorProbability": 0,
       "states": [
         {
           "speedPxPerSec": 30,
@@ -146,7 +146,7 @@
           "physicBodyHeight": 80,
           "detectionRadius": 2500,
           "physicBodyWidth": 30,
-          "durationInMs": 60000
+          "durationInMs": 30000
         },
         {
           "speedPxPerSec": 60,
@@ -157,7 +157,7 @@
           "physicBodyHeight": 80,
           "detectionRadius": 3000,
           "physicBodyWidth": 30,
-          "durationInMs": 60000
+          "durationInMs": 30000
         },
         {
           "speedPxPerSec": 75,
@@ -168,7 +168,7 @@
           "physicBodyHeight": 80,
           "detectionRadius": 3500,
           "physicBodyWidth": 30,
-          "durationInMs": 60000
+          "durationInMs": 20000
         },
         {
           "speedPxPerSec": 0,
@@ -188,7 +188,7 @@
       "ghostWanderAreaName": "leftHalf",
       "chaseType": "wave",
       "roamType": "straight",
-      "closeDoorProbability": 1,
+      "closeDoorProbability": 0,
       "states": [
         {
           "speedPxPerSec": 110,
@@ -210,7 +210,7 @@
           "physicBodyHeight": 100,
           "detectionRadius": 160,
           "physicBodyWidth": 30,
-          "durationInMs": 60000
+          "durationInMs": 30000
         },
         {
           "speedPxPerSec": 200,
@@ -221,7 +221,7 @@
           "physicBodyHeight": 100,
           "detectionRadius": 160,
           "physicBodyWidth": 30,
-          "durationInMs": 60000
+          "durationInMs": 30000
         },
         {
           "speedPxPerSec": 300,
@@ -232,7 +232,7 @@
           "physicBodyHeight": 100,
           "detectionRadius": 160,
           "physicBodyWidth": 30,
-          "durationInMs": 50000
+          "durationInMs": 20000
         },
         {
           "speedPxPerSec": 0,
@@ -252,7 +252,7 @@
       "ghostWanderAreaName": "topFloors",
       "chaseType": "arc_left",
       "roamType": "prowl",
-      "closeDoorProbability": 1,
+      "closeDoorProbability": 0,
       "states": [
         {
           "displayWidth": 89,
@@ -294,7 +294,7 @@
           "physicBodyHeight": 200,
           "speedPxPerSec": 75,
           "detectionRadius": 600,
-          "durationInMs": 30000,
+          "durationInMs": 20000,
           "animationAtlasName": "meloman-hunt",
           "ambushTimeLimitInMs": 2000
         },

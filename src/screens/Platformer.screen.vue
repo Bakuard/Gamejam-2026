@@ -7,6 +7,7 @@ import UiAnchor from "@/ui-components/UiAnchor.component.vue";
 import GameResultModal from "@/ui-components/GameResultModal.component.vue";
 import { usePlayer } from "@/store/player.store";
 import { useCalendarStore } from "@/store/calendar.store.js";
+import { useGhostStore } from "@/store/ghost.store";
 import { LEVEL_WIDTH, LEVEL_HEIGHT, LEVEL_GRAVITY } from "@/configs/engine.config";
 import { router } from "@/router.js";
 import { EventBus } from "@/utils/utils.js";
@@ -16,12 +17,13 @@ import LanguageSwitcher from "@/ui-components/LanguageSwitcher.vue";
 const gameContainer = ref(null);
 const playerStore = usePlayer();
 const calendarStore = useCalendarStore();
+const ghostStore = useGhostStore();
 let game = null;
 
 const createGame = () => {
   game = new Phaser.Game({
     type: Phaser.WEBGL,
-    scene: new PlatformerScene(playerStore, calendarStore),
+    scene: new PlatformerScene(playerStore, calendarStore, ghostStore),
     render: {
       // TODO: настройки сглаживания
       antialias: true,
