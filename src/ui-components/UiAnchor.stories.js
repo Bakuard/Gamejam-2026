@@ -24,11 +24,24 @@ export default {
     },
     anchor: {
       control: "select",
-      options: ["top-left", "top-right", "bottom-left", "bottom-right"],
+      options: [
+        "top-left",
+        "top-center",
+        "top-right",
+        "center-left",
+        "center",
+        "center-right",
+        "bottom-left",
+        "bottom-center",
+        "bottom-right",
+      ],
       description: "Position relative to the canvas",
       table: {
         category: "Props",
-        type: { summary: `'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'` },
+        type: {
+          summary:
+            "'top-left' | 'top-center' | 'top-right' | 'center-left' | 'center' | 'center-right' | 'bottom-left' | 'bottom-center' | 'bottom-right'",
+        },
         defaultValue: { summary: '"top-left"' },
       },
     },

@@ -4,11 +4,13 @@ import Phaser from "phaser";
 import { PlatformerScene } from "@/scenes/platformer.scene";
 import Preloader from "@/ui-components/Preloader.component.vue";
 import UiAnchor from "@/ui-components/UiAnchor.component.vue";
+import Inventory from "@/ui-components/Inventory.component.vue";
 import GameResultModal from "@/ui-components/GameResultModal.component.vue";
 import { usePlayer } from "@/store/player.store";
 import { useCalendarStore } from "@/store/calendar.store.js";
 import { useGhostStore } from "@/store/ghost.store";
 import { LEVEL_WIDTH, LEVEL_HEIGHT, LEVEL_GRAVITY } from "@/configs/engine.config";
+import { ITEM_SALT, ITEM_MATCHES, ITEM_SKELETON_KEY } from "@/configs/gameplay.config.js";
 import { router } from "@/router.js";
 import { EventBus } from "@/utils/utils.js";
 import * as EventNames from "@/configs/eventNames.config.js";
@@ -19,6 +21,12 @@ const playerStore = usePlayer();
 const calendarStore = useCalendarStore();
 const ghostStore = useGhostStore();
 let game = null;
+
+const inventoryItems = ref([
+  { name: ITEM_SALT, amount: 3 },
+  { name: ITEM_MATCHES, amount: 5 },
+  { name: ITEM_SKELETON_KEY, amount: 1 },
+]);
 
 const createGame = () => {
   game = new Phaser.Game({
@@ -77,6 +85,9 @@ const onAgain = () => {
     <Preloader />
     <UiAnchor anchor="top-right" :offset-x="10" :offset-y="10" target=".platformer-screen__game-wrapper">
       <LanguageSwitcher />
+    </UiAnchor>
+    <UiAnchor anchor="bottom-center" :offset-x="0" :offset-y="10" target=".platformer-screen__game-wrapper">
+      <Inventory :items="inventoryItems" />
     </UiAnchor>
     <GameResultModal :is-game-over="playerStore.isGameOver" :is-win="playerStore.isWin" @again="onAgain" />
     <div ref="gameContainer" class="platformer-screen__game-wrapper"></div>
