@@ -58,7 +58,7 @@ const remainingTime = computed(() => {
 const createGame = () => {
   game = new Phaser.Game({
     type: Phaser.WEBGL,
-    scene: new PlatformerScene(playerStore, calendarStore, ghostStore),
+    scene: new PlatformerScene(playerStore, calendarStore, ghostStore, inventoryStore),
     render: {
       // TODO: настройки сглаживания
       antialias: true,

@@ -16,11 +16,12 @@ import { tilemapComposition } from "@/compositions/Tilemap.composition.js";
 import { DROP_ITEMS } from "@/configs/gameplay.config.js";
 
 export class PlatformerScene extends Phaser.Scene {
-  constructor(playerStore, calendarStore, ghostsStore) {
+  constructor(playerStore, calendarStore, ghostsStore, inventoryStore) {
     super("MainScene");
     this.playerStore = playerStore;
     this.calendarStore = calendarStore;
     this.ghostsStore = ghostsStore;
+    this.inventoryStore = inventoryStore;
   }
 
   preload() {
@@ -65,7 +66,6 @@ export class PlatformerScene extends Phaser.Scene {
     this.prowlGhostPointsLayer = prowlGhostPointsLayer;
 
     this.emptyTilesCenterForMatches = tilemapComposition.findEmptyTilesCenterInArea(map, camera, dropItemsSpawnAreaLayer.matches, platformLayer, woodPlatformLayer, wallsLayer);
-    this.mathes = dropItemsComposition.spawnMatches(this, this.emptyTilesCenterForMatches, Config.DROP_ITEMS, this.calendarStore.totalDays);
 
     this.doorsLayer = doorComposition.createDoors(this, doorsLayer);
 
@@ -159,10 +159,11 @@ function createNewGhosts(scene) {
 
 function spawnOrDespawnDropItems(scene) {
   if (pullEventManager.checkEvent("spawnOrDespawnDropItems", "night") && calendarComposition.getCurrentPhaseProgress(scene.calendarStore) >= Config.TIME.nightPhaseTransitionFraction) {
-    dropItemsComposition.despawnDropItems(scene.mathes);
+    dropItemsComposition.despawnDropItems(scene.dropItems);
     pullEventManager.clearEvent("spawnOrDespawnDropItems", "night");
-  } else if (pullEventManager.checkEvent("spawnOrDespawnDropItems", "morning") && calendarComposition.getCurrentPhaseProgress(scene.calendarStore) >= Config.TIME.morningPhaseTransitionFraction) {
-    scene.mathes = dropItemsComposition.spawnMatches(scene, scene.emptyTilesCenterForMatches, Config.DROP_ITEMS, scene.calendarStore.totalDays);
+  } else if (!scene.dropItems || pullEventManager.checkEvent("spawnOrDespawnDropItems", "morning") && calendarComposition.getCurrentPhaseProgress(scene.calendarStore) >= Config.TIME.morningPhaseTransitionFraction) {
+    scene.dropItems = dropItemsComposition.spawnMatches(scene, scene.emptyTilesCenterForMatches, Config.DROP_ITEMS, scene.calendarStore.totalDays);
+    scene.physics.add.overlap(scene.player, scene.dropItems, (player, item) => dropItemsComposition.handlePlayerCollision(player, item, scene.dropItems, scene.inventoryStore));
     pullEventManager.clearEvent("spawnOrDespawnDropItems", "morning");
   }
 }

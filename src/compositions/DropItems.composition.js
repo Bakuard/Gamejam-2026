@@ -1,6 +1,4 @@
-const dropItemTypes = Object.freeze({
-  matches: "matches"
-});
+import { ITEM_MATCHES } from "@/configs/gameplay.config.js";
 
 export const dropItemsComposition = {
   preloadDropItemsImage(scene) {
@@ -15,6 +13,7 @@ export const dropItemsComposition = {
       const emptyTile = emptyTilesPos[i];
 
       const item = scene.physics.add.sprite(emptyTile.x, emptyTile.y, "matches");
+      item.type = ITEM_MATCHES;
       item.body.setAllowGravity(false);
       item.setDisplaySize(dropItemsConfig.matches.displayWidth, dropItemsConfig.matches.displayHeight);
 
@@ -35,6 +34,16 @@ export const dropItemsComposition = {
 
   despawnDropItems(dropItems) {
     dropItems.forEach((dropItem) => dropItem.destroy());
+    dropItems.length = 0;
+  },
+
+  handlePlayerCollision(player, item, dropItems, inventoryStore) {
+    const index = dropItems.findIndex((i) => i === item);
+    if (index >= 0) {
+      increaseItem(inventoryStore, dropItems[index]);
+      item.destroy();
+      dropItems.splice(index, 1);
+    }
   },
 };
 
@@ -42,4 +51,13 @@ function getMaxItems(dropItemsConfig, totalDays) {
   const maxItemsNumberConf = dropItemsConfig.matches.maxItemsOnMap;
   const conf = maxItemsNumberConf.find((conf) => conf.totalDays > totalDays);
   return conf ? conf.maxItemsNumber : maxItemsNumberConf[maxItemsNumberConf.length - 1].maxItemsNumber;
+}
+
+function increaseItem(inventoryStore, item) {
+  let inventoryItem = inventoryStore.items.find(i => i.name === item.type);
+  if (!inventoryItem) {
+    inventoryStore.push({ name: item.type, amount: 1 });
+  } else {
+    inventoryItem.amount++;
+  }
 }
