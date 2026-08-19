@@ -30,3 +30,8 @@ export const ITEM_ICONS = {
   [ITEM_MATCHES]: "assets/img/icons/matches.svg",
   [ITEM_SKELETON_KEY]: "assets/img/icons/skeleton-key.svg",
 };
+
+export const TIME_ICONS = {
+  SUN: "assets/img/icons/sun.svg",
+  MOON: "assets/img/icons/moon.svg",
+};

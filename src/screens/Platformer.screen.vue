@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, onBeforeUnmount } from "vue";
+import { onMounted, ref, onBeforeUnmount, computed } from "vue";
 import Phaser from "phaser";
 import { PlatformerScene } from "@/scenes/platformer.scene";
 import Preloader from "@/ui-components/Preloader.component.vue";
@@ -14,13 +14,45 @@ import { ITEM_SALT, ITEM_MATCHES, ITEM_SKELETON_KEY } from "@/configs/gameplay.c
 import { router } from "@/router.js";
 import { EventBus } from "@/utils/utils.js";
 import * as EventNames from "@/configs/eventNames.config.js";
-import LanguageSwitcher from "@/ui-components/LanguageSwitcher.vue";
+import TimeProgress from "@/ui-components/TimeProgress.component.vue";
+import { dayPhases } from "@/compositions/Calendar.composition.js";
 
 const gameContainer = ref(null);
 const playerStore = usePlayer();
 const calendarStore = useCalendarStore();
 const ghostStore = useGhostStore();
 let game = null;
+
+const isNightPhase = computed(() => {
+  return calendarStore.currentPhase === dayPhases.night || calendarStore.currentPhase === dayPhases.morning;
+});
+
+const dayTotalDuration = computed(() => {
+  return calendarStore.afternoonInMs + calendarStore.eveningInMs;
+});
+
+const nightTotalDuration = computed(() => {
+  return calendarStore.nightInMs + calendarStore.morningInMs;
+});
+
+const allTime = computed(() => {
+  return isNightPhase.value ? nightTotalDuration.value : dayTotalDuration.value;
+});
+
+const remainingTime = computed(() => {
+  if (isNightPhase.value) {
+    if (calendarStore.currentPhase === dayPhases.night) {
+      const elapsedInNight = calendarStore.msSinceDayStart - (calendarStore.morningInMs + calendarStore.afternoonInMs + calendarStore.eveningInMs);
+      return Math.max(0, nightTotalDuration.value - Math.max(0, elapsedInNight));
+    }
+    // morning
+    return Math.max(0, calendarStore.morningInMs - calendarStore.msSinceDayStart);
+  }
+
+  // day (afternoon or evening)
+  const elapsedInDay = calendarStore.msSinceDayStart - calendarStore.morningInMs;
+  return Math.max(0, dayTotalDuration.value - Math.max(0, elapsedInDay));
+});
 
 const inventoryItems = ref([
   { name: ITEM_SALT, amount: 3 },
@@ -83,8 +115,8 @@ const onAgain = () => {
 <template>
   <div class="platformer-screen">
     <Preloader />
-    <UiAnchor anchor="top-right" :offset-x="10" :offset-y="10" target=".platformer-screen__game-wrapper">
-      <LanguageSwitcher />
+    <UiAnchor v-if="!playerStore.isNight" anchor="top-right" :offset-x="10" :offset-y="10" target=".platformer-screen__game-wrapper">
+      <TimeProgress :all-time="allTime" :remaining-time="remainingTime" :is-night="isNightPhase" />
     </UiAnchor>
     <UiAnchor anchor="bottom-center" :offset-x="0" :offset-y="10" target=".platformer-screen__game-wrapper">
       <Inventory :items="inventoryItems" />

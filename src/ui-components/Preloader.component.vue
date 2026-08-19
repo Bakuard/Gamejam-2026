@@ -42,8 +42,8 @@ onBeforeUnmount(() => {
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 10;
-  background-color: #000;
+  z-index: 1000;
+  background: #a09380 url("/assets/img/background/main_menu2.jpg") right center;
   overflow: hidden;
   display: flex;
   justify-content: center;
