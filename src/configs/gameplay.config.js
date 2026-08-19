@@ -21,3 +21,12 @@ export const ANALYTICS = structuredClone(gameplay.ANALYTICS);
 export const PARTICLES = structuredClone(gameplay.PARTICLES);
 export const GHOSTS_VFX = structuredClone(gameplay.GHOSTS_VFX);
 export const GHOSTS_VFX_BY_PHASE_INDEX = structuredClone(gameplay.GHOSTS_VFX_BY_PHASE_INDEX);
+export const ITEM_SALT = "salt";
+export const ITEM_MATCHES = "matches";
+export const ITEM_SKELETON_KEY = "skeleton_key";
+
+export const ITEM_ICONS = {
+  [ITEM_SALT]: "assets/img/icons/salt.svg",
+  [ITEM_MATCHES]: "assets/img/icons/matches.svg",
+  [ITEM_SKELETON_KEY]: "assets/img/icons/skeleton-key.svg",
+};

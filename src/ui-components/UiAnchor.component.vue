@@ -12,7 +12,18 @@ const props = defineProps({
   anchor: {
     type: String,
     default: "top-left",
-    validator: (val) => ["top-left", "top-right", "bottom-left", "bottom-right"].includes(val),
+    validator: (val) =>
+      [
+        "top-left",
+        "top-center",
+        "top-right",
+        "center-left",
+        "center",
+        "center-right",
+        "bottom-left",
+        "bottom-center",
+        "bottom-right",
+      ].includes(val),
   },
   offsetX: { type: Number, default: 10 },
   offsetY: { type: Number, default: 10 },
@@ -107,10 +118,35 @@ const anchorStyles = computed(() => {
       style.top = `${top + props.offsetY}px`;
       style.transform = "translateX(-100%)";
       break;
+    case "top-center":
+      style.left = `${left + width / 2 + props.offsetX}px`;
+      style.top = `${top + props.offsetY}px`;
+      style.transform = "translateX(-50%)";
+      break;
+    case "center-left":
+      style.left = `${left + props.offsetX}px`;
+      style.top = `${top + height / 2 + props.offsetY}px`;
+      style.transform = "translateY(-50%)";
+      break;
+    case "center":
+      style.left = `${left + width / 2 + props.offsetX}px`;
+      style.top = `${top + height / 2 + props.offsetY}px`;
+      style.transform = "translate(-50%, -50%)";
+      break;
+    case "center-right":
+      style.left = `${left + width - props.offsetX}px`;
+      style.top = `${top + height / 2 + props.offsetY}px`;
+      style.transform = "translate(-100%, -50%)";
+      break;
     case "bottom-left":
       style.left = `${left + props.offsetX}px`;
       style.top = `${top + height - props.offsetY}px`;
       style.transform = "translateY(-100%)";
+      break;
+    case "bottom-center":
+      style.left = `${left + width / 2 + props.offsetX}px`;
+      style.top = `${top + height - props.offsetY}px`;
+      style.transform = "translate(-50%, -100%)";
       break;
     case "bottom-right":
       style.left = `${left + width - props.offsetX}px`;
