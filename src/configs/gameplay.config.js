@@ -22,6 +22,7 @@ export const PARTICLES = structuredClone(gameplay.PARTICLES);
 export const DROP_ITEMS = structuredClone(gameplay.DROP_ITEMS);
 export const GHOSTS_VFX = structuredClone(gameplay.GHOSTS_VFX);
 export const GHOSTS_VFX_BY_PHASE_INDEX = structuredClone(gameplay.GHOSTS_VFX_BY_PHASE_INDEX);
+export const INVENTORY = structuredClone(gameplay.INVENTORY);
 export const ITEM_SALT = "salt";
 export const ITEM_MATCHES = "matches";
 export const ITEM_SKELETON_KEY = "skeleton_key";

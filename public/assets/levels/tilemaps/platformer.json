@@ -1962,9 +1962,46 @@
          "visible":false,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":18,
+         "name":"light_points_layer",
+         "objects":[
+                {
+                 "gid":37,
+                 "height":82,
+                 "id":101,
+                 "name":"",
+                 "opacity":1,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":50,
+                 "x":-1314.33333333333,
+                 "y":179.666666666667
+                }, 
+                {
+                 "gid":37,
+                 "height":82,
+                 "id":102,
+                 "name":"",
+                 "opacity":1,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":50,
+                 "x":-774.333333333333,
+                 "y":180.333333333333
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
         }],
- "nextlayerid":18,
- "nextobjectid":101,
+ "nextlayerid":20,
+ "nextobjectid":103,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.12.2",
@@ -2078,6 +2115,19 @@
                         }]
                 }],
          "tilewidth":60
+        }, 
+        {
+         "columns":2,
+         "firstgid":37,
+         "image":"..\/..\/animation\/environment\/candle.png",
+         "imageheight":82,
+         "imagewidth":100,
+         "margin":0,
+         "name":"light-points",
+         "spacing":0,
+         "tilecount":2,
+         "tileheight":82,
+         "tilewidth":50
         }],
  "tilewidth":60,
  "type":"map",

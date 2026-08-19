@@ -122,6 +122,10 @@
       ]
     }
   },
+  "INVENTORY": {
+    "maxStacks": 9,
+    "maxStackSize": 5
+  },
   "PLAYER_DISPLAY_HEIGHT": 127,
   "PLAYER_DISPLAY_WIDTH": 63,
   "PLAYER_SPEED": 220,

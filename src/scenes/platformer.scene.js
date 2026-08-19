@@ -14,6 +14,7 @@ import { pullEventManager } from "@/utils/PullEventManager.js";
 import { dropItemsComposition } from "@/compositions/DropItems.composition.js";
 import { tilemapComposition } from "@/compositions/Tilemap.composition.js";
 import { DROP_ITEMS } from "@/configs/gameplay.config.js";
+import { lightPointComposition } from "@/compositions/LightPoint.composition.js";
 
 export class PlatformerScene extends Phaser.Scene {
   constructor(playerStore, calendarStore, ghostsStore, inventoryStore) {
@@ -34,6 +35,7 @@ export class PlatformerScene extends Phaser.Scene {
     ghostComposition.preloadGhostAnimation(this, Config.GHOSTS);
     ghostComposition.preloadGhostParticles(this);
     audioComposition.preloadAudioFiles(this, Config.AUDIO);
+    lightPointComposition.preloadLightPointAnimation(this);
     dynamicLightingComposition.preloadShaders(this);
     particlesComposition.preloadParticlesTextures(this);
   }
@@ -54,8 +56,20 @@ export class PlatformerScene extends Phaser.Scene {
 
     calendarComposition.initCalendar(this.calendarStore, Config.TIME);
 
-    const [map, platformLayer, woodPlatformLayer, wallsLayer, chairLayer, stairsLayer, startPointsLayer, ghostsWanderAreaLayer, prowlGhostPointsLayer, doorsLayer, dropItemsSpawnAreaLayer] =
-      platformerComposition.createLevel(this);
+    const [
+      map,
+      platformLayer,
+      woodPlatformLayer,
+      wallsLayer,
+      chairLayer,
+      stairsLayer,
+      startPointsLayer,
+      ghostsWanderAreaLayer,
+      prowlGhostPointsLayer,
+      doorsLayer,
+      dropItemsSpawnAreaLayer,
+      lightPointsLayer,
+    ] = platformerComposition.createLevel(this);
     this.map = map;
     this.platformLayer = platformLayer;
     this.woodPlatformLayer = woodPlatformLayer;
@@ -86,6 +100,8 @@ export class PlatformerScene extends Phaser.Scene {
     ghostComposition.prepareGhostAnimation(this, Config.GHOSTS);
     this.ghosts = [];
 
+    this.lightPointsLayer = lightPointComposition.createLightPoints(this, lightPointsLayer);
+
     this.physics.add.collider(this.player, platformLayer);
     this.physics.add.collider(this.player, wallsLayer);
     this.physics.add.collider(this.player, woodPlatformLayer, null, (player, platform) => playerComposition.jumpOff(player, platform, this.userInput));
@@ -98,6 +114,7 @@ export class PlatformerScene extends Phaser.Scene {
     this.physics.add.overlap(this.player, chairLayer, (player, chair) => playerComposition.pickUpChair(player, chair, this.userInput));
     this.physics.add.overlap(this.player, this.doorsLayer, (player, door) => doorComposition.toggleDoor(door, this.userInput));
     this.physics.add.collider(this.player, this.doorsLayer, null, (player, door) => door.isClosed);
+    this.physics.add.overlap(this.player, this.lightPointsLayer, (player, lightPoint) => lightPointComposition.interactWithLightPoint(this.inventoryStore, lightPoint, this.userInput));
 
     audioComposition.play(this, "music:mountains");
     this.events.on(Phaser.Scenes.Events.POST_UPDATE, this.postUpdate, this);
