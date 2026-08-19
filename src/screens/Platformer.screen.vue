@@ -9,8 +9,8 @@ import GameResultModal from "@/ui-components/GameResultModal.component.vue";
 import { usePlayer } from "@/store/player.store";
 import { useCalendarStore } from "@/store/calendar.store.js";
 import { useGhostStore } from "@/store/ghost.store";
-import { LEVEL_WIDTH, LEVEL_HEIGHT, LEVEL_GRAVITY } from "@/configs/engine.config";
-import { ITEM_SALT, ITEM_MATCHES, ITEM_SKELETON_KEY } from "@/configs/gameplay.config.js";
+import { useInventoryStore } from "@/store/inventory.store";
+import { LEVEL_GRAVITY, LEVEL_HEIGHT, LEVEL_WIDTH } from "@/configs/engine.config";
 import { router } from "@/router.js";
 import { EventBus } from "@/utils/utils.js";
 import * as EventNames from "@/configs/eventNames.config.js";
@@ -21,6 +21,7 @@ const gameContainer = ref(null);
 const playerStore = usePlayer();
 const calendarStore = useCalendarStore();
 const ghostStore = useGhostStore();
+const inventoryStore = useInventoryStore();
 let game = null;
 
 const isNightPhase = computed(() => {
@@ -54,16 +55,10 @@ const remainingTime = computed(() => {
   return Math.max(0, dayTotalDuration.value - Math.max(0, elapsedInDay));
 });
 
-const inventoryItems = ref([
-  { name: ITEM_SALT, amount: 3 },
-  { name: ITEM_MATCHES, amount: 5 },
-  { name: ITEM_SKELETON_KEY, amount: 1 },
-]);
-
 const createGame = () => {
   game = new Phaser.Game({
     type: Phaser.WEBGL,
-    scene: new PlatformerScene(playerStore, calendarStore, ghostStore),
+    scene: new PlatformerScene(playerStore, calendarStore, ghostStore, inventoryStore),
     render: {
       // TODO: настройки сглаживания
       antialias: true,
@@ -119,7 +114,7 @@ const onAgain = () => {
       <TimeProgress :all-time="allTime" :remaining-time="remainingTime" :is-night="isNightPhase" />
     </UiAnchor>
     <UiAnchor anchor="bottom-center" :offset-x="0" :offset-y="10" target=".platformer-screen__game-wrapper">
-      <Inventory :items="inventoryItems" />
+      <Inventory :items="inventoryStore.items" />
     </UiAnchor>
     <GameResultModal :is-game-over="playerStore.isGameOver" :is-win="playerStore.isWin" @again="onAgain" />
     <div ref="gameContainer" class="platformer-screen__game-wrapper"></div>

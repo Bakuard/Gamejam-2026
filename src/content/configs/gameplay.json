@@ -106,6 +106,26 @@
       }
     }
   },
+  "DROP_ITEMS": {
+    "matches": {
+      "displayWidth": 30,
+      "displayHeight": 30,
+      "maxItemsOnMap": [
+        {
+          "totalDays": 1,
+          "maxItemsNumber": 3
+        },
+        {
+          "totalDays": 2,
+          "maxItemsNumber": 10
+        }
+      ]
+    }
+  },
+  "INVENTORY": {
+    "maxStacks": 9,
+    "maxStackSize": 5
+  },
   "PLAYER_DISPLAY_HEIGHT": 127,
   "PLAYER_DISPLAY_WIDTH": 63,
   "PLAYER_SPEED": 220,
