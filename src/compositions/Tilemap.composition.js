@@ -46,6 +46,25 @@ export const tilemapComposition = {
     if (onlyTopCollision) tileLayer.forEachTile(tile => tile.setCollision(false, false, true, false, false));
     return tileLayer;
   },
+
+  findEmptyTilesCenterInArea(map, camera, area, ...excludedTileLayers) {
+    const result = [];
+
+    for (let x = 0; x < map.width; x++) {
+      for (let y = 0; y < map.height; y++) {
+        const isOccupied = excludedTileLayers.some(layer => layer.hasTileAt(x, y));
+        if (isOccupied) continue;
+
+        const tilePosX = map.tileToWorldX(x, camera) + map.tileWidth / 2;
+        const tilePosY = map.tileToWorldY(y, camera) + map.tileHeight / 2;
+        if (isPointInArea(tilePosX, tilePosY, area)) continue;
+
+        result.push({ x: tilePosX, y: tilePosY, });
+      }
+    }
+
+    return result;
+  }
 };
 
 function extractPropertyValue(objMeta, propertyName) {
@@ -54,4 +73,8 @@ function extractPropertyValue(objMeta, propertyName) {
 
 function copyAllProperties(objMeta, targetObj) {
   objMeta.properties?.forEach((property) => (targetObj[property.name] = property.value));
+}
+
+function isPointInArea(x, y, area) {
+  return x < area.x || x > (area.x + area.width) || y < area.y || y > (area.y + area.height);
 }
