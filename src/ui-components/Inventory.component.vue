@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from "vue";
-import { ITEM_SALT, ITEM_MATCHES, ITEM_SKELETON_KEY, ITEM_ICONS } from "@/configs/gameplay.config.js";
+import { ITEM_SALT, ITEM_MATCHES, ITEM_MASTER_KEY, ITEM_ICONS } from "@/configs/gameplay.config.js";
 
 const TOTAL_SLOTS = 9;
 

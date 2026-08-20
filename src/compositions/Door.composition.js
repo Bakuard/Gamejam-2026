@@ -1,4 +1,6 @@
 import Phaser from "phaser";
+import { inventoryComposition } from "@/compositions/Inventory.composition.js";
+import { ITEM_MASTER_KEY } from "@/configs/gameplay.config.js";
 
 export const doorComposition = {
   preloadDoorAnimations(scene) {
@@ -18,10 +20,13 @@ export const doorComposition = {
     return doorsPhysicLayer;
   },
 
-  toggleDoor(door, userInput) {
-    if (door.isClosed && door.isLocked) return;
+  toggleDoor(door, userInput, inventoryStore) {
+    if (!Phaser.Input.Keyboard.JustDown(userInput.interact)) return;
 
-    if (Phaser.Input.Keyboard.JustDown(userInput.interact)) door.isClosed = !door.isClosed;
+    if (door.isClosed && door.isLocked && !inventoryComposition.decreaseItem(inventoryStore, ITEM_MASTER_KEY)) return;
+
+    door.isClosed = !door.isClosed;
+    door.isLocked = false;
 
     if (door.isClosed) door.setFrame("1");
     else if (door.openSide === "left") door.setFrame("2");

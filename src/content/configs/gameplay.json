@@ -108,6 +108,24 @@
   },
   "DROP_ITEMS": {
     "matches": {
+      "imageName": "matches",
+      "type": "matches",
+      "displayWidth": 30,
+      "displayHeight": 30,
+      "maxItemsOnMap": [
+        {
+          "totalDays": 1,
+          "maxItemsNumber": 3
+        },
+        {
+          "totalDays": 2,
+          "maxItemsNumber": 10
+        }
+      ]
+    },
+    "masterKeys": {
+      "imageName": "masterKey",
+      "type": "master_key",
       "displayWidth": 30,
       "displayHeight": 30,
       "maxItemsOnMap": [
@@ -144,7 +162,6 @@
       "ghostWanderAreaName": "wholeLevel",
       "chaseType": "straight",
       "roamType": "straight",
-      "closeDoorProbability": 0,
       "states": [
         {
           "speedPxPerSec": 30,
@@ -155,7 +172,8 @@
           "physicBodyHeight": 100,
           "detectionRadius": 2000,
           "physicBodyWidth": 30,
-          "durationInMs": 60000
+          "durationInMs": 60000,
+          "closeDoorProbability": 1
         },
         {
           "speedPxPerSec": 45,
@@ -166,7 +184,8 @@
           "physicBodyHeight": 80,
           "detectionRadius": 2500,
           "physicBodyWidth": 30,
-          "durationInMs": 30000
+          "durationInMs": 30000,
+          "closeDoorProbability": 1
         },
         {
           "speedPxPerSec": 60,
@@ -177,7 +196,8 @@
           "physicBodyHeight": 80,
           "detectionRadius": 3000,
           "physicBodyWidth": 30,
-          "durationInMs": 30000
+          "durationInMs": 30000,
+          "closeDoorProbability": 1
         },
         {
           "speedPxPerSec": 75,
@@ -188,7 +208,8 @@
           "physicBodyHeight": 80,
           "detectionRadius": 3500,
           "physicBodyWidth": 30,
-          "durationInMs": 20000
+          "durationInMs": 20000,
+          "closeDoorProbability": 1
         },
         {
           "speedPxPerSec": 0,
@@ -199,7 +220,8 @@
           "physicBodyHeight": 100,
           "detectionRadius": 1,
           "physicBodyWidth": 30,
-          "durationInMs": 1500
+          "durationInMs": 1500,
+          "closeDoorProbability": 0
         }
       ]
     },
@@ -208,7 +230,6 @@
       "ghostWanderAreaName": "leftHalf",
       "chaseType": "wave",
       "roamType": "straight",
-      "closeDoorProbability": 0,
       "states": [
         {
           "speedPxPerSec": 110,
@@ -219,7 +240,8 @@
           "physicBodyHeight": 100,
           "detectionRadius": 160,
           "physicBodyWidth": 30,
-          "durationInMs": 60000
+          "durationInMs": 60000,
+          "closeDoorProbability": 0
         },
         {
           "speedPxPerSec": 150,
@@ -230,7 +252,8 @@
           "physicBodyHeight": 100,
           "detectionRadius": 160,
           "physicBodyWidth": 30,
-          "durationInMs": 30000
+          "durationInMs": 30000,
+          "closeDoorProbability": 0.1
         },
         {
           "speedPxPerSec": 200,
@@ -241,7 +264,8 @@
           "physicBodyHeight": 100,
           "detectionRadius": 160,
           "physicBodyWidth": 30,
-          "durationInMs": 30000
+          "durationInMs": 30000,
+          "closeDoorProbability": 0.2
         },
         {
           "speedPxPerSec": 300,
@@ -252,7 +276,8 @@
           "physicBodyHeight": 100,
           "detectionRadius": 160,
           "physicBodyWidth": 30,
-          "durationInMs": 20000
+          "durationInMs": 20000,
+          "closeDoorProbability": 0.3
         },
         {
           "speedPxPerSec": 0,
@@ -263,7 +288,8 @@
           "physicBodyHeight": 100,
           "detectionRadius": 1,
           "physicBodyWidth": 30,
-          "durationInMs": 1500
+          "durationInMs": 1500,
+          "closeDoorProbability": 0
         }
       ]
     },
@@ -272,7 +298,6 @@
       "ghostWanderAreaName": "topFloors",
       "chaseType": "arc_left",
       "roamType": "prowl",
-      "closeDoorProbability": 0,
       "states": [
         {
           "displayWidth": 89,
@@ -283,7 +308,8 @@
           "detectionRadius": 160,
           "durationInMs": 60000,
           "animationAtlasName": "meloman-normal",
-          "ambushTimeLimitInMs": 2000
+          "ambushTimeLimitInMs": 2000,
+          "closeDoorProbability": 0
         },
         {
           "displayWidth": 137,
@@ -294,7 +320,8 @@
           "detectionRadius": 300,
           "durationInMs": 30000,
           "animationAtlasName": "meloman-hunt",
-          "ambushTimeLimitInMs": 2000
+          "ambushTimeLimitInMs": 2000,
+          "closeDoorProbability": 0.1
         },
         {
           "displayWidth": 137,
@@ -305,7 +332,8 @@
           "detectionRadius": 600,
           "durationInMs": 30000,
           "animationAtlasName": "meloman-hunt",
-          "ambushTimeLimitInMs": 2000
+          "ambushTimeLimitInMs": 2000,
+          "closeDoorProbability": 0.2
         },
         {
           "displayWidth": 137,
@@ -316,7 +344,8 @@
           "detectionRadius": 600,
           "durationInMs": 20000,
           "animationAtlasName": "meloman-hunt",
-          "ambushTimeLimitInMs": 2000
+          "ambushTimeLimitInMs": 2000,
+          "closeDoorProbability": 0.3
         },
         {
           "displayWidth": 89,
@@ -327,7 +356,8 @@
           "detectionRadius": 1,
           "durationInMs": 1500,
           "animationAtlasName": "meloman-normal",
-          "ambushTimeLimitInMs": 2000
+          "ambushTimeLimitInMs": 2000,
+          "closeDoorProbability": 0
         }
       ]
     }

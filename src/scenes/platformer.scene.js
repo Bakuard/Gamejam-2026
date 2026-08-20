@@ -13,7 +13,6 @@ import { doorComposition } from "@/compositions/Door.composition.js";
 import { pullEventManager } from "@/utils/PullEventManager.js";
 import { dropItemsComposition } from "@/compositions/DropItems.composition.js";
 import { tilemapComposition } from "@/compositions/Tilemap.composition.js";
-import { DROP_ITEMS } from "@/configs/gameplay.config.js";
 import { lightPointComposition } from "@/compositions/LightPoint.composition.js";
 
 export class PlatformerScene extends Phaser.Scene {
@@ -29,7 +28,7 @@ export class PlatformerScene extends Phaser.Scene {
     sceneComposition.preload(this);
 
     platformerComposition.preloadLevel(this);
-    dropItemsComposition.preloadDropItemsImage(this);
+    dropItemsComposition.preloadDropItemsImage(this, Config.DROP_ITEMS);
     doorComposition.preloadDoorAnimations(this);
     playerComposition.preloadPlayerAnimation(this);
     ghostComposition.preloadGhostAnimation(this, Config.GHOSTS);
@@ -67,7 +66,8 @@ export class PlatformerScene extends Phaser.Scene {
       ghostsWanderAreaLayer,
       prowlGhostPointsLayer,
       doorsLayer,
-      dropItemsSpawnAreaLayer,
+      matchesSpawnAreaLayer,
+      masterKeysSpawnAreaLayer,
       lightPointsLayer,
     ] = platformerComposition.createLevel(this);
     this.map = map;
@@ -79,7 +79,8 @@ export class PlatformerScene extends Phaser.Scene {
     this.ghostsWanderAreaLayer = ghostsWanderAreaLayer;
     this.prowlGhostPointsLayer = prowlGhostPointsLayer;
 
-    this.emptyTilesCenterForMatches = tilemapComposition.findEmptyTilesCenterInArea(map, camera, dropItemsSpawnAreaLayer.matches, platformLayer, woodPlatformLayer, wallsLayer);
+    this.emptyTilesCenterForMatches = tilemapComposition.findEmptyTilesCenterInArea(map, camera, matchesSpawnAreaLayer, platformLayer, woodPlatformLayer, wallsLayer);
+    this.emptyTilesCenterForMasterKeys = tilemapComposition.findEmptyTilesCenterInArea(map, camera, masterKeysSpawnAreaLayer, platformLayer, woodPlatformLayer, wallsLayer);
 
     this.doorsLayer = doorComposition.createDoors(this, doorsLayer);
 
@@ -112,7 +113,7 @@ export class PlatformerScene extends Phaser.Scene {
       (player, chair) => playerComposition.jumpOff(player, chair, this.userInput)
     );
     this.physics.add.overlap(this.player, chairLayer, (player, chair) => playerComposition.pickUpChair(player, chair, this.userInput));
-    this.physics.add.overlap(this.player, this.doorsLayer, (player, door) => doorComposition.toggleDoor(door, this.userInput));
+    this.physics.add.overlap(this.player, this.doorsLayer, (player, door) => doorComposition.toggleDoor(door, this.userInput, this.inventoryStore));
     this.physics.add.collider(this.player, this.doorsLayer, null, (player, door) => door.isClosed);
     this.physics.add.overlap(this.player, this.lightPointsLayer, (player, lightPoint) => lightPointComposition.interactWithLightPoint(this.inventoryStore, lightPoint, this.userInput));
 
@@ -175,11 +176,11 @@ function createNewGhosts(scene) {
 }
 
 function spawnOrDespawnDropItems(scene) {
-  if (pullEventManager.checkEvent("spawnOrDespawnDropItems", "night") && calendarComposition.getCurrentPhaseProgress(scene.calendarStore) >= Config.TIME.nightPhaseTransitionFraction) {
+  if (pullEventManager.checkEvent("spawnOrDespawnDropItems", "night")) {
     dropItemsComposition.despawnDropItems(scene.dropItems);
     pullEventManager.clearEvent("spawnOrDespawnDropItems", "night");
   } else if (!scene.dropItems || pullEventManager.checkEvent("spawnOrDespawnDropItems", "morning") && calendarComposition.getCurrentPhaseProgress(scene.calendarStore) >= Config.TIME.morningPhaseTransitionFraction) {
-    scene.dropItems = dropItemsComposition.spawnMatches(scene, scene.emptyTilesCenterForMatches, Config.DROP_ITEMS, scene.calendarStore.totalDays);
+    scene.dropItems = dropItemsComposition.spawnDropItems(scene, scene.emptyTilesCenterForMatches, scene.emptyTilesCenterForMasterKeys, Config.DROP_ITEMS, scene.calendarStore.totalDays);
     scene.physics.add.overlap(scene.player, scene.dropItems, (player, item) => dropItemsComposition.handlePlayerCollision(player, item, scene.dropItems, scene.inventoryStore));
     pullEventManager.clearEvent("spawnOrDespawnDropItems", "morning");
   }

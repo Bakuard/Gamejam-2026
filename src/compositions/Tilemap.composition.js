@@ -47,7 +47,7 @@ export const tilemapComposition = {
     return tileLayer;
   },
 
-  findEmptyTilesCenterInArea(map, camera, area, ...excludedTileLayers) {
+  findEmptyTilesCenterInArea(map, camera, areas, ...excludedTileLayers) {
     const result = [];
 
     for (let x = 0; x < map.width; x++) {
@@ -57,7 +57,8 @@ export const tilemapComposition = {
 
         const tilePosX = map.tileToWorldX(x, camera) + map.tileWidth / 2;
         const tilePosY = map.tileToWorldY(y, camera) + map.tileHeight / 2;
-        if (isPointInArea(tilePosX, tilePosY, area)) continue;
+        const inSomeArea = areas.some(area => isPointInArea(tilePosX, tilePosY, area));
+        if (!inSomeArea) continue;
 
         result.push({ x: tilePosX, y: tilePosY, });
       }
@@ -76,5 +77,5 @@ function copyAllProperties(objMeta, targetObj) {
 }
 
 function isPointInArea(x, y, area) {
-  return x < area.x || x > (area.x + area.width) || y < area.y || y > (area.y + area.height);
+  return x >= area.x && x <= (area.x + area.width) && y >= area.y && y <= (area.y + area.height);
 }
