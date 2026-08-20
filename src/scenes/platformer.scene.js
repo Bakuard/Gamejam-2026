@@ -113,7 +113,7 @@ export class PlatformerScene extends Phaser.Scene {
       (player, chair) => playerComposition.jumpOff(player, chair, this.userInput)
     );
     this.physics.add.overlap(this.player, chairLayer, (player, chair) => playerComposition.pickUpChair(player, chair, this.userInput));
-    this.physics.add.overlap(this.player, this.doorsLayer, (player, door) => doorComposition.toggleDoor(door, this.userInput));
+    this.physics.add.overlap(this.player, this.doorsLayer, (player, door) => doorComposition.toggleDoor(door, this.userInput, this.inventoryStore));
     this.physics.add.collider(this.player, this.doorsLayer, null, (player, door) => door.isClosed);
     this.physics.add.overlap(this.player, this.lightPointsLayer, (player, lightPoint) => lightPointComposition.interactWithLightPoint(this.inventoryStore, lightPoint, this.userInput));
 

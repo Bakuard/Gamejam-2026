@@ -72,7 +72,7 @@ export const ghostComposition = {
   },
 
   tryCloseDoor(ghost, door) {
-    if (ghost.closeDoorProbability >= Math.random()) doorComposition.lockDoor(door);
+    if (ghost.currentState.closeDoorProbability >= Math.random()) doorComposition.lockDoor(door);
   },
 };
 
@@ -99,7 +99,6 @@ function createGhost(scene, x, y, wanderArea, prowlGhostPointsLayer, ghostConfig
   ghost.roamType = ghostConfig.roamType;
   ghost.prowlGhostPointsLayer = prowlGhostPointsLayer;
   ghost.ambushTimeLimitInMs = ghostConfig.ambushTimeLimitInMs;
-  ghost.closeDoorProbability = ghostConfig.closeDoorProbability;
   updateGhostWithState(ghost, ghostConfig.states[0]);
   createGhostParticles(scene, ghost);
   applyGhostVfxForCurrentPhase(ghost);
