@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="60" tileheight="60" infinite="0" nextlayerid="20" nextobjectid="104">
+<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="60" tileheight="60" infinite="0" nextlayerid="21" nextobjectid="106">
  <editorsettings>
   <export target="../public/assets/levels/tilemaps/platformer.json" format="json"/>
  </editorsettings>
@@ -597,9 +597,13 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="17" name="matches_spawn_area_layer">
+ <objectgroup id="17" name="matches_spawn_area_layer" visible="0">
   <object id="99" x="1022" y="1502.67" width="297.333" height="117.333"/>
   <object id="103" x="1256" y="2160.67" width="544" height="180"/>
+ </objectgroup>
+ <objectgroup id="20" name="master_keys_spawn_area_layer">
+  <object id="104" x="1082" y="960" width="654" height="176"/>
+  <object id="105" x="2099" y="1202" width="176" height="176"/>
  </objectgroup>
  <objectgroup id="18" name="light_points_layer">
   <object id="101" gid="37" x="1565.67" y="1139.67" width="50" height="82"/>

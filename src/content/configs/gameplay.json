@@ -108,6 +108,24 @@
   },
   "DROP_ITEMS": {
     "matches": {
+      "imageName": "matches",
+      "type": "matches",
+      "displayWidth": 30,
+      "displayHeight": 30,
+      "maxItemsOnMap": [
+        {
+          "totalDays": 1,
+          "maxItemsNumber": 3
+        },
+        {
+          "totalDays": 2,
+          "maxItemsNumber": 10
+        }
+      ]
+    },
+    "masterKeys": {
+      "imageName": "masterKey",
+      "type": "master_key",
       "displayWidth": 30,
       "displayHeight": 30,
       "maxItemsOnMap": [

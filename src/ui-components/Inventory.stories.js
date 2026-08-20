@@ -1,5 +1,5 @@
 import Inventory from "./Inventory.component.vue";
-import { ITEM_SALT, ITEM_MATCHES, ITEM_SKELETON_KEY } from "@/configs/gameplay.config.js";
+import { ITEM_SALT, ITEM_MATCHES, ITEM_MASTER_KEY } from "@/configs/gameplay.config.js";
 
 export default {
   title: "Game UI Components/Inventory",
@@ -44,7 +44,7 @@ Default.args = {
   items: [
     { name: ITEM_SALT, amount: 3 },
     { name: ITEM_MATCHES, amount: 5 },
-    { name: ITEM_SKELETON_KEY, amount: 1 },
+    { name: ITEM_MASTER_KEY, amount: 1 },
   ],
 };
 
