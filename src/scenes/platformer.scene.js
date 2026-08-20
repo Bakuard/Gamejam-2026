@@ -67,7 +67,7 @@ export class PlatformerScene extends Phaser.Scene {
       ghostsWanderAreaLayer,
       prowlGhostPointsLayer,
       doorsLayer,
-      dropItemsSpawnAreaLayer,
+      matchesSpawnAreaLayer,
       lightPointsLayer,
     ] = platformerComposition.createLevel(this);
     this.map = map;
@@ -79,7 +79,7 @@ export class PlatformerScene extends Phaser.Scene {
     this.ghostsWanderAreaLayer = ghostsWanderAreaLayer;
     this.prowlGhostPointsLayer = prowlGhostPointsLayer;
 
-    this.emptyTilesCenterForMatches = tilemapComposition.findEmptyTilesCenterInArea(map, camera, dropItemsSpawnAreaLayer.matches, platformLayer, woodPlatformLayer, wallsLayer);
+    this.emptyTilesCenterForMatches = tilemapComposition.findEmptyTilesCenterInArea(map, camera, matchesSpawnAreaLayer, platformLayer, woodPlatformLayer, wallsLayer);
 
     this.doorsLayer = doorComposition.createDoors(this, doorsLayer);
 

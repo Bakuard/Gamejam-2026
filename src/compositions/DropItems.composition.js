@@ -40,8 +40,7 @@ export const dropItemsComposition = {
 
   handlePlayerCollision(player, item, dropItems, inventoryStore) {
     const index = dropItems.findIndex((i) => i === item);
-    if (index >= 0) {
-      inventoryComposition.increaseItem(inventoryStore, dropItems[index].type);
+    if (index >= 0 && inventoryComposition.increaseItem(inventoryStore, dropItems[index].type)) {
       item.destroy();
       dropItems.splice(index, 1);
     }

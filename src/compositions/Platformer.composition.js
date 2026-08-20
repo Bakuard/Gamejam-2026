@@ -25,7 +25,7 @@ export const platformerComposition = {
     const doorsLayer = tilemapComposition.createMetaObjectLayer(map, "doors_layer");
     const ghostsWanderAreaLayer = tilemapComposition.createMetaObjectLayer(map, "ghost_wander_area_layer");
     const prowlGhostPointsLayer = tilemapComposition.createMetaObjectLayer(map, "prowl_ghost_points_layer");
-    const dropItemsSpawnAreaLayer = tilemapComposition.createMetaObjectLayer(map, "drop_items_spawn_area_layer");
+    const matchesSpawnAreaLayer = tilemapComposition.createMetaObjectLayer(map, "matches_spawn_area_layer");
     const lightPointsLayer = tilemapComposition.createMetaObjectLayer(map, "light_points_layer");
 
     return [
@@ -39,7 +39,7 @@ export const platformerComposition = {
       tilemapComposition.toMap(ghostsWanderAreaLayer, "name"),
       prowlGhostPointsLayer,
       doorsLayer,
-      tilemapComposition.toMap(dropItemsSpawnAreaLayer, "dropItemType"),
+      matchesSpawnAreaLayer,
       lightPointsLayer,
     ];
   },
