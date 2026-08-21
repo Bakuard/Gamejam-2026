@@ -7,10 +7,11 @@ export const dropItemsComposition = {
     });
   },
 
-  spawnDropItems(scene, spawnPointsForMatches, spawnPointsForMasterKeys, allDropItemsConfig, totalDays) {
+  spawnDropItems(scene, spawnPointsForMatches, spawnPointsForMasterKeys, spawnPointsForSalt, allDropItemsConfig, totalDays) {
     const dropItems = [];
     spawnDropItems(scene, spawnPointsForMatches, allDropItemsConfig.matches, totalDays, dropItems);
     spawnDropItems(scene, spawnPointsForMasterKeys, allDropItemsConfig.masterKeys, totalDays, dropItems);
+    spawnDropItems(scene, spawnPointsForSalt, allDropItemsConfig.salt, totalDays, dropItems);
     return dropItems;
   },
 
