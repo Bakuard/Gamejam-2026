@@ -1119,7 +1119,7 @@
         {
          "draworder":"topdown",
          "id":21,
-         "name":"sald_spawn_area_layer",
+         "name":"salt_spawn_area_layer",
          "objects":[
                 {
                  "height":178,

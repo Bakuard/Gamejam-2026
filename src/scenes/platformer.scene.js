@@ -68,7 +68,8 @@ export class PlatformerScene extends Phaser.Scene {
       doorsLayer,
       matchesSpawnAreaLayer,
       masterKeysSpawnAreaLayer,
-      lightPointsLayer,
+      saltSpawnAreaLayer,
+      lightPointsLayer
     ] = platformerComposition.createLevel(this);
     this.map = map;
     this.platformLayer = platformLayer;
@@ -81,6 +82,7 @@ export class PlatformerScene extends Phaser.Scene {
 
     this.emptyTilesCenterForMatches = tilemapComposition.findEmptyTilesCenterInArea(map, camera, matchesSpawnAreaLayer, platformLayer, woodPlatformLayer, wallsLayer);
     this.emptyTilesCenterForMasterKeys = tilemapComposition.findEmptyTilesCenterInArea(map, camera, masterKeysSpawnAreaLayer, platformLayer, woodPlatformLayer, wallsLayer);
+    this.emptyTilesCenterForSalt = tilemapComposition.findEmptyTilesCenterInArea(map, camera, saltSpawnAreaLayer, platformLayer, woodPlatformLayer, wallsLayer);
 
     this.doorsLayer = doorComposition.createDoors(this, doorsLayer);
 
@@ -180,7 +182,14 @@ function spawnOrDespawnDropItems(scene) {
     dropItemsComposition.despawnDropItems(scene.dropItems);
     pullEventManager.clearEvent("spawnOrDespawnDropItems", "night");
   } else if (!scene.dropItems || pullEventManager.checkEvent("spawnOrDespawnDropItems", "morning") && calendarComposition.getCurrentPhaseProgress(scene.calendarStore) >= Config.TIME.morningPhaseTransitionFraction) {
-    scene.dropItems = dropItemsComposition.spawnDropItems(scene, scene.emptyTilesCenterForMatches, scene.emptyTilesCenterForMasterKeys, Config.DROP_ITEMS, scene.calendarStore.totalDays);
+    scene.dropItems = dropItemsComposition.spawnDropItems(
+      scene,
+      scene.emptyTilesCenterForMatches,
+      scene.emptyTilesCenterForMasterKeys,
+      scene.emptyTilesCenterForSalt,
+      Config.DROP_ITEMS,
+      scene.calendarStore.totalDays
+    );
     scene.physics.add.overlap(scene.player, scene.dropItems, (player, item) => dropItemsComposition.handlePlayerCollision(player, item, scene.dropItems, scene.inventoryStore));
     pullEventManager.clearEvent("spawnOrDespawnDropItems", "morning");
   }
