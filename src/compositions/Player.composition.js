@@ -1,15 +1,9 @@
 import Phaser from "phaser";
 
-import {
-  PLAYER_JUMP_MULTIPLICATOR,
-  PLAYER_FALL_MULTIPLICATOR,
-  PLAYER_BODY_OFFSET_Y,
-  STAIR_FOOT_TOLERANCE,
-  STAIR_COYOTE_TIME,
-  PLAYER_STAIRS_DROP_ACCELERATION,
-  PLAYER_ON_GROUND_COYOTE_TIME,
-} from "@/configs/gameplay.config.js";
+import { DROP_ITEMS, ITEM_SALT, PLAYER } from "@/configs/gameplay.config.js";
 import { audioComposition } from "@/compositions/Audio.composition.js";
+import { inventoryComposition } from "@/compositions/Inventory.composition.js";
+import { ghostComposition } from "@/compositions/Ghost.composition.js";
 
 export const playerComposition = {
   preloadPlayerAnimation(scene) {
@@ -74,21 +68,20 @@ export const playerComposition = {
     });
   },
 
-  createPlayer(scene, x, y, displayWidth, displayHeight, bodyWidth, bodyHeight, speed) {
+  createPlayer(scene, x, y) {
     const player = scene.physics.add.sprite(x, y, "player-idle", "1")
-      .setDisplaySize(displayWidth, displayHeight)
-      .setOrigin(0.5, 1)
-      .play("player-idle");
+      .setDisplaySize(PLAYER.displayWidth, PLAYER.displayHeight)
+      .setOrigin(0.5, 1).play("player-idle");
 
-    const unscaledBodyWidth = bodyWidth / player.scaleX;
-    const unscaledBodyHeight = bodyHeight / player.scaleY;
+    const unscaledBodyWidth = PLAYER.bodyWidth / player.scaleX;
+    const unscaledBodyHeight = PLAYER.bodyHeight / player.scaleY;
     player.body.setSize(unscaledBodyWidth, unscaledBodyHeight, false);
 
     const offsetX = (player.width - unscaledBodyWidth) / 2;
-    const offsetY = player.height - unscaledBodyHeight - PLAYER_BODY_OFFSET_Y;
+    const offsetY = player.height - unscaledBodyHeight - PLAYER.bodyOffsetY;
     player.body.setOffset(offsetX, offsetY);
 
-    player.speed = speed;
+    player.speed = PLAYER.speed;
     player.depth = 100;
     player.groundedCoyoteTime = 0;
     player.onStairInPreviousFrame = 0;
@@ -105,17 +98,17 @@ export const playerComposition = {
 
   movePlayerOnPlatformers(scene, player, userInput, platformLayer, woodPlatformLayer, stairsLayer, tileMap, camera) {
     const stairTile = getTileAtFeetLevel(player, stairsLayer, camera);
-    const onStair = stairTile && checkOnStair(player, stairTile, tileMap, STAIR_FOOT_TOLERANCE);
+    const onStair = stairTile && checkOnStair(player, stairTile, tileMap, PLAYER.footTolerance);
     player.body.setAllowGravity(!onStair);
 
-    if (player.body.blocked.down) player.groundedCoyoteTime = PLAYER_ON_GROUND_COYOTE_TIME;
+    if (player.body.blocked.down) player.groundedCoyoteTime = PLAYER.onGroundCoyoteTime;
 
     const isGrounded = player.groundedCoyoteTime-- > 0;
 
     player.body.velocity.x = (userInput.right.isDown - userInput.left.isDown) * player.speed;
 
     if (userInput.up.isDown && (onStair || isGrounded)) {
-      player.body.velocity.y = -player.speed * PLAYER_JUMP_MULTIPLICATOR;
+      player.body.velocity.y = -player.speed * PLAYER.jumpMultiplicator;
       player.groundedCoyoteTime = 0;
       player.onStairInPreviousFrame = 0;
 
@@ -124,11 +117,11 @@ export const playerComposition = {
 
       playChairCreakingSound(scene, player, userInput);
     } else if (onStair) {
-      if (userInput.down.isDown) player.body.velocity.y = PLAYER_STAIRS_DROP_ACCELERATION;
+      if (userInput.down.isDown) player.body.velocity.y = PLAYER.stairsDropAcceleration;
       else if (stairTile.properties.direction === "right" && player.body.velocity.x !== 0) player.body.velocity.y = -player.body.velocity.x;
       else if (stairTile.properties.direction === "left" && player.body.velocity.x !== 0) player.body.velocity.y = player.body.velocity.x;
       else if (player.body.velocity.y > 0) player.body.velocity.y = 0;
-      player.onStairInPreviousFrame = STAIR_COYOTE_TIME;
+      player.onStairInPreviousFrame = PLAYER.stairCoyoteTime;
     } else if (--player.onStairInPreviousFrame === 0 && player.body.velocity.y < 0) {
       player.body.velocity.y = 0;
     }
@@ -152,7 +145,7 @@ export const playerComposition = {
       const isJumpingAnim = currentAnim === "player-jump" || currentAnim === "player-jump-chair";
 
       if (player.body.velocity.y < 0) {
-        player.body.velocity.x *= PLAYER_FALL_MULTIPLICATOR;
+        player.body.velocity.x *= PLAYER.fallMultiplicator;
       }
 
       if (player.body.velocity.y > 0 || !isJumpingAnim || !player.anims.isPlaying) {
@@ -174,6 +167,7 @@ export const playerComposition = {
       down: Phaser.Input.Keyboard.KeyCodes.S,
       interact: Phaser.Input.Keyboard.KeyCodes.E,
       throw: Phaser.Input.Keyboard.KeyCodes.Q,
+      throwSalt: Phaser.Input.Keyboard.KeyCodes.R
     });
   },
 
@@ -206,6 +200,16 @@ export const playerComposition = {
 
   jumpOff(player, platform, userInput) {
     return !userInput.down.isDown;
+  },
+
+  throwSalt(player, userInput, allGhosts, inventoryStore) {
+    const saltThrown = Phaser.Input.Keyboard.JustDown(userInput.throwSalt) && inventoryComposition.decreaseItem(inventoryStore, ITEM_SALT);
+    if (!saltThrown) return;
+
+    for (const ghost of allGhosts) {
+      const distance = Phaser.Math.Distance.Between(player.x, player.y, ghost.x, ghost.y);
+      if (distance <= DROP_ITEMS.salt.radius) ghostComposition.setRunAwayState(ghost);
+    }
   }
 };
 

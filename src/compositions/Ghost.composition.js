@@ -74,6 +74,10 @@ export const ghostComposition = {
   tryCloseDoor(ghost, door) {
     if (ghost.currentState.closeDoorProbability >= Math.random()) doorComposition.lockDoor(door);
   },
+
+  setRunAwayState(ghost) {
+    ghost.runAwayTimer = ghost.runAwayMaxTimeInMs;
+  },
 };
 
 function prepareWanderArea(wanderAreaConfig) {
@@ -88,8 +92,7 @@ function prepareWanderArea(wanderAreaConfig) {
 function createGhost(scene, x, y, wanderArea, prowlGhostPointsLayer, ghostConfig) {
   const ghost = scene.physics.add.sprite(x, y, ghostConfig.states[0].animationAtlasName, "1").setOrigin(0.5, 1).refreshBody();
   ghost.body.setAllowGravity(false);
-  ghost.velocity = new Phaser.Math.Vector2();
-  ghost.tempAim = new Phaser.Math.Vector2(x, y);
+  ghost.aim = new Phaser.Math.Vector2(x, y);
   ghost.directionToAim = new Phaser.Math.Vector2();
   ghost.wanderArea = wanderArea;
   ghost.stateIndex = 0;
@@ -99,6 +102,8 @@ function createGhost(scene, x, y, wanderArea, prowlGhostPointsLayer, ghostConfig
   ghost.roamType = ghostConfig.roamType;
   ghost.prowlGhostPointsLayer = prowlGhostPointsLayer;
   ghost.ambushTimeLimitInMs = ghostConfig.ambushTimeLimitInMs;
+  ghost.runAwayTimer = 0;
+  ghost.runAwayMaxTimeInMs = ghostConfig.runAwayMaxTimeInSec * 1000;
   updateGhostWithState(ghost, ghostConfig.states[0]);
   createGhostParticles(scene, ghost);
   applyGhostVfxForCurrentPhase(ghost);
@@ -144,19 +149,39 @@ function updateGhostWithState(ghost, state) {
 
 
 function moveGhost(player, ghost, totalTime, deltaTime) {
-  const speedInCurrentFrame = (ghost.speed * deltaTime) / 1000;
+  if (ghost.runAwayTimer > 0) {
+    ghost.runAwayTimer -= deltaTime;
+    calculateDirectionAndDistanceToAim(ghost, player);
+    calculateStraightVelocity(ghost);
+    ghost.body.velocity.negate();
+    ghost.setFlipX(ghost.body.velocity.x < 0);
+    return;
+  }
 
   calculateDirectionAndDistanceToAim(ghost, player);
   if (ghost.distanceToAim <= ghost.detectionRadius) {
-    chasePlayer(player, ghost, speedInCurrentFrame, totalTime);
+    calculateStraightVelocity(ghost);
+    changeVelocityByMovementType(ghost, totalTime);
+    ghost.setFlipX(ghost.body.velocity.x < 0);
     ghost.setAlpha(1);
     ghost.ambushed = false;
   } else if (ghost.roamType === "straight") {
-    roam(ghost, speedInCurrentFrame);
+    calculateDirectionAndDistanceToAim(ghost, ghost.aim);
+    calculateStraightVelocity(ghost);
+    ghost.setFlipX(ghost.body.velocity.x < 0);
+    if (ghost.distanceToAim < ghost.speed) choseRandomAimInWanderArea(ghost);
   } else if (ghost.roamType === "prowl") {
-    prowl(ghost, deltaTime);
+    ghost.ambushCurrentTime += deltaTime;
+    if (ghost.ambushCurrentTime < ghost.currentState.ambushTimeLimitInMs && ghost.ambushed) return;
+    ghost.ambushCurrentTime = 0;
+
+    const ambushPosition = getRandomAmbushPosition(ghost);
+    ghost.x = ambushPosition.x;
+    ghost.y = ambushPosition.y;
+
     ghost.setAlpha(0.5);
     ghost.ambushed = true;
+    ghost.body.velocity.set(0, 0);
   }
 }
 
@@ -165,59 +190,22 @@ function calculateDirectionAndDistanceToAim(ghost, aim) {
   ghost.distanceToAim = ghost.directionToAim.length();
 }
 
-function chasePlayer(player, ghost, speedInCurrentFrame, totalTime) {
-  calculateStraightVelocity(ghost, speedInCurrentFrame);
-  changeVelocityByMovementType(ghost, totalTime);
-  moveToAim(ghost, player, speedInCurrentFrame);
-}
-
-function roam(ghost, speedInCurrentFrame) {
-  calculateDirectionAndDistanceToAim(ghost, ghost.tempAim);
-  calculateStraightVelocity(ghost, speedInCurrentFrame);
-  const reachedAim = moveToAim(ghost, ghost.tempAim, speedInCurrentFrame);
-  if (reachedAim) setNextTempAim(ghost);
-}
-
-function prowl(ghost, deltaTime) {
-  ghost.ambushCurrentTime += deltaTime;
-  if (ghost.ambushCurrentTime < ghost.currentState.ambushTimeLimitInMs && ghost.ambushed) return;
-  ghost.ambushCurrentTime = 0;
-
-  const ambushPosition = getRandomAmbushPosition(ghost);
-  ghost.x = ambushPosition.x;
-  ghost.y = ambushPosition.y;
-}
-
-function calculateStraightVelocity(ghost, moveDistance) {
-  if (ghost.distanceToAim <= moveDistance) ghost.velocity.set(0, 0);
-  else ghost.velocity.copy(ghost.directionToAim).scale(moveDistance / ghost.distanceToAim);
+function calculateStraightVelocity(ghost) {
+  ghost.body.velocity.copy(ghost.directionToAim).normalize().scale(ghost.speed);
 }
 
 function changeVelocityByMovementType(ghost, totalTime) {
   if (ghost.chaseType === "arc_left") {
-    rotateVector(ghost.velocity, -0.65);
+    rotateVector(ghost.body.velocity, -0.65);
   } else if (ghost.chaseType === "arc_right") {
-    rotateVector(ghost.velocity, 0.45);
+    rotateVector(ghost.body.velocity, 0.45);
   } else if (ghost.chaseType === "wave") {
     const waveSpeed = 2.5;
     const waveAmplitude = 0.6;
     const totalTimeInSec = totalTime / 1000;
     const waveAngle = Math.sin(totalTimeInSec * waveSpeed) * waveAmplitude;
-    rotateVector(ghost.velocity, waveAngle);
+    rotateVector(ghost.body.velocity, waveAngle);
   }
-}
-
-function moveToAim(ghost, aim, moveDistance) {
-  const reachedAim = ghost.distanceToAim <= moveDistance;
-  if (reachedAim) {
-    ghost.x = aim.x;
-    ghost.y = aim.y;
-  } else {
-    ghost.x += ghost.velocity.x;
-    ghost.y += ghost.velocity.y;
-  }
-  ghost.setFlipX(ghost.velocity.x < 0);
-  return reachedAim;
 }
 
 function rotateVector(vector, angle) {
@@ -228,9 +216,9 @@ function rotateVector(vector, angle) {
   vector.set(x * cos - y * sin, x * sin + y * cos);
 }
 
-function setNextTempAim(ghost) {
+function choseRandomAimInWanderArea(ghost) {
   const angle = Math.random() * Math.PI * 2;
-  ghost.tempAim.set(
+  ghost.aim.set(
     Phaser.Math.Clamp(ghost.x + Math.cos(angle) * ghost.nextTempAimDistance, ghost.wanderArea.left, ghost.wanderArea.right),
     Phaser.Math.Clamp(ghost.y + Math.sin(angle) * ghost.nextTempAimDistance, ghost.wanderArea.top, ghost.wanderArea.bottom)
   );
@@ -276,13 +264,13 @@ function createGhostEmitter(scene, ghost, vfxConfig) {
     // Частица получает скорость "назад" относительно движения призрака -> получается шлейф.
     speedX: () => {
       const base = Phaser.Math.Between(minSpeed, maxSpeed);
-      const trail = -ghost.velocity.x * trailVelocityFactor;
+      const trail = -ghost.body.velocity.x;
       const rnd = Phaser.Math.Between(-trailRandom, trailRandom);
       return trail + rnd + Phaser.Math.FloatBetween(-base, base);
     },
     speedY: () => {
       const base = Phaser.Math.Between(minSpeed, maxSpeed);
-      const trail = -ghost.velocity.y * trailVelocityFactor;
+      const trail = -ghost.body.velocity.y;
       const rnd = Phaser.Math.Between(-trailRandom, trailRandom);
       return trail + rnd + Phaser.Math.FloatBetween(-base, base);
     },

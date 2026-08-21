@@ -1,7 +1,7 @@
 import * as Phaser from "phaser";
 import { sceneComposition } from "@/compositions/scene.composition.js";
-import {playerComposition} from "@/compositions/Player.composition.js";
-import {platformerComposition} from "@/compositions/Platformer.composition.js";
+import { playerComposition } from "@/compositions/Player.composition.js";
+import { platformerComposition } from "@/compositions/Platformer.composition.js";
 import * as Config from "@/configs/gameplay.config.js";
 import { ghostComposition } from "@/compositions/Ghost.composition.js";
 import { dynamicLightingComposition } from "@/compositions/DynamicLighting.composition.js";
@@ -88,16 +88,7 @@ export class PlatformerScene extends Phaser.Scene {
 
     this.userInput = playerComposition.createUserInput(this);
     playerComposition.preparePlayerAnimation(this);
-    this.player = playerComposition.createPlayer(
-      this,
-      startPointsLayer.player.x,
-      startPointsLayer.player.y,
-      Config.PLAYER_DISPLAY_WIDTH,
-      Config.PLAYER_DISPLAY_HEIGHT,
-      Config.PLAYER_PLATFORM_BODY_WIDTH,
-      Config.PLAYER_PLATFORM_BODY_HEIGHT,
-      Config.PLAYER_SPEED
-    );
+    this.player = playerComposition.createPlayer(this, startPointsLayer.player.x, startPointsLayer.player.y);
     playerComposition.configureCameraFollow(this, this.player, this.cameras.main.width / 4, this.cameras.main.height / 4);
 
     ghostComposition.prepareGhostAnimation(this, Config.GHOSTS);
@@ -139,6 +130,7 @@ export class PlatformerScene extends Phaser.Scene {
 
     playerComposition.movePlayerOnPlatformers(this, this.player, this.userInput, this.platformLayer, this.woodPlatformLayer, this.stairsLayer, this.map, this.camera);
     playerComposition.throwChair(this.player, this.userInput, this.wallsLayer);
+    playerComposition.throwSalt(this.player, this.userInput, this.ghosts, this.inventoryStore);
     ghostComposition.moveAllGhosts(this.ghosts, this.player, time, delta);
     ghostComposition.updateGhostsStateTimer(this.ghosts, delta);
 

@@ -1,8 +1,8 @@
 {
   "TIME": {
     "morningDurationInSec": 60,
-    "dayDurationInSec": 20,
-    "eveningDurationInSec": 30,
+    "dayDurationInSec": 5,
+    "eveningDurationInSec": 5,
     "nightDurationInSec": 120,
     "morningPhaseTransitionFraction": 0.5,
     "afternoonPhaseTransitionFraction": 0.1,
@@ -144,6 +144,7 @@
       "type": "salt",
       "displayWidth": 30,
       "displayHeight": 30,
+      "radius": 200,
       "maxItemsOnMap": [
         {
           "totalDays": 1,
@@ -160,24 +161,27 @@
     "maxStacks": 9,
     "maxStackSize": 5
   },
-  "PLAYER_DISPLAY_HEIGHT": 127,
-  "PLAYER_DISPLAY_WIDTH": 63,
-  "PLAYER_SPEED": 220,
-  "PLAYER_PLATFORM_BODY_HEIGHT": 110,
-  "PLAYER_PLATFORM_BODY_WIDTH": 40,
-  "PLAYER_BODY_OFFSET_Y": 10,
-  "PLAYER_JUMP_MULTIPLICATOR": 2.8,
-  "PLAYER_FALL_MULTIPLICATOR": 0.9,
-  "PLAYER_STAIRS_DROP_ACCELERATION": 24,
-  "PLAYER_ON_GROUND_COYOTE_TIME": 8,
-  "STAIR_FOOT_TOLERANCE": 6,
-  "STAIR_COYOTE_TIME": 4,
+  "PLAYER": {
+    "displayWidth": 63,
+    "displayHeight": 127,
+    "speed": 220,
+    "bodyWidth": 40,
+    "bodyHeight": 110,
+    "bodyOffsetY": 10,
+    "jumpMultiplicator": 2.8,
+    "fallMultiplicator": 0.9,
+    "stairsDropAcceleration": 24,
+    "onGroundCoyoteTime": 8,
+    "footTolerance": 6,
+    "stairCoyoteTime": 4
+  },
   "GHOSTS": [
     {
       "startPointName": "ghost-photographer",
       "ghostWanderAreaName": "wholeLevel",
       "chaseType": "straight",
       "roamType": "straight",
+      "runAwayMaxTimeInSec": 6,
       "states": [
         {
           "speedPxPerSec": 30,
@@ -189,7 +193,7 @@
           "detectionRadius": 2000,
           "physicBodyWidth": 30,
           "durationInMs": 60000,
-          "closeDoorProbability": 1
+          "closeDoorProbability": 0
         },
         {
           "speedPxPerSec": 45,
@@ -201,7 +205,7 @@
           "detectionRadius": 2500,
           "physicBodyWidth": 30,
           "durationInMs": 30000,
-          "closeDoorProbability": 1
+          "closeDoorProbability": 0.1
         },
         {
           "speedPxPerSec": 60,
@@ -213,7 +217,7 @@
           "detectionRadius": 3000,
           "physicBodyWidth": 30,
           "durationInMs": 30000,
-          "closeDoorProbability": 1
+          "closeDoorProbability": 0.2
         },
         {
           "speedPxPerSec": 75,
@@ -225,7 +229,7 @@
           "detectionRadius": 3500,
           "physicBodyWidth": 30,
           "durationInMs": 20000,
-          "closeDoorProbability": 1
+          "closeDoorProbability": 0.3
         },
         {
           "speedPxPerSec": 0,
@@ -246,6 +250,7 @@
       "ghostWanderAreaName": "leftHalf",
       "chaseType": "wave",
       "roamType": "straight",
+      "runAwayMaxTimeInSec": 6,
       "states": [
         {
           "speedPxPerSec": 110,
@@ -314,6 +319,7 @@
       "ghostWanderAreaName": "topFloors",
       "chaseType": "arc_left",
       "roamType": "prowl",
+      "runAwayMaxTimeInSec": 6,
       "states": [
         {
           "displayWidth": 89,
