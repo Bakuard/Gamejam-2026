@@ -1,8 +1,8 @@
 {
   "TIME": {
     "morningDurationInSec": 60,
-    "dayDurationInSec": 5,
-    "eveningDurationInSec": 5,
+    "dayDurationInSec": 30,
+    "eveningDurationInSec": 20,
     "nightDurationInSec": 120,
     "morningPhaseTransitionFraction": 0.5,
     "afternoonPhaseTransitionFraction": 0.1,

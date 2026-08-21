@@ -68,10 +68,16 @@ export const playerComposition = {
     });
   },
 
+  prepareSaltParticle(scene) {
+    const graphics = scene.add.graphics();
+    graphics.fillStyle(0xffffff, 1);
+    graphics.fillCircle(4, 4, 4);
+    graphics.generateTexture("saltTexture", 8, 8);
+    graphics.destroy();
+  },
+
   createPlayer(scene, x, y) {
-    const player = scene.physics.add.sprite(x, y, "player-idle", "1")
-      .setDisplaySize(PLAYER.displayWidth, PLAYER.displayHeight)
-      .setOrigin(0.5, 1).play("player-idle");
+    const player = scene.physics.add.sprite(x, y, "player-idle", "1").setDisplaySize(PLAYER.displayWidth, PLAYER.displayHeight).setOrigin(0.5, 1).play("player-idle");
 
     const unscaledBodyWidth = PLAYER.bodyWidth / player.scaleX;
     const unscaledBodyHeight = PLAYER.bodyHeight / player.scaleY;
@@ -85,6 +91,20 @@ export const playerComposition = {
     player.depth = 100;
     player.groundedCoyoteTime = 0;
     player.onStairInPreviousFrame = 0;
+
+    player.isSaltParticlesActive = false;
+    player.cloudEmitter = scene.add.particles(0, 0, "saltTexture", {
+      tint: [0xffffff, 0x00aaff, 0x88ccff], // Массив цветов: белый и оттенки голубого
+      speed: { min: 60, max: 150 }, // Скорость разлета
+      angle: { min: 0, max: 360 }, // Летят во все стороны
+      scale: { start: 1.5, end: 0.5 }, // Уменьшаются к концу жизни
+      alpha: { start: 0.8, end: 0 }, // Плавно исчезают
+      lifespan: 800, // Время жизни одной частицы (мс)
+      frequency: 30, // Как часто вылетают новые частицы (мс)
+      blendMode: "ADD", // Эффект свечения
+      emitting: false, // Изначально выключен
+    });
+    player.cloudEmitter.startFollow(player, 0, -PLAYER.displayHeight / 2);
 
     return player;
   },
@@ -167,7 +187,7 @@ export const playerComposition = {
       down: Phaser.Input.Keyboard.KeyCodes.S,
       interact: Phaser.Input.Keyboard.KeyCodes.E,
       throw: Phaser.Input.Keyboard.KeyCodes.Q,
-      throwSalt: Phaser.Input.Keyboard.KeyCodes.R
+      throwSalt: Phaser.Input.Keyboard.KeyCodes.R,
     });
   },
 
@@ -202,7 +222,7 @@ export const playerComposition = {
     return !userInput.down.isDown;
   },
 
-  throwSalt(player, userInput, allGhosts, inventoryStore) {
+  throwSalt(scene, player, userInput, allGhosts, inventoryStore) {
     const saltThrown = Phaser.Input.Keyboard.JustDown(userInput.throwSalt) && inventoryComposition.decreaseItem(inventoryStore, ITEM_SALT);
     if (!saltThrown) return;
 
@@ -210,7 +230,16 @@ export const playerComposition = {
       const distance = Phaser.Math.Distance.Between(player.x, player.y, ghost.x, ghost.y);
       if (distance <= DROP_ITEMS.salt.radius) ghostComposition.setRunAwayState(ghost);
     }
-  }
+
+    if (!player.isSaltParticlesActive) {
+      player.isSaltParticlesActive = true;
+      player.cloudEmitter.start();
+      scene.time.delayedCall(600, () => {
+        player.cloudEmitter.stop();
+        player.isSaltParticlesActive = false;
+      });
+    }
+  },
 };
 
 function isAreaFree(scene, chair, posX, posY, wallsLayer) {

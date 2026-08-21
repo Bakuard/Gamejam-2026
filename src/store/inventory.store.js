@@ -4,7 +4,7 @@ import { ITEM_MATCHES, ITEM_SALT, ITEM_MASTER_KEY } from "@/configs/gameplay.con
 export const useInventoryStore = defineStore("inventory", {
   state: () => ({
     items: [
-      { name: ITEM_SALT, amount: 10 }
+      { name: ITEM_SALT, amount: 5 }
     ]
   }),
   actions: {},
