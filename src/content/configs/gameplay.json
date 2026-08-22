@@ -176,7 +176,8 @@
     "stairCoyoteTime": 4
   },
   "LIGHT_POINT": {
-    "maxBurningTimeInSec": 10
+    "maxBurningTimeInSec": 10,
+    "protectionRadius": 150
   },
   "GHOSTS": [
     {

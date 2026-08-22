@@ -95,7 +95,7 @@ export class PlatformerScene extends Phaser.Scene {
     ghostComposition.prepareGhostAnimation(this, Config.GHOSTS);
     this.ghosts = [];
 
-    this.lightPointsLayer = lightPointComposition.createLightPoints(this, lightPointsLayer);
+    [this.lightPointsLayer, this.lightPointsAreaLayer] = lightPointComposition.createLightPoints(this, lightPointsLayer);
 
     this.physics.add.collider(this.player, platformLayer);
     this.physics.add.collider(this.player, wallsLayer);
@@ -164,6 +164,7 @@ function createNewGhosts(scene) {
   for (const ghost of scene.ghosts) {
     scene.physics.add.overlap(scene.player, ghost, (player, ghost) => ghostComposition.handlePlayerCollision(scene, scene.playerStore));
     scene.physics.add.overlap(ghost, scene.doorsLayer, (ghost, door) => ghostComposition.tryCloseDoor(ghost, door));
+    scene.physics.add.overlap(ghost, scene.lightPointsAreaLayer, (ghost, lightPointArea) => ghostComposition.handleLightPointCollision(ghost, lightPointArea.lightPoint));
   }
 
   pullEventManager.clearEvent("createNewGhosts", "night");
