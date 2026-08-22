@@ -9,14 +9,28 @@ export const lightPointComposition = {
 
   createLightPoints(scene, lightPointsLayer) {
     const lightPointsPhysicLayer = scene.physics.add.staticGroup();
+    const lightPointsAreaLayer = scene.physics.add.staticGroup();
     lightPointsLayer.forEach((lightPointMeta) => {
-      const lightPoint = lightPointsPhysicLayer.get(lightPointMeta.x, lightPointMeta.y, "lightPoint", "1");
-      lightPoint.setOrigin(0, 1);
+      const lightPoint = lightPointsPhysicLayer.get(lightPointMeta.x + lightPointMeta.width / 2, lightPointMeta.y, "lightPoint", "1");
+      lightPoint.setOrigin(0.5, 1);
       lightPoint.setDisplaySize(lightPointMeta.width, lightPointMeta.height);
       lightPoint.refreshBody();
       lightPoint.currentBurningTimeInMs = 0;
+      lightPoint.turnOn = false;
+
+      const lightPointAreaSize = LIGHT_POINT.protectionRadius * 2;
+      const lightPointArea = scene.add.zone(
+        lightPointMeta.x + lightPointMeta.width / 2,
+        lightPointMeta.y - lightPointMeta.height / 2,
+        lightPointAreaSize,
+        lightPointAreaSize
+      );
+      scene.physics.add.existing(lightPointArea, true);
+      lightPointsAreaLayer.add(lightPointArea);
+
+      lightPointArea.lightPoint = lightPoint;
     });
-    return lightPointsPhysicLayer;
+    return [lightPointsPhysicLayer, lightPointsAreaLayer];
   },
 
   interactWithLightPoint(inventoryStore, lightPoint, userInput) {
@@ -25,13 +39,17 @@ export const lightPointComposition = {
     if (turnOn) {
       lightPoint.setFrame("2");
       lightPoint.currentBurningTimeInMs = LIGHT_POINT.maxBurningTimeInSec * 1000;
+      lightPoint.turnOn = true;
     }
   },
 
   decreaseBurningTime(lightPointsLayer, deltaTime) {
     lightPointsLayer.getChildren().forEach(lightPoint => {
       if (lightPoint.currentBurningTimeInMs > 0) lightPoint.currentBurningTimeInMs -= deltaTime;
-      else lightPoint.setFrame("1");
+      else {
+        lightPoint.setFrame("1");
+        lightPoint.turnOn = false;
+      }
     });
   },
 };

@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { GHOSTS_VFX } from "@/configs/gameplay.config.js";
+import { GHOSTS_VFX, LIGHT_POINT } from "@/configs/gameplay.config.js";
 import { GHOSTS_VFX_BY_PHASE_INDEX } from "@/configs/gameplay.config.js";
 import { doorComposition } from "@/compositions/Door.composition.js";
 import { pullEventManager } from "@/utils/PullEventManager.js";
@@ -56,6 +56,10 @@ export const ghostComposition = {
     */
   },
 
+  handleLightPointCollision(ghost, lightPoint) {
+    if (lightPoint.turnOn) ghost.nearestLightPoint = lightPoint;
+  },
+
   moveAllGhosts(allGhosts, player, time, deltaTime) {
     for (const ghost of allGhosts) {
       moveGhost(player, ghost, time, deltaTime);
@@ -94,6 +98,7 @@ function createGhost(scene, x, y, wanderArea, prowlGhostPointsLayer, ghostConfig
   ghost.body.setAllowGravity(false);
   ghost.aim = new Phaser.Math.Vector2(x, y);
   ghost.directionToAim = new Phaser.Math.Vector2();
+  ghost.directionFromLightPointCenter = new Phaser.Math.Vector2();
   ghost.wanderArea = wanderArea;
   ghost.stateIndex = 0;
   ghost.states = ghostConfig.states;
@@ -154,6 +159,7 @@ function moveGhost(player, ghost, totalTime, deltaTime) {
     calculateDirectionAndDistanceToAim(ghost, player);
     calculateStraightVelocity(ghost);
     ghost.body.velocity.negate();
+    changeVelocityIfLightPoint(ghost);
     ghost.setFlipX(ghost.body.velocity.x < 0);
     return;
   }
@@ -162,12 +168,14 @@ function moveGhost(player, ghost, totalTime, deltaTime) {
   if (ghost.distanceToAim <= ghost.detectionRadius) {
     calculateStraightVelocity(ghost);
     changeVelocityByMovementType(ghost, totalTime);
+    changeVelocityIfLightPoint(ghost);
     ghost.setFlipX(ghost.body.velocity.x < 0);
     ghost.setAlpha(1);
     ghost.ambushed = false;
   } else if (ghost.roamType === "straight") {
     calculateDirectionAndDistanceToAim(ghost, ghost.aim);
     calculateStraightVelocity(ghost);
+    changeVelocityIfLightPoint(ghost);
     ghost.setFlipX(ghost.body.velocity.x < 0);
     if (ghost.distanceToAim < ghost.speed) choseRandomAimInWanderArea(ghost);
   } else if (ghost.roamType === "prowl") {
@@ -205,6 +213,25 @@ function changeVelocityByMovementType(ghost, totalTime) {
     const totalTimeInSec = totalTime / 1000;
     const waveAngle = Math.sin(totalTimeInSec * waveSpeed) * waveAmplitude;
     rotateVector(ghost.body.velocity, waveAngle);
+  }
+}
+
+function changeVelocityIfLightPoint(ghost, deltaTime) {
+  if (!ghost.nearestLightPoint) return;
+
+  ghost.directionFromLightPointCenter.set(ghost.x - ghost.nearestLightPoint.x, ghost.y - ghost.nearestLightPoint.y);
+
+  const currentDistance = ghost.directionFromLightPointCenter.length();
+  const nextDistance = Phaser.Math.Distance.Between(
+    ghost.x + ghost.body.velocity.x * 0.1,
+    ghost.y + ghost.body.velocity.y * 0.1,
+    ghost.nearestLightPoint.x,
+    ghost.nearestLightPoint.y
+  );
+  if (currentDistance < LIGHT_POINT.protectionRadius) {
+    ghost.body.velocity.copy(ghost.directionFromLightPointCenter).normalize().scale(ghost.speed);
+  } else if (nextDistance < LIGHT_POINT.protectionRadius) {
+    ghost.body.velocity.set(-ghost.directionFromLightPointCenter.y, ghost.directionFromLightPointCenter.x).normalize().scale(ghost.speed);
   }
 }
 
