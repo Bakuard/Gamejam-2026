@@ -175,6 +175,9 @@
     "footTolerance": 6,
     "stairCoyoteTime": 4
   },
+  "LIGHT_POINT": {
+    "maxBurningTimeInSec": 10
+  },
   "GHOSTS": [
     {
       "startPointName": "ghost-photographer",

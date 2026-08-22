@@ -129,6 +129,7 @@ export class PlatformerScene extends Phaser.Scene {
     createNewGhosts(this);
     spawnOrDespawnDropItems(this);
 
+    lightPointComposition.decreaseBurningTime(this.lightPointsLayer, delta);
     playerComposition.movePlayerOnPlatformers(this, this.player, this.userInput, this.platformLayer, this.woodPlatformLayer, this.stairsLayer, this.map, this.camera);
     playerComposition.throwChair(this.player, this.userInput, this.wallsLayer);
     playerComposition.throwSalt(this, this.player, this.userInput, this.ghosts, this.inventoryStore);
