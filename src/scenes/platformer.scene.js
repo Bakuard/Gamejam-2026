@@ -133,7 +133,7 @@ export class PlatformerScene extends Phaser.Scene {
     playerComposition.throwChair(this.player, this.userInput, this.wallsLayer);
     playerComposition.throwSalt(this, this.player, this.userInput, this.ghosts, this.inventoryStore);
     ghostComposition.moveAllGhosts(this.ghosts, this.player, time, delta);
-    ghostComposition.updateGhostsStateTimer(this.ghosts, delta);
+    ghostComposition.updateGhostsStateTimer(this.ghosts, delta, this.ghostsStore);
 
     platformerComposition.moveParallaxImages(this.camera, this.backgroundNear, this.backgroundFar, this);
     dynamicLightingComposition.updateAmbientLightPipeline(this.nightPipeline, this.calendarStore.currentPhase, calendarComposition.getCurrentPhaseProgress(this.calendarStore));

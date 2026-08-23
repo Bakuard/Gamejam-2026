@@ -32,10 +32,7 @@ const progress = computed(() => {
     return 0;
   }
 
-  return Math.min(
-    1,
-    Math.max(0, props.remainingTime / props.allTime)
-  );
+  return Math.min(1, Math.max(0, props.remainingTime / props.allTime));
 });
 
 const firePosition = computed(() => {
@@ -44,14 +41,7 @@ const firePosition = computed(() => {
 </script>
 
 <template>
-  <div
-    class="time-progress"
-    role="progressbar"
-    aria-label="Remaining time"
-    aria-valuemin="0"
-    :aria-valuemax="allTime"
-    :aria-valuenow="remainingTime"
-  >
+  <div class="time-progress" role="progressbar" aria-label="Remaining time" aria-valuemin="0" :aria-valuemax="allTime" :aria-valuenow="remainingTime">
     <div class="time-progress__track">
       <div
         class="time-progress__value"
@@ -92,9 +82,10 @@ const firePosition = computed(() => {
     padding: 3px;
     overflow: hidden;
 
-    border: 2px solid rgba(255, 255, 255, 0.8);
+    border: 2px solid rgba(255, 255, 255, 0.15);
     border-radius: 6px;
-    background: rgba(0, 0, 0, 0.45);
+    background: rgba(18, 18, 24, 0.85);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
     box-sizing: border-box;
   }
 
