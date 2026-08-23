@@ -10,7 +10,7 @@ export const doorComposition = {
   createDoors(scene, doorsLayerMeta) {
     const doorsPhysicLayer = scene.physics.add.staticGroup();
     doorsLayerMeta.forEach((doorMeta) => {
-      const door = doorsPhysicLayer.get(doorMeta.x + doorMeta.width / 2, doorMeta.y + doorMeta.height / 2, "door", "1");
+      const door = doorsPhysicLayer.get(doorMeta.x + doorMeta.width / 2, doorMeta.y + doorMeta.height / 2, "door", "2");
       door.setSize(doorMeta.width + 20, doorMeta.height);
       door.setDisplaySize(doorMeta.height, doorMeta.height);
       door.isClosed = true;
@@ -28,14 +28,14 @@ export const doorComposition = {
     door.isClosed = !door.isClosed;
     door.isLocked = false;
 
-    if (door.isClosed) door.setFrame("1");
-    else if (door.openSide === "left") door.setFrame("2");
-    else if (door.openSide === "right") door.setFrame("4");
+    if (door.isClosed) door.setFrame("2");
+    else if (door.openSide === "left") door.setFrame("1");
+    else if (door.openSide === "right") door.setFrame("3");
   },
 
   lockDoor(door) {
     door.isClosed = true;
     door.isLocked = true;
-    door.setFrame("1");
+    door.setFrame("2");
   },
 };

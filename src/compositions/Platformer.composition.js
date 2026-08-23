@@ -4,7 +4,7 @@ export const platformerComposition = {
   preloadLevel(scene) {
     scene.load.image("floor-wall-roof", "assets/levels/tiles/floor-wall-roof.png");
     scene.load.image("decor", "assets/levels/tiles/level-art-tiles.png");
-    scene.load.image("chair", "assets/levels/tiles/chair.png");
+    scene.load.image("chair", "assets/levels/tiles/box.png");
     scene.load.image("stairs-tiles", "assets/levels/tiles/stairs-tiles.png");
     scene.load.image("mountBack", "assets/img/background/mount-back.png");
     scene.load.image("mountFront", "assets/img/background/mount-front.png");
