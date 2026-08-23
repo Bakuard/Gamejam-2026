@@ -1,37 +1,44 @@
+{"frames": {
+
+"1":
 {
-  "frames": {
-    "1": {
-      "frame": { "x": 82, "y": 0, "w": 82, "h": 80 },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": { "x": 0, "y": 0, "w": 82, "h": 80 },
-      "sourceSize": { "w": 82, "h": 80 }
-    },
-    "2": {
-      "frame": { "x": 0, "y": 0, "w": 82, "h": 80 },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": { "x": 0, "y": 0, "w": 82, "h": 80 },
-      "sourceSize": { "w": 82, "h": 80 }
-    },
-    "3": {
-      "frame": { "x": 82, "y": 80, "w": 82, "h": 80 },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": { "x": 0, "y": 0, "w": 82, "h": 80 },
-      "sourceSize": { "w": 82, "h": 80 }
-    },
-    "4": {
-      "frame": { "x": 0, "y": 80, "w": 82, "h": 80 },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": { "x": 0, "y": 0, "w": 82, "h": 80 },
-      "sourceSize": { "w": 82, "h": 80 }
-    }
-  },
-  "meta": {
-    "image": "door.png",
-    "format": "RGBA8888",
-    "size": { "w": 164, "h": 160 }
-  }
+	"frame": {"x":0,"y":0,"w":81,"h":80},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":81,"h":80},
+	"sourceSize": {"w":81,"h":80}
+},
+"2":
+{
+	"frame": {"x":81,"y":0,"w":80,"h":80},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":80,"h":80},
+	"sourceSize": {"w":80,"h":80}
+},
+"3":
+{
+	"frame": {"x":162,"y":0,"w":80,"h":80},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":80,"h":80},
+	"sourceSize": {"w":80,"h":80}
+},
+"4":
+{
+	"frame": {"x":243,"y":0,"w":80,"h":80},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":80,"h":80},
+	"sourceSize": {"w":80,"h":80}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "door.png",
+	"format": "RGBA8888",
+	"size": {"w":324,"h":80},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:f24db416a86d513da9567645ac340133:13e6524d76f269b4159301cb4d9d72f5:2a34754d8ab80f40243b52c06ba4cba5$"
+}
 }
