@@ -221,8 +221,8 @@ function changeVelocityByMovementType(ghost, totalTime) {
   }
 }
 
-function changeVelocityIfLightPoint(ghost, deltaTime) {
-  if (!ghost.nearestLightPoint) return;
+function changeVelocityIfLightPoint(ghost) {
+  if (!ghost.nearestLightPoint || !ghost.nearestLightPoint.turnOn) return;
 
   ghost.directionFromLightPointCenter.set(ghost.x - ghost.nearestLightPoint.x, ghost.y - ghost.nearestLightPoint.y);
 

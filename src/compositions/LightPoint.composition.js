@@ -17,14 +17,11 @@ export const lightPointComposition = {
       lightPoint.refreshBody();
       lightPoint.currentBurningTimeInMs = 0;
       lightPoint.turnOn = false;
+      lightPoint.centerX = lightPointMeta.x + lightPointMeta.width / 2;
+      lightPoint.centerY = lightPointMeta.y - lightPointMeta.height / 2;
 
       const lightPointAreaSize = LIGHT_POINT.protectionRadius * 2;
-      const lightPointArea = scene.add.zone(
-        lightPointMeta.x + lightPointMeta.width / 2,
-        lightPointMeta.y - lightPointMeta.height / 2,
-        lightPointAreaSize,
-        lightPointAreaSize
-      );
+      const lightPointArea = scene.add.zone(lightPoint.centerX, lightPoint.centerY, lightPointAreaSize, lightPointAreaSize);
       scene.physics.add.existing(lightPointArea, true);
       lightPointsAreaLayer.add(lightPointArea);
 
@@ -45,8 +42,9 @@ export const lightPointComposition = {
 
   decreaseBurningTime(lightPointsLayer, deltaTime) {
     lightPointsLayer.getChildren().forEach(lightPoint => {
-      if (lightPoint.currentBurningTimeInMs > 0) lightPoint.currentBurningTimeInMs -= deltaTime;
-      else {
+      if (lightPoint.currentBurningTimeInMs > 0) {
+        lightPoint.currentBurningTimeInMs -= deltaTime;
+      } else if (lightPoint.turnOn) {
         lightPoint.setFrame("1");
         lightPoint.turnOn = false;
       }

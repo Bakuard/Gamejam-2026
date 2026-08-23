@@ -117,7 +117,13 @@ export class PlatformerScene extends Phaser.Scene {
       this.events.off(Phaser.Scenes.Events.POST_UPDATE, this.postUpdate, this);
     });
 
-    this.nightPipeline = dynamicLightingComposition.prepareAmbientLightPipeline(this, Config.TIME, this.calendarStore.currentPhase, calendarComposition.getCurrentPhaseProgress(this.calendarStore));
+    this.nightPipeline = dynamicLightingComposition.prepareAmbientLightPipeline(
+      this,
+      Config.TIME,
+      this.calendarStore.currentPhase,
+      calendarComposition.getCurrentPhaseProgress(this.calendarStore),
+      this.lightPointsLayer
+    );
 
     analyticsComposition.createAnalytics(Config.ANALYTICS);
   }
