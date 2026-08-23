@@ -16,6 +16,7 @@ import { EventBus } from "@/utils/utils.js";
 import * as EventNames from "@/configs/eventNames.config.js";
 import TimeProgress from "@/ui-components/TimeProgress.component.vue";
 import NightCounter from "@/ui-components/NightCounter.component.vue";
+import SurvivalAlert from "@/ui-components/SurvivalAlert.component.vue";
 import { dayPhases } from "@/compositions/Calendar.composition.js";
 
 const gameContainer = ref(null);
@@ -111,6 +112,9 @@ const onAgain = () => {
 <template>
   <div class="platformer-screen">
     <Preloader />
+    <UiAnchor anchor="top-center" :offset-x="0" :offset-y="10" target=".platformer-screen__game-wrapper">
+      <SurvivalAlert :count="ghostStore.survivalCounter" :view-time="3000" />
+    </UiAnchor>
     <UiAnchor anchor="top-left" :offset-x="10" :offset-y="10" target=".platformer-screen__game-wrapper">
       <NightCounter :count="ghostStore.survivalCounter" />
     </UiAnchor>
