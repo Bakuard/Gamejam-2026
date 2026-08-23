@@ -63,11 +63,16 @@ export const ghostComposition = {
     }
   },
 
-  updateGhostsStateTimer(allGhosts, deltaTime) {
+  updateGhostsStateTimer(allGhosts, deltaTime, ghostsStore) {
     for (let i = allGhosts.length - 1; i >= 0; i--) {
       const ghost = allGhosts[i];
       const isDestroyed = updateGhostStateTimer(ghost, deltaTime);
-      if (isDestroyed) allGhosts.splice(i, 1);
+      if (isDestroyed) {
+        allGhosts.splice(i, 1);
+        if (allGhosts.length === 0 && ghostsStore) {
+          ghostsStore.survivalCounter++;
+        }
+      }
     }
   },
 
