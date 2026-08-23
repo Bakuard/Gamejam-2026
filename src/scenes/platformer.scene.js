@@ -95,7 +95,7 @@ export class PlatformerScene extends Phaser.Scene {
     ghostComposition.prepareGhostAnimation(this, Config.GHOSTS);
     this.ghosts = [];
 
-    this.lightPointsLayer = lightPointComposition.createLightPoints(this, lightPointsLayer);
+    [this.lightPointsLayer, this.lightPointsAreaLayer] = lightPointComposition.createLightPoints(this, lightPointsLayer);
 
     this.physics.add.collider(this.player, platformLayer);
     this.physics.add.collider(this.player, wallsLayer);
@@ -117,7 +117,13 @@ export class PlatformerScene extends Phaser.Scene {
       this.events.off(Phaser.Scenes.Events.POST_UPDATE, this.postUpdate, this);
     });
 
-    this.nightPipeline = dynamicLightingComposition.prepareAmbientLightPipeline(this, Config.TIME, this.calendarStore.currentPhase, calendarComposition.getCurrentPhaseProgress(this.calendarStore));
+    this.nightPipeline = dynamicLightingComposition.prepareAmbientLightPipeline(
+      this,
+      Config.TIME,
+      this.calendarStore.currentPhase,
+      calendarComposition.getCurrentPhaseProgress(this.calendarStore),
+      this.lightPointsLayer
+    );
 
     analyticsComposition.createAnalytics(Config.ANALYTICS);
   }
@@ -129,6 +135,7 @@ export class PlatformerScene extends Phaser.Scene {
     createNewGhosts(this);
     spawnOrDespawnDropItems(this);
 
+    lightPointComposition.decreaseBurningTime(this.lightPointsLayer, delta);
     playerComposition.movePlayerOnPlatformers(this, this.player, this.userInput, this.platformLayer, this.woodPlatformLayer, this.stairsLayer, this.map, this.camera);
     playerComposition.throwChair(this.player, this.userInput, this.wallsLayer);
     playerComposition.throwSalt(this, this.player, this.userInput, this.ghosts, this.inventoryStore);
@@ -163,6 +170,7 @@ function createNewGhosts(scene) {
   for (const ghost of scene.ghosts) {
     scene.physics.add.overlap(scene.player, ghost, (player, ghost) => ghostComposition.handlePlayerCollision(scene, scene.playerStore));
     scene.physics.add.overlap(ghost, scene.doorsLayer, (ghost, door) => ghostComposition.tryCloseDoor(ghost, door));
+    scene.physics.add.overlap(ghost, scene.lightPointsAreaLayer, (ghost, lightPointArea) => ghostComposition.handleLightPointCollision(ghost, lightPointArea.lightPoint));
   }
 
   pullEventManager.clearEvent("createNewGhosts", "night");

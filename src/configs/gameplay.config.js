@@ -3,6 +3,7 @@
 import gameplay from "@/content/configs/gameplay.json";
 
 export const PLAYER = structuredClone(gameplay.PLAYER);
+export const LIGHT_POINT = structuredClone(gameplay.LIGHT_POINT);
 export const GHOSTS = structuredClone(gameplay.GHOSTS);
 export const TIME = structuredClone(gameplay.TIME);
 export const AUDIO = structuredClone(gameplay.AUDIO);
