@@ -158,8 +158,7 @@
     }
   },
   "INVENTORY": {
-    "maxStacks": 9,
-    "maxStackSize": 5
+    "maxStacks": 3
   },
   "PLAYER": {
     "displayWidth": 63,
