@@ -2,7 +2,7 @@
 import { computed } from "vue";
 import { ITEM_SALT, ITEM_MATCHES, ITEM_MASTER_KEY, ITEM_ICONS } from "@/configs/gameplay.config.js";
 
-const TOTAL_SLOTS = 9;
+const TOTAL_SLOTS = 3;
 
 const props = defineProps({
   items: {
