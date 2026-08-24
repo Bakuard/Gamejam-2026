@@ -12,14 +12,16 @@ export const platformerComposition = {
   },
 
   createLevel(scene) {
+    const tileCollisions = [0, 2, 3, 4, 6, 7, 12, 13, 14, 15, 17, 18, 19, 20, 21, 23, 24, 26, 27, 30, 31, 32, 35, 36];
+
     const map = scene.make.tilemap({ key: "platformer-tilemap" });
 
     tilemapComposition.createTileLayer(map, "decor", "BackgroundWalls", []);
     tilemapComposition.createTileLayer(map, "decor", "DecorItems", []);
-    const platformLayer = tilemapComposition.createTileLayer(map, "floor-wall-roof", "Platforms", [2, 3, 4, 18, 19, 35, 36]);
-    const woodPlatformLayer = tilemapComposition.createTileLayer(map, "floor-wall-roof", "WoodPlatforms", [2, 3, 4, 18, 19, 35, 36], true);
-    const wallsLayer = tilemapComposition.createTileLayer(map, "floor-wall-roof", "Walls", [2, 3, 4, 18, 19, 35, 36]);
-    const stairsLayer = tilemapComposition.createTileLayer(map, "stairs-tiles", "Stairs", [2, 3, 4, 18, 19, 35, 36]);
+    const platformLayer = tilemapComposition.createTileLayer(map, "floor-wall-roof", "Platforms", tileCollisions);
+    const woodPlatformLayer = tilemapComposition.createTileLayer(map, "floor-wall-roof", "WoodPlatforms", tileCollisions, true);
+    const wallsLayer = tilemapComposition.createTileLayer(map, "floor-wall-roof", "Walls", tileCollisions);
+    const stairsLayer = tilemapComposition.createTileLayer(map, "stairs-tiles", "Stairs", tileCollisions);
     const chairLayer = tilemapComposition.createObjectLayer(scene, map, "chair_layer", true);
     const startPointsLayer = tilemapComposition.createMetaObjectLayer(map, "start_points_layer");
     const doorsLayer = tilemapComposition.createMetaObjectLayer(map, "doors_layer");

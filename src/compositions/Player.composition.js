@@ -128,7 +128,7 @@ export const playerComposition = {
     player.body.velocity.x = (userInput.right.isDown - userInput.left.isDown) * player.speed;
 
     if (userInput.up.isDown && (onStair || isGrounded)) {
-      player.body.velocity.y = -player.speed * PLAYER.jumpMultiplicator;
+      player.body.velocity.y = -PLAYER.jumpSpeed;
       player.groundedCoyoteTime = 0;
       player.onStairInPreviousFrame = 0;
 
