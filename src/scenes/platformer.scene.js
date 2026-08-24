@@ -137,7 +137,7 @@ export class PlatformerScene extends Phaser.Scene {
 
     lightPointComposition.decreaseBurningTime(this.lightPointsLayer, delta);
     playerComposition.movePlayerOnPlatformers(this, this.player, this.userInput, this.platformLayer, this.woodPlatformLayer, this.stairsLayer, this.map, this.camera);
-    playerComposition.throwChair(this.player, this.userInput, this.wallsLayer);
+    playerComposition.throwChair(this.player, this.userInput, this.wallsLayer, this.platformLayer, this.woodPlatformLayer, this.camera);
     playerComposition.throwSalt(this, this.player, this.userInput, this.ghosts, this.inventoryStore);
     ghostComposition.moveAllGhosts(this.ghosts, this.player, time, delta);
     ghostComposition.updateGhostsStateTimer(this.ghosts, delta, this.ghostsStore);

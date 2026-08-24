@@ -205,13 +205,13 @@ export const playerComposition = {
     }
   },
 
-  throwChair(player, userInput, wallsLayer) {
+  throwChair(player, userInput, wallsLayer, platformLayer, woodPlatformLayer, camera) {
     if (player.currentChair && Phaser.Input.Keyboard.JustDown(userInput.interact)) {
       const direction = player.flipX ? -1 : 1;
       const posX = player.x + (player.body.width / 2 + player.currentChair.body.width / 2) * direction;
       const posY = player.body.bottom - player.currentChair.body.height / 2;
 
-      if (isAreaFree(player.scene, player.currentChair, posX, posY, wallsLayer)) {
+      if (isAreaFree(player.scene, player.currentChair, player, posX, posY, wallsLayer, platformLayer, woodPlatformLayer, camera)) {
         player.currentChair.enableBody(true, posX, posY, true, true).refreshBody();
         player.currentChair = null;
       }
@@ -242,7 +242,7 @@ export const playerComposition = {
   },
 };
 
-function isAreaFree(scene, chair, posX, posY, wallsLayer) {
+function isAreaFree(scene, chair, player, posX, posY, wallsLayer, platformLayer, woodPlatformLayer, camera) {
   const width = chair.body.width;
   const height = chair.body.height;
 
@@ -251,7 +251,7 @@ function isAreaFree(scene, chair, posX, posY, wallsLayer) {
 
   const collidingTiles = wallsLayer.getTilesWithinWorldXY(startX, startY, width, height, { isColliding: true });
 
-  return collidingTiles.length === 0;
+  return collidingTiles.length === 0 && (getTileBelowFeet(player, platformLayer, camera) || getTileBelowFeet(player, woodPlatformLayer, camera));
 }
 
 function checkOnStair(player, stairTile, tileMap, tolerance) {
