@@ -167,7 +167,7 @@
     "bodyWidth": 40,
     "bodyHeight": 110,
     "bodyOffsetY": 10,
-    "jumpMultiplicator": 2.8,
+    "jumpSpeed": 650,
     "fallMultiplicator": 0.9,
     "stairsDropAcceleration": 24,
     "onGroundCoyoteTime": 8,
