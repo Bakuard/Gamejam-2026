@@ -1,8 +1,9 @@
 import { defineStore } from "pinia";
+import { GHOSTS } from "@/configs/gameplay.config.js";
 
 export const useGhostStore = defineStore("ghosts", {
   state: () => ({
-    currentGhostsNumber: 3,
+    currentGhostsNumber: GHOSTS.startGhostNumber,
     survivalCounter: 0,
   }),
   actions: {},

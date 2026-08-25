@@ -1,8 +1,7 @@
 import Phaser from "phaser";
-import { GHOSTS_VFX, LIGHT_POINT } from "@/configs/gameplay.config.js";
+import { GHOSTS, GHOSTS_VFX, LIGHT_POINT } from "@/configs/gameplay.config.js";
 import { GHOSTS_VFX_BY_PHASE_INDEX } from "@/configs/gameplay.config.js";
 import { doorComposition } from "@/compositions/Door.composition.js";
-import { pullEventManager } from "@/utils/PullEventManager.js";
 
 export const ghostComposition = {
   preloadGhostAnimation(scene, ghostsConfig) {
@@ -45,6 +44,7 @@ export const ghostComposition = {
       result.push(ghost);
     }
 
+    ghostStore.currentGhostsNumber += GHOSTS.newGhostNumberStep;
     return result;
   },
 
@@ -62,7 +62,7 @@ export const ghostComposition = {
 
   moveAllGhosts(allGhosts, player, time, deltaTime) {
     for (const ghost of allGhosts) {
-      moveGhost(player, ghost, time, deltaTime);
+      moveGhost(player, ghost, allGhosts, time, deltaTime);
       updateGhostParticlesPosition(ghost);
     }
   },
@@ -99,10 +99,13 @@ function prepareWanderArea(wanderAreaConfig) {
 }
 
 function createGhost(scene, x, y, wanderArea, prowlGhostPointsLayer, ghostConfig) {
-  const ghost = scene.physics.add.sprite(x, y, ghostConfig.states[0].animationAtlasName, "1").setOrigin(0.5, 1).refreshBody();
+  const ghost = scene.physics.add.sprite(x, y, ghostConfig.states[0].animationAtlasName, "1")
+    .setOrigin(0.5, 1)
+    .refreshBody();
   ghost.body.setAllowGravity(false);
   ghost.aim = new Phaser.Math.Vector2(x, y);
   ghost.directionToAim = new Phaser.Math.Vector2();
+  ghost.separationVector = new Phaser.Math.Vector2();
   ghost.directionFromLightPointCenter = new Phaser.Math.Vector2();
   ghost.wanderArea = wanderArea;
   ghost.stateIndex = 0;
@@ -152,17 +155,17 @@ function updateGhostWithState(ghost, state) {
   const unscaledBodyHeight = state.physicBodyHeight / ghost.scaleY;
   ghost.body.setSize(unscaledBodyWidth, unscaledBodyHeight, false);
 
-  const offsetX = (ghost.width - unscaledBodyWidth) / 2; // По центру по горизонтали
+  const offsetX = (ghost.width - unscaledBodyWidth) / 2;
   const offsetY = ghost.height - unscaledBodyHeight;
   ghost.body.setOffset(offsetX, offsetY);
 }
 
 
-function moveGhost(player, ghost, totalTime, deltaTime) {
+function moveGhost(player, ghost, allGhosts, totalTime, deltaTime) {
   if (ghost.runAwayTimer > 0) {
     ghost.runAwayTimer -= deltaTime;
     calculateDirectionAndDistanceToAim(ghost, player);
-    calculateStraightVelocity(ghost);
+    calculateStraightVelocity(ghost, allGhosts);
     ghost.body.velocity.negate();
     changeVelocityIfLightPoint(ghost);
     ghost.setFlipX(ghost.body.velocity.x < 0);
@@ -171,7 +174,7 @@ function moveGhost(player, ghost, totalTime, deltaTime) {
 
   calculateDirectionAndDistanceToAim(ghost, player);
   if (ghost.distanceToAim <= ghost.detectionRadius) {
-    calculateStraightVelocity(ghost);
+    calculateStraightVelocity(ghost, allGhosts);
     changeVelocityByMovementType(ghost, totalTime);
     changeVelocityIfLightPoint(ghost);
     ghost.setFlipX(ghost.body.velocity.x < 0);
@@ -179,7 +182,7 @@ function moveGhost(player, ghost, totalTime, deltaTime) {
     ghost.ambushed = false;
   } else if (ghost.roamType === "straight") {
     calculateDirectionAndDistanceToAim(ghost, ghost.aim);
-    calculateStraightVelocity(ghost);
+    calculateStraightVelocity(ghost, allGhosts);
     changeVelocityIfLightPoint(ghost);
     ghost.setFlipX(ghost.body.velocity.x < 0);
     if (ghost.distanceToAim < ghost.speed) choseRandomAimInWanderArea(ghost);
@@ -203,8 +206,31 @@ function calculateDirectionAndDistanceToAim(ghost, aim) {
   ghost.distanceToAim = ghost.directionToAim.length();
 }
 
-function calculateStraightVelocity(ghost) {
-  ghost.body.velocity.copy(ghost.directionToAim).normalize().scale(ghost.speed);
+function calculateStraightVelocity(ghost, allGhosts) {
+  calculateSeparationVector(ghost, allGhosts);
+  ghost.body.velocity.copy(ghost.directionToAim).normalize().add(ghost.separationVector).scale(ghost.speed);
+}
+
+function calculateSeparationVector(ghost, allGhosts) {
+  ghost.separationVector.set(0, 0);
+
+  for (const otherGhost of allGhosts) {
+    if (ghost === otherGhost) continue;
+
+    const dx = ghost.x - otherGhost.x;
+    const dy = ghost.y - otherGhost.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    if (distance > 0 && distance < GHOSTS.separationRadius) {
+      const separationPower = 1 - distance / GHOSTS.separationRadius;
+      ghost.separationVector.x += (dx / distance) * separationPower;
+      ghost.separationVector.y += (dy / distance) * separationPower;
+    } else if (distance === 0) {
+      ghost.separationVector.x += Math.random() - 0.5;
+      ghost.separationVector.y += Math.random() - 0.5;
+    }
+  }
+
+  ghost.separationVector.scale(GHOSTS.separationForceFraction);
 }
 
 function changeVelocityByMovementType(ghost, totalTime) {
