@@ -31,7 +31,7 @@ export class PlatformerScene extends Phaser.Scene {
     dropItemsComposition.preloadDropItemsImage(this, Config.DROP_ITEMS);
     doorComposition.preloadDoorAnimations(this);
     playerComposition.preloadPlayerAnimation(this);
-    ghostComposition.preloadGhostAnimation(this, Config.GHOSTS);
+    ghostComposition.preloadGhostAnimation(this, Config.GHOSTS.units);
     ghostComposition.preloadGhostParticles(this);
     audioComposition.preloadAudioFiles(this, Config.AUDIO);
     lightPointComposition.preloadLightPointAnimation(this);
@@ -92,7 +92,7 @@ export class PlatformerScene extends Phaser.Scene {
     this.player = playerComposition.createPlayer(this, startPointsLayer.player.x, startPointsLayer.player.y);
     playerComposition.configureCameraFollow(this, this.player, this.cameras.main.width / 4, this.cameras.main.height / 4);
 
-    ghostComposition.prepareGhostAnimation(this, Config.GHOSTS);
+    ghostComposition.prepareGhostAnimation(this, Config.GHOSTS.units);
     this.ghosts = [];
 
     [this.lightPointsLayer, this.lightPointsAreaLayer] = lightPointComposition.createLightPoints(this, lightPointsLayer);
@@ -166,7 +166,7 @@ function changeAmbientAudio(scene) {
 function createNewGhosts(scene) {
   if (!pullEventManager.checkEvent("createNewGhosts", "night") || calendarComposition.getCurrentPhaseProgress(scene.calendarStore) < Config.TIME.nightPhaseTransitionFraction) return;
 
-  scene.ghosts = ghostComposition.createGhosts(scene, Config.GHOSTS, scene.startPointsLayer, scene.ghostsWanderAreaLayer, scene.prowlGhostPointsLayer, scene.ghostsStore);
+  scene.ghosts = ghostComposition.createGhosts(scene, Config.GHOSTS.units, scene.startPointsLayer, scene.ghostsWanderAreaLayer, scene.prowlGhostPointsLayer, scene.ghostsStore);
   for (const ghost of scene.ghosts) {
     scene.physics.add.overlap(scene.player, ghost, (player, ghost) => ghostComposition.handlePlayerCollision(scene, scene.playerStore));
     scene.physics.add.overlap(ghost, scene.doorsLayer, (ghost, door) => ghostComposition.tryCloseDoor(ghost, door));
@@ -174,8 +174,6 @@ function createNewGhosts(scene) {
   }
 
   pullEventManager.clearEvent("createNewGhosts", "night");
-  scene.ghostsStore.currentGhostsNumber++;
-  console.log(`currentGhostsNumber: ${scene.ghostsStore.currentGhostsNumber}, night: ${pullEventManager.checkEvent("createNewGhosts", "night")}`);
 }
 
 function spawnOrDespawnDropItems(scene) {
