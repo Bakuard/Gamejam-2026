@@ -20,11 +20,27 @@
                 "y": 987.8787878787879
             }
         },
+        "platformer.tmx#chairs": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "platformer.tmx#decor": {
+            "scaleInDock": 1
+        },
         "platformer.tmx#door_tiles": {
             "dynamicWrapping": true,
             "scaleInDock": 1
         },
+        "platformer.tmx#floor-wall-roof": {
+            "scaleInDock": 1
+        },
+        "platformer.tmx#light-points": {
+            "scaleInDock": 1
+        },
         "platformer.tmx#platform": {
+            "scaleInDock": 1
+        },
+        "platformer.tmx#stairs-tiles": {
             "scaleInDock": 1
         }
     },
