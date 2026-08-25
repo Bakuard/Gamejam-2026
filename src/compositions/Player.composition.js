@@ -116,7 +116,7 @@ export const playerComposition = {
     scene.cameras.main.setZoom(1.2);
   },
 
-  movePlayerOnPlatformers(scene, player, userInput, platformLayer, woodPlatformLayer, stairsLayer, tileMap, camera) {
+  movePlayerOnPlatformers(scene, player, userInput, platformLayer, woodPlatformLayer, stairsLayer, wallsLayer, tileMap, camera) {
     const stairTile = getTileAtFeetLevel(player, stairsLayer, camera);
     const onStair = stairTile && checkOnStair(player, stairTile, tileMap, PLAYER.footTolerance);
     player.body.setAllowGravity(!onStair);
@@ -127,7 +127,8 @@ export const playerComposition = {
 
     player.body.velocity.x = (userInput.right.isDown - userInput.left.isDown) * player.speed;
 
-    if (userInput.up.isDown && (onStair || isGrounded)) {
+    const canJump = userInput.up.isDown && (onStair || isGrounded) && getTileAboveHead(player, platformLayer, camera) == null && getTileAboveHead(player, wallsLayer, camera) == null;
+    if (canJump) {
       player.body.velocity.y = -PLAYER.jumpSpeed;
       player.groundedCoyoteTime = 0;
       player.onStairInPreviousFrame = 0;
@@ -289,4 +290,14 @@ function getTileAtFeetLevel(player, tileLayer, camera) {
   const x = player.body.center.x;
   const y = player.body.bottom - 1;
   return tileLayer.getTileAtWorldXY(x, y, false, camera);
+}
+
+function getTileAboveHead(player, tileLayer, camera) {
+  const tileHeight = tileLayer.tilemap.tileHeight;
+  const playerHeightInTiles = Math.round(player.body.height / tileHeight) * tileHeight;
+
+  const left = player.body.left + 2;
+  const right = player.body.right - 2;
+  const y = player.body.bottom - playerHeightInTiles - 1;
+  return tileLayer.getTileAtWorldXY(left, y, false, camera) ?? tileLayer.getTileAtWorldXY(right, y, false, camera);
 }

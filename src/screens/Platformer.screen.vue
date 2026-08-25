@@ -81,7 +81,7 @@ const createGame = () => {
       default: "arcade",
       arcade: {
         gravity: { x: 0, y: LEVEL_GRAVITY },
-        tileBias: 16,
+        tileBias: 32,
         debug: true,
       },
     },
