@@ -38,4 +38,8 @@ export const doorComposition = {
     door.isLocked = true;
     door.setFrame("2");
   },
+
+  unlockAllDoors(doorsLayer) {
+    doorsLayer.getChildren().forEach((door) => door.isLocked = false);
+  }
 };

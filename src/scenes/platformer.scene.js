@@ -43,6 +43,7 @@ export class PlatformerScene extends Phaser.Scene {
     pullEventManager.registerInbox("changeAmbientAudio", "morning", "night");
     pullEventManager.registerInbox("createNewGhosts", "night");
     pullEventManager.registerInbox("spawnOrDespawnDropItems", "morning", "night");
+    pullEventManager.registerInbox("unlockAllDoorsIfMorning", "morning");
 
     const [camera, backgroundNear, backgroundFar] = platformerComposition.createParallaxImages(this);
     platformerComposition.createBackground(this, camera);
@@ -134,6 +135,7 @@ export class PlatformerScene extends Phaser.Scene {
     changeAmbientAudio(this);
     createNewGhosts(this);
     spawnOrDespawnDropItems(this);
+    unlockAllDoorsIfMorning(this);
 
     lightPointComposition.decreaseBurningTime(this.lightPointsLayer, delta);
     playerComposition.movePlayerOnPlatformers(this, this.player, this.userInput, this.platformLayer, this.woodPlatformLayer, this.stairsLayer, this.wallsLayer, this.map, this.camera);
@@ -191,5 +193,12 @@ function spawnOrDespawnDropItems(scene) {
     );
     scene.physics.add.overlap(scene.player, scene.dropItems, (player, item) => dropItemsComposition.handlePlayerCollision(player, item, scene.dropItems, scene.inventoryStore));
     pullEventManager.clearEvent("spawnOrDespawnDropItems", "morning");
+  }
+}
+
+function unlockAllDoorsIfMorning(scene) {
+  if (pullEventManager.checkEvent("unlockAllDoorsIfMorning", "morning") && calendarComposition.getCurrentPhaseProgress(scene.calendarStore) >= Config.TIME.morningPhaseTransitionFraction) {
+    doorComposition.unlockAllDoors(scene.doorsLayer);
+    pullEventManager.clearEvent("unlockAllDoorsIfMorning", "morning");
   }
 }
