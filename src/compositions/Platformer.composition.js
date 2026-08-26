@@ -6,9 +6,14 @@ export const platformerComposition = {
     scene.load.image("decor", "assets/levels/tiles/level-art-tiles.png");
     scene.load.image("chair", "assets/levels/tiles/box.png");
     scene.load.image("stairs-tiles", "assets/levels/tiles/stairs-tiles.png");
-    scene.load.image("mountBack", "assets/img/background/mount-back.png");
-    scene.load.image("mountFront", "assets/img/background/mount-front.png");
+    // scene.load.image("mountBack", "assets/img/background/mount-back.png");
+    // scene.load.image("mountFront", "assets/img/background/mount-front.png");
+    scene.load.image("background", "assets/img/background/background.png");
+    scene.load.image("mountains", "assets/img/background/mountains.png");
+    scene.load.image("peaks", "assets/img/background/peaks.png");
+    scene.load.image("resort", "assets/img/background/resort.png");
     scene.load.tilemapTiledJSON("platformer-tilemap", "assets/levels/tilemaps/platformer.json");
+    scene.load.json("platformer-tilemap-raw", "assets/levels/tilemaps/platformer.json");
   },
 
   createLevel(scene) {
@@ -31,6 +36,11 @@ export const platformerComposition = {
     const masterKeysSpawnAreaLayer = tilemapComposition.createMetaObjectLayer(map, "master_keys_spawn_area_layer");
     const saltSpawnAreaLayer = tilemapComposition.createMetaObjectLayer(map, "salt_spawn_area_layer");
     const lightPointsLayer = tilemapComposition.createMetaObjectLayer(map, "light_points_layer");
+    tilemapComposition.createImageLayer(scene, "platformer-tilemap-raw", "Background", "background");
+    tilemapComposition.createImageLayer(scene, "platformer-tilemap-raw", "Peaks", "peaks");
+    tilemapComposition.createImageLayer(scene, "platformer-tilemap-raw", "Parallax", "mountains");
+    tilemapComposition.createImageLayer(scene, "platformer-tilemap-raw", "Resort", "resort");
+
 
     return [
       map,

@@ -10,14 +10,79 @@
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "": {
+            "scaleInDock": 0.125
+        },
+        "/home/alpinweb/works/Borning Ghosts Playable/burning-ghosts-playable/levels/platformer.tmx": {
+            "scale": 0.34932291666666665,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": -1090.681377665126,
+                "y": 1110.7201431340393
+            }
+        },
+        "/home/alpinweb/works/Borning Ghosts Playable/burning-ghosts-playable/levels/platformer.tmx#door_tiles": {
             "scaleInDock": 1
         },
-        "platformer.tmx": {
+        "/home/alpinweb/works/Borning Ghosts Playable/burning-ghosts-playable/levels/platformer.tmx#heart_level": {
+            "scaleInDock": 1
+        },
+        "/home/alpinweb/works/Borning Ghosts Playable/burning-ghosts-playable/levels/platformer.tmx#platform": {
+            "scaleInDock": 1
+        },
+        "/home/alpinweb/works/Borning Ghosts Playable/burning-ghosts-playable/levels/topdown.tmx": {
             "scale": 0.33,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": -746.969696969697,
-                "y": 987.8787878787879
+                "x": 960.6060606060606,
+                "y": -960.6060606060607
+            }
+        },
+        "/home/alpinweb/works/Borning Ghosts Playable/burning-ghosts-playable/levels/topdown.tmx#door_tiles": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "/home/alpinweb/works/Borning Ghosts Playable/burning-ghosts-playable/levels/topdown.tmx#floor-wall-roof": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "/home/alpinweb/works/Borning Ghosts Playable/burning-ghosts-playable/levels/topdown.tmx#ground_tiles": {
+            "scaleInDock": 1
+        },
+        "/home/alpinweb/works/Borning Ghosts Playable/burning-ghosts-playable/levels/topdown.tmx#interactive-invirements": {
+            "dynamicWrapping": false
+        },
+        "/home/alpinweb/works/Borning Ghosts Playable/burning-ghosts-playable/levels/topdown.tmx#level-art-tiles": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "/home/alpinweb/works/Borning Ghosts Playable/burning-ghosts-playable/public/assets/levels/tilesets/heart_tiles.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "/home/alpinweb/works/whale-traders/whale-traders/levels/devroom.tmx": {
+            "expandedObjectLayers": [
+                4
+            ],
+            "scale": 0.5,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 490,
+                "y": -14
+            }
+        },
+        "/home/alpinweb/works/whale-traders/whale-traders/levels/devroom.tmx#islands_tiles": {
+            "scaleInDock": 0.33
+        },
+        "/home/alpinweb/works/whale-traders/whale-traders/levels/devroom.tmx#whale_tiles": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.33
+        },
+        "platformer.tmx": {
+            "scale": 0.125,
+            "selectedLayer": -1,
+            "viewCenter": {
+                "x": 1488,
+                "y": 1224
             }
         },
         "platformer.tmx#chairs": {
@@ -35,6 +100,7 @@
             "scaleInDock": 1
         },
         "platformer.tmx#light-points": {
+            "dynamicWrapping": false,
             "scaleInDock": 1
         },
         "platformer.tmx#platform": {
@@ -45,18 +111,22 @@
         }
     },
     "last.exportedFilePath": "/home/alpinweb/works/phaser-vue-start-template/public/assets/levels/tilemaps",
-    "last.imagePath": "/home/alpinweb/works/phaser-vue-start-template/public/assets/levels/tiles",
+    "last.imagePath": "/home/alpinweb/works/Burning Ghosts/Gamejam-2026/public/assets/img/background",
     "map.fixedSize": false,
     "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 138,
     "map.tileWidth": 138,
     "openFiles": [
+        "/home/alpinweb/works/Borning Ghosts Playable/burning-ghosts-playable/levels/topdown.tmx",
         "platformer.tmx"
     ],
     "project": "platformer.tiled-project",
     "recentFiles": [
-        "platformer.tmx"
+        "/home/alpinweb/works/Borning Ghosts Playable/burning-ghosts-playable/levels/topdown.tmx",
+        "platformer.tmx",
+        "/home/alpinweb/works/whale-traders/whale-traders/levels/devroom.tmx",
+        "/home/alpinweb/works/Borning Ghosts Playable/burning-ghosts-playable/levels/platformer.tmx"
     ],
     "tileset.embedInMap": true,
     "tileset.tileSize": {
