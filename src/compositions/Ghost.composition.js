@@ -117,6 +117,7 @@ function createGhost(scene, x, y, wanderArea, prowlGhostPointsLayer, ghostConfig
   ghost.ambushTimeLimitInMs = ghostConfig.ambushTimeLimitInMs;
   ghost.runAwayTimer = 0;
   ghost.runAwayMaxTimeInMs = ghostConfig.runAwayMaxTimeInSec * 1000;
+  ghost.randomOffsetForWaveMovement = Phaser.Math.Between(0, 100);
   updateGhostWithState(ghost, ghostConfig.states[0]);
   createGhostParticles(scene, ghost);
   applyGhostVfxForCurrentPhase(ghost);
@@ -143,8 +144,8 @@ function updateGhostStateTimer(ghost, deltaTime) {
 }
 
 function updateGhostWithState(ghost, state) {
-  ghost.speed = state.speedPxPerSec;
-  ghost.detectionRadius = state.detectionRadius;
+  ghost.speed = Phaser.Math.RND.pick(state.speedPxPerSec);
+  ghost.detectionRadius = Phaser.Math.RND.pick(state.detectionRadius);
   ghost.nextTempAimDistance = state.nextTempAimDistance;
   ghost.currentState = state;
 
@@ -165,25 +166,29 @@ function moveGhost(player, ghost, allGhosts, totalTime, deltaTime) {
   if (ghost.runAwayTimer > 0) {
     ghost.runAwayTimer -= deltaTime;
     calculateDirectionAndDistanceToAim(ghost, player);
-    calculateStraightVelocity(ghost, allGhosts);
-    ghost.body.velocity.negate();
-    changeVelocityIfLightPoint(ghost);
+    calculateStraightNormalizedVelocity(ghost, allGhosts);
+    changeNormalizedVelocityIfLightPoint(ghost);
+    ghost.body.velocity.scale(ghost.speed).negate();
     ghost.setFlipX(ghost.body.velocity.x < 0);
     return;
   }
 
   calculateDirectionAndDistanceToAim(ghost, player);
   if (ghost.distanceToAim <= ghost.detectionRadius) {
-    calculateStraightVelocity(ghost, allGhosts);
+    calculateStraightNormalizedVelocity(ghost);
+    calculateSeparationVector(ghost, allGhosts);
+    ghost.body.velocity.add(ghost.separationVector);
     changeVelocityByMovementType(ghost, totalTime);
-    changeVelocityIfLightPoint(ghost);
+    changeNormalizedVelocityIfLightPoint(ghost);
+    ghost.body.velocity.scale(ghost.speed);
     ghost.setFlipX(ghost.body.velocity.x < 0);
     ghost.setAlpha(1);
     ghost.ambushed = false;
   } else if (ghost.roamType === "straight") {
     calculateDirectionAndDistanceToAim(ghost, ghost.aim);
-    calculateStraightVelocity(ghost, allGhosts);
-    changeVelocityIfLightPoint(ghost);
+    calculateStraightNormalizedVelocity(ghost, allGhosts);
+    changeNormalizedVelocityIfLightPoint(ghost);
+    ghost.body.velocity.scale(ghost.speed);
     ghost.setFlipX(ghost.body.velocity.x < 0);
     if (ghost.distanceToAim < ghost.speed) choseRandomAimInWanderArea(ghost);
   } else if (ghost.roamType === "prowl") {
@@ -206,9 +211,8 @@ function calculateDirectionAndDistanceToAim(ghost, aim) {
   ghost.distanceToAim = ghost.directionToAim.length();
 }
 
-function calculateStraightVelocity(ghost, allGhosts) {
-  calculateSeparationVector(ghost, allGhosts);
-  ghost.body.velocity.copy(ghost.directionToAim).normalize().add(ghost.separationVector).scale(ghost.speed);
+function calculateStraightNormalizedVelocity(ghost) {
+  ghost.body.velocity.copy(ghost.directionToAim).normalize();
 }
 
 function calculateSeparationVector(ghost, allGhosts) {
@@ -229,8 +233,6 @@ function calculateSeparationVector(ghost, allGhosts) {
       ghost.separationVector.y += Math.random() - 0.5;
     }
   }
-
-  ghost.separationVector.scale(GHOSTS.separationForceFraction);
 }
 
 function changeVelocityByMovementType(ghost, totalTime) {
@@ -241,28 +243,25 @@ function changeVelocityByMovementType(ghost, totalTime) {
   } else if (ghost.chaseType === "wave") {
     const waveSpeed = 2.5;
     const waveAmplitude = 0.6;
-    const totalTimeInSec = totalTime / 1000;
+    const totalTimeInSec = ghost.randomOffsetForWaveMovement + totalTime / 1000;
     const waveAngle = Math.sin(totalTimeInSec * waveSpeed) * waveAmplitude;
     rotateVector(ghost.body.velocity, waveAngle);
   }
 }
 
-function changeVelocityIfLightPoint(ghost) {
+function changeNormalizedVelocityIfLightPoint(ghost) {
   if (!ghost.nearestLightPoint || !ghost.nearestLightPoint.turnOn) return;
 
   ghost.directionFromLightPointCenter.set(ghost.x - ghost.nearestLightPoint.x, ghost.y - ghost.nearestLightPoint.y);
 
   const currentDistance = ghost.directionFromLightPointCenter.length();
-  const nextDistance = Phaser.Math.Distance.Between(
-    ghost.x + ghost.body.velocity.x * 0.1,
-    ghost.y + ghost.body.velocity.y * 0.1,
-    ghost.nearestLightPoint.x,
-    ghost.nearestLightPoint.y
-  );
-  if (currentDistance < LIGHT_POINT.protectionRadius) {
-    ghost.body.velocity.copy(ghost.directionFromLightPointCenter).normalize().scale(ghost.speed);
-  } else if (nextDistance < LIGHT_POINT.protectionRadius) {
-    ghost.body.velocity.set(-ghost.directionFromLightPointCenter.y, ghost.directionFromLightPointCenter.x).normalize().scale(ghost.speed);
+  const bufferZone = 30;
+  if (currentDistance < LIGHT_POINT.protectionRadius + bufferZone) {
+    ghost.directionFromLightPointCenter.normalize();
+    const error = LIGHT_POINT.protectionRadius - currentDistance;
+    const dx = -ghost.directionFromLightPointCenter.y + ghost.directionFromLightPointCenter.x * error * 0.05;
+    const dy = ghost.directionFromLightPointCenter.x + ghost.directionFromLightPointCenter.y * error * 0.05;
+    ghost.body.velocity.set(dx, dy);
   }
 }
 
