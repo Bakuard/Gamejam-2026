@@ -45,12 +45,12 @@ export class PlatformerScene extends Phaser.Scene {
     pullEventManager.registerInbox("spawnOrDespawnDropItems", "morning", "night");
     pullEventManager.registerInbox("unlockAllDoorsIfMorning", "morning");
 
-    const [camera, backgroundNear, backgroundFar] = platformerComposition.createParallaxImages(this);
-    platformerComposition.createBackground(this, camera);
+    // const [camera, backgroundNear, backgroundFar] = platformerComposition.createParallaxImages(this);
+    // platformerComposition.createBackground(this, camera);
 
-    this.camera = camera;
-    this.backgroundNear = backgroundNear;
-    this.backgroundFar = backgroundFar;
+    this.camera = this.cameras.main;
+    // this.backgroundNear = backgroundNear;
+    // this.backgroundFar = backgroundFar;
 
     audioComposition.createAudioForScene(this, Config.AUDIO);
 
@@ -81,9 +81,9 @@ export class PlatformerScene extends Phaser.Scene {
     this.ghostsWanderAreaLayer = ghostsWanderAreaLayer;
     this.prowlGhostPointsLayer = prowlGhostPointsLayer;
 
-    this.emptyTilesCenterForMatches = tilemapComposition.findEmptyTilesCenterInArea(map, camera, matchesSpawnAreaLayer, platformLayer, woodPlatformLayer, wallsLayer);
-    this.emptyTilesCenterForMasterKeys = tilemapComposition.findEmptyTilesCenterInArea(map, camera, masterKeysSpawnAreaLayer, platformLayer, woodPlatformLayer, wallsLayer);
-    this.emptyTilesCenterForSalt = tilemapComposition.findEmptyTilesCenterInArea(map, camera, saltSpawnAreaLayer, platformLayer, woodPlatformLayer, wallsLayer);
+    this.emptyTilesCenterForMatches = tilemapComposition.findEmptyTilesCenterInArea(map, this.camera, matchesSpawnAreaLayer, platformLayer, woodPlatformLayer, wallsLayer);
+    this.emptyTilesCenterForMasterKeys = tilemapComposition.findEmptyTilesCenterInArea(map, this.camera, masterKeysSpawnAreaLayer, platformLayer, woodPlatformLayer, wallsLayer);
+    this.emptyTilesCenterForSalt = tilemapComposition.findEmptyTilesCenterInArea(map, this.camera, saltSpawnAreaLayer, platformLayer, woodPlatformLayer, wallsLayer);
 
     this.doorsLayer = doorComposition.createDoors(this, doorsLayer);
 
@@ -144,7 +144,7 @@ export class PlatformerScene extends Phaser.Scene {
     ghostComposition.moveAllGhosts(this.ghosts, this.player, time, delta);
     ghostComposition.updateGhostsStateTimer(this.ghosts, delta, this.ghostsStore);
 
-    platformerComposition.moveParallaxImages(this.camera, this.backgroundNear, this.backgroundFar, this);
+    // platformerComposition.moveParallaxImages(this.camera, this.backgroundNear, this.backgroundFar, this);
     dynamicLightingComposition.updateAmbientLightPipeline(this.nightPipeline, this.calendarStore.currentPhase, calendarComposition.getCurrentPhaseProgress(this.calendarStore));
   }
 
