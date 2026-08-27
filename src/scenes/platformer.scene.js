@@ -89,7 +89,6 @@ export class PlatformerScene extends Phaser.Scene {
 
     this.userInput = playerComposition.createUserInput(this);
     playerComposition.preparePlayerAnimation(this);
-    playerComposition.prepareSaltParticle(this);
     this.player = playerComposition.createPlayer(this, startPointsLayer.player.x, startPointsLayer.player.y);
     playerComposition.configureCameraFollow(this, this.player, this.cameras.main.width / 4, this.cameras.main.height / 4);
 

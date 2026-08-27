@@ -2,6 +2,14 @@ export const particlesComposition = {
   preloadParticlesTextures(scene) {
     scene.load.image("smoke-puff-particle", "assets/vfx/smoke-puff.png");
     scene.load.image("fire-particle", "assets/vfx/yellow.png");
+
+    if (!scene.textures.exists("saltTexture")) {
+      const graphics = scene.add.graphics();
+      graphics.fillStyle(0xffffff, 1);
+      graphics.fillCircle(4, 4, 4);
+      graphics.generateTexture("saltTexture", 8, 8);
+      graphics.destroy();
+    }
   },
 
   /**

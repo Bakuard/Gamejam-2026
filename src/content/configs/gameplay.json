@@ -71,6 +71,20 @@
   },
   "PARTICLES": {
     "VFX": {
+      "salt": {
+        "textureKey": "saltTexture",
+        "followOffsetX": 0,
+        "followOffsetYFactor": -1,
+        "depthOffset": 0,
+        "tint": [16777215, 43775, 8965375],
+        "speed": { "min": 150, "max": 200 },
+        "angle": { "min": 0, "max": 360 },
+        "scale": { "start": 1.5, "end": 0.5 },
+        "alpha": { "start": 0.8, "end": 0 },
+        "lifespan": 800,
+        "frequency": 20,
+        "blendMode": "ADD"
+      },
       "dust": {
         "followOffsetYFactor": -0.6,
         "textureKey": "smoke-puff-particle",

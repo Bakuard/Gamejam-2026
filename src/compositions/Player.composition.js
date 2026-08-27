@@ -1,9 +1,10 @@
 import Phaser from "phaser";
 
-import { DROP_ITEMS, ITEM_SALT, PLAYER } from "@/configs/gameplay.config.js";
+import { DROP_ITEMS, ITEM_SALT, PARTICLES, PLAYER } from "@/configs/gameplay.config.js";
 import { audioComposition } from "@/compositions/Audio.composition.js";
 import { inventoryComposition } from "@/compositions/Inventory.composition.js";
 import { ghostComposition } from "@/compositions/Ghost.composition.js";
+import { particlesComposition } from "@/compositions/Particles.composition.js";
 
 export const playerComposition = {
   preloadPlayerAnimation(scene) {
@@ -93,18 +94,8 @@ export const playerComposition = {
     player.onStairInPreviousFrame = 0;
 
     player.isSaltParticlesActive = false;
-    player.cloudEmitter = scene.add.particles(0, 0, "saltTexture", {
-      tint: [0xffffff, 0x00aaff, 0x88ccff], // Массив цветов: белый и оттенки голубого
-      speed: { min: 60, max: 150 }, // Скорость разлета
-      angle: { min: 0, max: 360 }, // Летят во все стороны
-      scale: { start: 1.5, end: 0.5 }, // Уменьшаются к концу жизни
-      alpha: { start: 0.8, end: 0 }, // Плавно исчезают
-      lifespan: 800, // Время жизни одной частицы (мс)
-      frequency: 30, // Как часто вылетают новые частицы (мс)
-      blendMode: "ADD", // Эффект свечения
-      emitting: false, // Изначально выключен
-    });
-    player.cloudEmitter.startFollow(player, 0, -PLAYER.displayHeight / 2);
+    particlesComposition.initObjectVFX(scene, player, ["salt"], PARTICLES);
+    particlesComposition.setObjectVFXEmitting(player, false, "salt");
 
     return player;
   },
@@ -234,9 +225,9 @@ export const playerComposition = {
 
     if (!player.isSaltParticlesActive) {
       player.isSaltParticlesActive = true;
-      player.cloudEmitter.start();
+      particlesComposition.setObjectVFXEmitting(player, true, "salt");
       scene.time.delayedCall(600, () => {
-        player.cloudEmitter.stop();
+        particlesComposition.setObjectVFXEmitting(player, false, "salt");
         player.isSaltParticlesActive = false;
       });
     }
