@@ -433,16 +433,16 @@
   "GHOSTS_VFX_BY_PHASE_INDEX": [
     null,
     {
-      "fire": { "frequency": 60, "quantity": 1, "particleSizePx": 20 },
-      "smoke": { "frequency": 90, "quantity": 1, "particleSizePx": 40 }
+      "fire": { "frequency": 60, "quantity": 1, "particleSizePx": 15 },
+      "smoke": { "frequency": 90, "quantity": 1, "particleSizePx": 30 }
     },
     {
-      "fire": { "frequency": 35, "quantity": 2, "particleSizePx": 25 },
-      "smoke": { "frequency": 60, "quantity": 1, "particleSizePx": 50 }
+      "fire": { "frequency": 35, "quantity": 2, "particleSizePx": 20 },
+      "smoke": { "frequency": 60, "quantity": 1, "particleSizePx": 40 }
     },
     {
-      "fire": { "frequency": 18, "quantity": 3, "particleSizePx": 30 },
-      "smoke": { "frequency": 35, "quantity": 2, "particleSizePx": 55 }
+      "fire": { "frequency": 18, "quantity": 2, "particleSizePx": 25 },
+      "smoke": { "frequency": 35, "quantity": 2, "particleSizePx": 50 }
     },
     null
   ]
