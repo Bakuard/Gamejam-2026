@@ -71,6 +71,20 @@
   },
   "PARTICLES": {
     "VFX": {
+      "salt": {
+        "textureKey": "saltTexture",
+        "followOffsetX": 0,
+        "followOffsetYFactor": -1,
+        "depthOffset": 0,
+        "tint": [16777215, 43775, 8965375],
+        "speed": { "min": 150, "max": 200 },
+        "angle": { "min": 0, "max": 360 },
+        "scale": { "start": 1.5, "end": 0.5 },
+        "alpha": { "start": 0.8, "end": 0 },
+        "lifespan": 800,
+        "frequency": 20,
+        "blendMode": "ADD"
+      },
       "dust": {
         "followOffsetYFactor": -0.6,
         "textureKey": "smoke-puff-particle",
@@ -192,8 +206,8 @@
         "states": [
           {
             "speedPxPerSec": [20, 30, 40],
-            "displayWidth": 133,
-            "displayHeight": 145.5,
+            "displayWidth": 88.6,
+            "displayHeight": 97,
             "animationAtlasName": "photographer-normal",
             "nextTempAimDistance": 1500,
             "physicBodyHeight": 100,
@@ -204,8 +218,8 @@
           },
           {
             "speedPxPerSec": [35, 45, 55],
-            "displayWidth": 177,
-            "displayHeight": 146,
+            "displayWidth": 118,
+            "displayHeight": 97.3,
             "animationAtlasName": "photographer-hunt",
             "nextTempAimDistance": 1500,
             "physicBodyHeight": 80,
@@ -216,8 +230,8 @@
           },
           {
             "speedPxPerSec": [50, 60, 70],
-            "displayWidth": 177,
-            "displayHeight": 146,
+            "displayWidth": 118,
+            "displayHeight": 97.3,
             "animationAtlasName": "photographer-hunt",
             "nextTempAimDistance": 1500,
             "physicBodyHeight": 80,
@@ -228,8 +242,8 @@
           },
           {
             "speedPxPerSec": [65, 75, 85],
-            "displayWidth": 177,
-            "displayHeight": 146,
+            "displayWidth": 118,
+            "displayHeight": 97.3,
             "animationAtlasName": "photographer-hunt",
             "nextTempAimDistance": 1500,
             "physicBodyHeight": 80,
@@ -240,8 +254,8 @@
           },
           {
             "speedPxPerSec": [0],
-            "displayWidth": 133,
-            "displayHeight": 145.5,
+            "displayWidth": 88.6,
+            "displayHeight": 97,
             "animationAtlasName": "photographer-normal",
             "nextTempAimDistance": 1500,
             "physicBodyHeight": 100,
@@ -261,8 +275,8 @@
         "states": [
           {
             "speedPxPerSec": [105, 110, 115],
-            "displayWidth": 117.5,
-            "displayHeight": 147,
+            "displayWidth": 78.3,
+            "displayHeight": 98,
             "animationAtlasName": "trainer-normal",
             "nextTempAimDistance": 2000,
             "physicBodyHeight": 100,
@@ -273,8 +287,8 @@
           },
           {
             "speedPxPerSec": [145, 150, 155],
-            "displayWidth": 163.5,
-            "displayHeight": 148,
+            "displayWidth": 109,
+            "displayHeight": 98.6,
             "animationAtlasName": "trainer-hunt",
             "nextTempAimDistance": 2000,
             "physicBodyHeight": 100,
@@ -285,8 +299,8 @@
           },
           {
             "speedPxPerSec": [195, 200, 205],
-            "displayWidth": 163.5,
-            "displayHeight": 148,
+            "displayWidth": 109,
+            "displayHeight": 98.6,
             "animationAtlasName": "trainer-hunt",
             "nextTempAimDistance": 2000,
             "physicBodyHeight": 100,
@@ -297,8 +311,8 @@
           },
           {
             "speedPxPerSec": [295, 300, 305],
-            "displayWidth": 163.5,
-            "displayHeight": 148,
+            "displayWidth": 109,
+            "displayHeight": 98.6,
             "animationAtlasName": "trainer-hunt",
             "nextTempAimDistance": 2000,
             "physicBodyHeight": 100,
@@ -309,8 +323,8 @@
           },
           {
             "speedPxPerSec": [0],
-            "displayWidth": 117.5,
-            "displayHeight": 147,
+            "displayWidth": 78.3,
+            "displayHeight": 98,
             "animationAtlasName": "trainer-normal",
             "nextTempAimDistance": 1,
             "physicBodyHeight": 100,
@@ -329,8 +343,8 @@
         "runAwayMaxTimeInSec": 6,
         "states": [
           {
-            "displayWidth": 89,
-            "displayHeight": 148,
+            "displayWidth": 59.3,
+            "displayHeight": 98.6,
             "physicBodyWidth": 30,
             "physicBodyHeight": 100,
             "speedPxPerSec": [25, 30, 35],
@@ -341,8 +355,8 @@
             "closeDoorProbability": 0
           },
           {
-            "displayWidth": 137,
-            "displayHeight": 148.5,
+            "displayWidth": 91.3,
+            "displayHeight": 99,
             "physicBodyWidth": 40,
             "physicBodyHeight": 120,
             "speedPxPerSec": [40, 45, 50],
@@ -353,8 +367,8 @@
             "closeDoorProbability": 0.1
           },
           {
-            "displayWidth": 137,
-            "displayHeight": 148.5,
+            "displayWidth": 91.3,
+            "displayHeight": 99,
             "physicBodyWidth": 50,
             "physicBodyHeight": 150,
             "speedPxPerSec": [55, 60, 65],
@@ -365,8 +379,8 @@
             "closeDoorProbability": 0.2
           },
           {
-            "displayWidth": 137,
-            "displayHeight": 148.5,
+            "displayWidth": 91.3,
+            "displayHeight": 99,
             "physicBodyWidth": 60,
             "physicBodyHeight": 200,
             "speedPxPerSec": [70, 75, 80],
@@ -377,8 +391,8 @@
             "closeDoorProbability": 0.3
           },
           {
-            "displayWidth": 89,
-            "displayHeight": 148,
+            "displayWidth": 59.3,
+            "displayHeight": 98.6,
             "physicBodyWidth": 60,
             "physicBodyHeight": 200,
             "speedPxPerSec": [0],
@@ -433,16 +447,16 @@
   "GHOSTS_VFX_BY_PHASE_INDEX": [
     null,
     {
-      "fire": { "frequency": 60, "quantity": 1, "particleSizePx": 20 },
-      "smoke": { "frequency": 90, "quantity": 1, "particleSizePx": 40 }
+      "fire": { "frequency": 60, "quantity": 1, "particleSizePx": 15 },
+      "smoke": { "frequency": 90, "quantity": 1, "particleSizePx": 30 }
     },
     {
-      "fire": { "frequency": 35, "quantity": 2, "particleSizePx": 25 },
-      "smoke": { "frequency": 60, "quantity": 1, "particleSizePx": 50 }
+      "fire": { "frequency": 35, "quantity": 2, "particleSizePx": 20 },
+      "smoke": { "frequency": 60, "quantity": 1, "particleSizePx": 40 }
     },
     {
-      "fire": { "frequency": 18, "quantity": 3, "particleSizePx": 30 },
-      "smoke": { "frequency": 35, "quantity": 2, "particleSizePx": 55 }
+      "fire": { "frequency": 18, "quantity": 2, "particleSizePx": 25 },
+      "smoke": { "frequency": 35, "quantity": 2, "particleSizePx": 50 }
     },
     null
   ]

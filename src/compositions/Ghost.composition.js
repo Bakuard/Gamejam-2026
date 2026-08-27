@@ -128,6 +128,12 @@ function createGhost(scene, x, y, wanderArea, prowlGhostPointsLayer, ghostConfig
 function updateGhostStateTimer(ghost, deltaTime) {
   const currentState = ghost.states[ghost.stateIndex];
   ghost.currentStateDurationInMs += deltaTime;
+
+  const isLastState = ghost.stateIndex === ghost.states.length - 1;
+  if (isLastState) {
+    const remainingFraction = Math.max(0, 1 - ghost.currentStateDurationInMs / currentState.durationInMs);
+    ghost.setAlpha(remainingFraction);
+  }
   if (ghost.currentStateDurationInMs >= currentState.durationInMs) {
     ghost.currentStateDurationInMs = 0;
     if (ghost.stateIndex + 1 < ghost.states.length) {
