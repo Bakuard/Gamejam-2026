@@ -17,6 +17,7 @@ import * as EventNames from "@/configs/eventNames.config.js";
 import TimeProgress from "@/ui-components/TimeProgress.component.vue";
 import NightCounter from "@/ui-components/NightCounter.component.vue";
 import SurvivalAlert from "@/ui-components/SurvivalAlert.component.vue";
+import SoundSwitcherComponent from "@/ui-components/SoundSwitcher.component.vue";
 import { dayPhases } from "@/compositions/Calendar.composition.js";
 
 const gameContainer = ref(null);
@@ -120,7 +121,10 @@ const onAgain = () => {
       <NightCounter :count="ghostStore.survivalCounter" />
     </UiAnchor>
     <UiAnchor v-if="!playerStore.isNight" anchor="top-right" :offset-x="10" :offset-y="10" target=".platformer-screen__game-wrapper">
-      <TimeProgress :all-time="allTime" :remaining-time="remainingTime" :is-night="isNightPhase" />
+      <div class="platformer-screen__controls">
+        <TimeProgress :all-time="allTime" :remaining-time="remainingTime" :is-night="isNightPhase" />
+        <SoundSwitcherComponent :is-play-sound="playerStore.isPlaySound" @toggle="playerStore.isPlaySound = !playerStore.isPlaySound" />
+      </div>
     </UiAnchor>
     <UiAnchor anchor="bottom-center" :offset-x="0" :offset-y="10" target=".platformer-screen__game-wrapper">
       <Inventory :items="inventoryStore.items" />
@@ -135,5 +139,11 @@ const onAgain = () => {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+
+  &__controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
 }
 </style>

@@ -41,7 +41,7 @@ export class PlatformerScene extends Phaser.Scene {
   }
 
   create() {
-    pullEventManager.registerInbox("changeAmbientAudio", "morning", "night");
+    pullEventManager.registerInbox("changeAmbientAudio", "morning", "night", "ghostSecondState", "ghostsDespawned");
     pullEventManager.registerInbox("createNewGhosts", "night");
     pullEventManager.registerInbox("spawnOrDespawnDropItems", "morning", "night");
     pullEventManager.registerInbox("unlockAllDoorsIfMorning", "morning");
@@ -116,6 +116,7 @@ export class PlatformerScene extends Phaser.Scene {
     this.physics.add.overlap(this.player, this.lightPointsLayer, (player, lightPoint) => lightPointComposition.interactWithLightPoint(this.inventoryStore, lightPoint, this.userInput));
 
     audioComposition.play(this, "music:mountains");
+    audioComposition.play(this, "music:emotionalism");
     this.events.on(Phaser.Scenes.Events.POST_UPDATE, this.postUpdate, this);
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
       this.events.off(Phaser.Scenes.Events.POST_UPDATE, this.postUpdate, this);
@@ -146,6 +147,7 @@ export class PlatformerScene extends Phaser.Scene {
     playerComposition.movePlayerOnPlatformers(this, this.player, this.userInput, this.platformLayer, this.woodPlatformLayer, this.stairsLayer, this.wallsLayer, this.map, this.camera);
     playerComposition.throwChair(this.player, this.userInput, this.wallsLayer, this.platformLayer, this.woodPlatformLayer, this.camera);
     playerComposition.throwSalt(this, this.player, this.userInput, this.ghosts, this.inventoryStore);
+    audioComposition.updateGlobalVolume(this, this.playerStore.isPlaySound);
     ghostComposition.moveAllGhosts(this.ghosts, this.player, time, delta);
     ghostComposition.updateGhostsStateTimer(this.ghosts, delta, this.ghostsStore);
 
@@ -160,13 +162,21 @@ export class PlatformerScene extends Phaser.Scene {
 
 function changeAmbientAudio(scene) {
   if (pullEventManager.checkEvent("changeAmbientAudio", "night") && calendarComposition.getCurrentPhaseProgress(scene.calendarStore) >= Config.TIME.nightPhaseTransitionFraction) {
+    audioComposition.stop(scene, "music:emotionalism");
+    pullEventManager.clearEvent("changeAmbientAudio", "night");
+  } else if (pullEventManager.checkEvent("changeAmbientAudio", "ghostSecondState")) {
     audioComposition.stop(scene, "music:mountains");
     audioComposition.play(scene, "music:chemical_x");
-    pullEventManager.clearEvent("changeAmbientAudio", "night");
+    pullEventManager.clearEvent("changeAmbientAudio", "ghostSecondState");
   } else if (pullEventManager.checkEvent("changeAmbientAudio", "morning") && calendarComposition.getCurrentPhaseProgress(scene.calendarStore) >= Config.TIME.morningPhaseTransitionFraction) {
     audioComposition.stop(scene, "music:chemical_x");
     audioComposition.play(scene, "music:mountains");
     pullEventManager.clearEvent("changeAmbientAudio", "morning");
+  }
+
+  if (pullEventManager.checkEvent("changeAmbientAudio", "ghostsDespawned")) {
+    audioComposition.play(scene, "music:emotionalism");
+    pullEventManager.clearEvent("changeAmbientAudio", "ghostsDespawned");
   }
 }
 

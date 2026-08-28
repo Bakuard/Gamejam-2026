@@ -82,6 +82,7 @@ export const ghostComposition = {
         allGhosts.splice(i, 1);
         if (allGhosts.length === 0 && ghostsStore) {
           ghostsStore.survivalCounter++;
+          pullEventManager.setEvent("ghostsDespawned");
         }
       }
     }
@@ -147,6 +148,9 @@ function updateGhostStateTimer(ghost, deltaTime) {
       const newState = ghost.states[++ghost.stateIndex];
       updateGhostWithState(ghost, newState);
       applyGhostVfxForCurrentPhase(ghost);
+      if (ghost.stateIndex === 1) {
+        pullEventManager.setEvent("ghostSecondState");
+      }
     } else {
       destroyGhostParticles(ghost);
       ghost.destroy();
@@ -434,4 +438,3 @@ function mergeVfxConfig(baseConfig, overrides) {
     angle: overrides.angle ? { ...baseConfig.angle, ...overrides.angle } : baseConfig.angle,
   };
 }
-

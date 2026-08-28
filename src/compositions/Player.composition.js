@@ -119,7 +119,7 @@ export const playerComposition = {
       if (player.currentChair) player.anims.play("player-jump-chair", true);
       else player.anims.play("player-jump", true);
 
-      playChairCreakingSound(scene, player, userInput);
+      playJumpSound(scene);
     } else if (onStair) {
       if (userInput.down.isDown) player.body.velocity.y = PLAYER.stairsDropAcceleration;
       else if (stairTile.properties.direction === "right" && player.body.velocity.x !== 0) player.body.velocity.y = -player.body.velocity.x;
@@ -130,22 +130,28 @@ export const playerComposition = {
       player.body.velocity.y = 0;
     }
 
-    const currentlyGrounded = player.groundedCoyoteTime > 0 || player.onStairInPreviousFrame > 0;
+        const currentlyGrounded = player.groundedCoyoteTime > 0 || player.onStairInPreviousFrame > 0;
 
-    if (currentlyGrounded) {
-      if (player.body.velocity.x === 0) {
-        if (player.currentChair) player.anims.play("player-idle-chair", true);
-        else player.anims.play("player-idle", true);
-      } else {
-        if (player.currentChair) player.anims.play("player-run-chair", true);
-        else player.anims.play("player-run", true);
+        if (currentlyGrounded) {
+          if (player.body.velocity.x === 0) {
+            if (player.currentChair) player.anims.play("player-idle-chair", true);
+            else player.anims.play("player-idle", true);
 
-        const solidTile = getTileBelowFeet(player, platformLayer, camera);
-        const woodTile = getTileBelowFeet(player, woodPlatformLayer, camera);
-        playFootstepSound(scene, player, solidTile ?? woodTile);
-      }
-    } else {
-      const currentAnim = player.anims.currentAnim?.key;
+            playFootstepSound(scene, player, null);
+          } else {
+            if (player.currentChair) player.anims.play("player-run-chair", true);
+            else player.anims.play("player-run", true);
+
+            const solidTile = getTileBelowFeet(player, platformLayer, camera);
+            const woodTile = getTileBelowFeet(player, woodPlatformLayer, camera);
+            const stairsTile = stairTile || getTileBelowFeet(player, stairsLayer, camera);
+            const tileBelowFeet = onStair ? stairTile : (stairsTile || solidTile || woodTile);
+            playFootstepSound(scene, player, tileBelowFeet);
+          }
+        } else {
+          playFootstepSound(scene, player, null);
+
+          const currentAnim = player.anims.currentAnim?.key;
       const isJumpingAnim = currentAnim === "player-jump" || currentAnim === "player-jump-chair";
 
       if (player.body.velocity.y < 0) {
@@ -179,6 +185,7 @@ export const playerComposition = {
     if (Phaser.Input.Keyboard.JustDown(userInput.interact) && !player.currentChair) {
       chair.disableBody(true, false);
       player.currentChair = chair;
+      audioComposition.play(player.scene, "box-hold");
     }
   },
 
@@ -198,6 +205,7 @@ export const playerComposition = {
       if (isAreaFree(player.scene, player.currentChair, player, posX, posY, wallsLayer, platformLayer, woodPlatformLayer, camera)) {
         player.currentChair.enableBody(true, posX, posY, true, true).refreshBody();
         player.currentChair = null;
+        audioComposition.play(player.scene, "box-drop");
       }
     }
   },
@@ -218,6 +226,7 @@ export const playerComposition = {
     if (!player.isSaltParticlesActive) {
       player.isSaltParticlesActive = true;
       particlesComposition.setObjectVFXEmitting(player, true, "salt");
+      audioComposition.play(scene, "salt");
       scene.time.delayedCall(600, () => {
         particlesComposition.setObjectVFXEmitting(player, false, "salt");
         player.isSaltParticlesActive = false;
@@ -245,22 +254,36 @@ function checkOnStair(player, stairTile, tileMap, tolerance) {
   return Phaser.Math.Within(localY, stairY, tolerance);
 }
 
-function playFootstepSound(scene, player, tile) {
-  if (!tile) return;
 
-  if (tile.properties.tileType === "brick") {
-    audioComposition.play(scene, "footsteps-on-bricks");
-  } else if (tile.properties.tileType === "wood") {
-    audioComposition.play(scene, "footsteps-on-wood");
-  } else if (tile.properties.tileType === "stone") {
-    audioComposition.play(scene, "footsteps-on-concrete");
+function playFootstepSound(scene, player, tile) {
+  const footstepKeys = ["footsteps-on-bricks", "footsteps-on-wood", "footsteps-on-concrete", "footsteps-on-stairs"];
+
+  let activeKey = null;
+  if (tile && player.body.velocity.x !== 0) {
+    if (tile.properties?.tileType === "brick") {
+      activeKey = "footsteps-on-bricks";
+    } else if (tile.properties?.tileType === "wood") {
+      activeKey = "footsteps-on-wood";
+    } else if (tile.properties?.tileType === "stone") {
+      activeKey = "footsteps-on-concrete";
+    } else if (tile.layer?.name === "Stairs") {
+      activeKey = "footsteps-on-stairs";
+    }
+  }
+
+  footstepKeys.forEach((key) => {
+    if (key !== activeKey) {
+      audioComposition.stop(scene, key);
+    }
+  });
+
+  if (activeKey) {
+    audioComposition.play(scene, activeKey);
   }
 }
 
-function playChairCreakingSound(scene, player, userInput) {
-  if (player.isStandingOnChair && userInput.up.isDown) {
-    audioComposition.play(scene, "wood-creaking");
-  }
+function playJumpSound(scene) {
+  audioComposition.play(scene, "wood-creaking");
 }
 
 function getTileBelowFeet(player, tileLayer, camera) {
