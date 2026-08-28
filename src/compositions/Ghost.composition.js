@@ -33,6 +33,11 @@ export const ghostComposition = {
     }
   },
 
+  clearGhostStore(ghostStore) {
+    ghostStore.currentGhostsNumber = GHOSTS.startGhostNumber;
+    ghostStore.survivalCounter = 0;
+  },
+
   createGhosts(scene, ghostsConfig, startPointsLayer, ghostsWanderAreaLayer, prowlGhostPointsLayer, ghostStore) {
     const result = [];
 
@@ -54,6 +59,7 @@ export const ghostComposition = {
     pullEventManager.clearAll();
     playerStore.isGameOver = true;
     playerStore.isWin = false;
+    dynamicLightingComposition.stop();
     setTimeout(() => scene.scene.stop(), 0);
   },
 

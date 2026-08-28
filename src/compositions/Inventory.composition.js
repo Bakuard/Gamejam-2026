@@ -1,4 +1,8 @@
 export const inventoryComposition = {
+  clearInventory(inventoryStore) {
+    inventoryStore.items.forEach(item => item.amount = 0);
+  },
+
   increaseItem(inventoryStore, itemType) {
     let inventoryItem = inventoryStore.items.find((item) => item.name === itemType);
     inventoryItem.amount++;

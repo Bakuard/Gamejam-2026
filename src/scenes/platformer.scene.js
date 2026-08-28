@@ -14,6 +14,7 @@ import { pullEventManager } from "@/utils/PullEventManager.js";
 import { dropItemsComposition } from "@/compositions/DropItems.composition.js";
 import { tilemapComposition } from "@/compositions/Tilemap.composition.js";
 import { lightPointComposition } from "@/compositions/LightPoint.composition.js";
+import { inventoryComposition } from "@/compositions/Inventory.composition.js";
 
 export class PlatformerScene extends Phaser.Scene {
   constructor(playerStore, calendarStore, ghostsStore, inventoryStore) {
@@ -51,6 +52,8 @@ export class PlatformerScene extends Phaser.Scene {
     this.camera = this.cameras.main;
     // this.backgroundNear = backgroundNear;
     // this.backgroundFar = backgroundFar;
+
+    inventoryComposition.clearInventory(this.inventoryStore)
 
     audioComposition.createAudioForScene(this, Config.AUDIO);
 
@@ -92,6 +95,7 @@ export class PlatformerScene extends Phaser.Scene {
     this.player = playerComposition.createPlayer(this, startPointsLayer.player.x, startPointsLayer.player.y);
     playerComposition.configureCameraFollow(this, this.player, this.cameras.main.width / 4, this.cameras.main.height / 4);
 
+    ghostComposition.clearGhostStore(this.ghostsStore);
     ghostComposition.prepareGhostAnimation(this, Config.GHOSTS.units);
     this.ghosts = [];
 
@@ -126,6 +130,8 @@ export class PlatformerScene extends Phaser.Scene {
     );
 
     analyticsComposition.createAnalytics(Config.ANALYTICS);
+
+    spawnDropItems(this);
   }
 
   update(time, delta) {
@@ -181,18 +187,22 @@ function spawnOrDespawnDropItems(scene) {
   if (pullEventManager.checkEvent("spawnOrDespawnDropItems", "night")) {
     dropItemsComposition.despawnDropItems(scene.dropItems);
     pullEventManager.clearEvent("spawnOrDespawnDropItems", "night");
-  } else if (!scene.dropItems || pullEventManager.checkEvent("spawnOrDespawnDropItems", "morning") && calendarComposition.getCurrentPhaseProgress(scene.calendarStore) >= Config.TIME.morningPhaseTransitionFraction) {
-    scene.dropItems = dropItemsComposition.spawnDropItems(
-      scene,
-      scene.emptyTilesCenterForMatches,
-      scene.emptyTilesCenterForMasterKeys,
-      scene.emptyTilesCenterForSalt,
-      Config.DROP_ITEMS,
-      scene.calendarStore.totalDays
-    );
-    scene.physics.add.overlap(scene.player, scene.dropItems, (player, item) => dropItemsComposition.handlePlayerCollision(player, item, scene.dropItems, scene.inventoryStore));
+  } else if (pullEventManager.checkEvent("spawnOrDespawnDropItems", "morning") && calendarComposition.getCurrentPhaseProgress(scene.calendarStore) >= Config.TIME.morningPhaseTransitionFraction) {
+    spawnDropItems(scene);
     pullEventManager.clearEvent("spawnOrDespawnDropItems", "morning");
   }
+}
+
+function spawnDropItems(scene) {
+  scene.dropItems = dropItemsComposition.spawnDropItems(
+    scene,
+    scene.emptyTilesCenterForMatches,
+    scene.emptyTilesCenterForMasterKeys,
+    scene.emptyTilesCenterForSalt,
+    Config.DROP_ITEMS,
+    scene.calendarStore.totalDays
+  );
+  scene.physics.add.overlap(scene.player, scene.dropItems, (player, item) => dropItemsComposition.handlePlayerCollision(player, item, scene.dropItems, scene.inventoryStore));
 }
 
 function unlockAllDoorsIfMorning(scene) {
