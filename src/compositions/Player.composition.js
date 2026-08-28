@@ -69,14 +69,6 @@ export const playerComposition = {
     });
   },
 
-  prepareSaltParticle(scene) {
-    const graphics = scene.add.graphics();
-    graphics.fillStyle(0xffffff, 1);
-    graphics.fillCircle(4, 4, 4);
-    graphics.generateTexture("saltTexture", 8, 8);
-    graphics.destroy();
-  },
-
   createPlayer(scene, x, y) {
     const player = scene.physics.add.sprite(x, y, "player-idle", "1").setDisplaySize(PLAYER.displayWidth, PLAYER.displayHeight).setOrigin(0.5, 1).play("player-idle");
 

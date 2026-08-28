@@ -75,15 +75,6 @@ export const tilemapComposition = {
 
     const offsetY = (layerMeta.y ?? 0) + (layerMeta.offsety ?? 0);
 
-    console.log("RAW IMAGE LAYER:", layerMeta);
-
-    console.log({
-      parallaxX,
-      parallaxY,
-      repeatX,
-      repeatY,
-    });
-
     const texture = scene.textures.get(imageName).getSourceImage();
 
     let imageLayer;

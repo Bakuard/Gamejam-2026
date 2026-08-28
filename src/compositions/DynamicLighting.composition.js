@@ -7,7 +7,7 @@ export const dynamicLightingComposition = {
   },
 
   prepareAmbientLightPipeline: function (scene, timeConfig, currentDayPhase, currentDayPhaseProgress, lightPointsLayer) {
-    if (!scene.renderer.pipelines.has("night")) {
+    if (!scene.renderer.pipelines.getPostPipeline("night")) {
       const nightPipeline = new Phaser.Renderer.WebGL.Pipelines.PostFXPipeline({
         game: scene.game,
         renderTarget: true,
@@ -25,6 +25,8 @@ export const dynamicLightingComposition = {
         this.set1f("uIntensity", this.intensity);
 
         const camera = scene.cameras.main;
+        if (!camera || !lightPointsLayer || !lightPointsLayer.entries) return;
+
         this.set2f("uCameraPos", camera.worldView.x, camera.worldView.y);
         this.set2f("uCameraSize", camera.worldView.width, camera.worldView.height);
 
@@ -32,7 +34,7 @@ export const dynamicLightingComposition = {
         const positions = [];
         const colors = [];
         const radius = [];
-        lightPointsLayer.getChildren().forEach(lightPoint => {
+        lightPointsLayer.getChildren().forEach((lightPoint) => {
           if (lightPointsCount < 20 && lightPoint.turnOn) {
             positions.push(lightPoint.centerX, lightPoint.centerY);
             colors.push(1.0, 0.5, 0.1);

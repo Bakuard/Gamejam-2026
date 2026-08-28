@@ -181,7 +181,7 @@
     "bodyWidth": 40,
     "bodyHeight": 110,
     "bodyOffsetY": 10,
-    "jumpSpeed": 650,
+    "jumpSpeed": 620,
     "fallMultiplicator": 0.9,
     "stairsDropAcceleration": 24,
     "onGroundCoyoteTime": 8,
@@ -193,7 +193,7 @@
     "protectionRadius": 200
   },
   "GHOSTS": {
-    "startGhostNumber": 10,
+    "startGhostNumber": 3,
     "newGhostNumberStep": 1,
     "separationRadius": 100,
     "units" : [
@@ -351,7 +351,7 @@
             "detectionRadius": [140, 170],
             "durationInMs": 60000,
             "animationAtlasName": "meloman-normal",
-            "ambushTimeLimitInMs": 2000,
+            "ambushTimeLimitInMs": 10000,
             "closeDoorProbability": 0
           },
           {
@@ -363,7 +363,7 @@
             "detectionRadius": [230, 300],
             "durationInMs": 30000,
             "animationAtlasName": "meloman-hunt",
-            "ambushTimeLimitInMs": 2000,
+            "ambushTimeLimitInMs": 10000,
             "closeDoorProbability": 0.1
           },
           {
@@ -375,7 +375,7 @@
             "detectionRadius": [500, 600],
             "durationInMs": 30000,
             "animationAtlasName": "meloman-hunt",
-            "ambushTimeLimitInMs": 2000,
+            "ambushTimeLimitInMs": 10000,
             "closeDoorProbability": 0.2
           },
           {
@@ -387,7 +387,7 @@
             "detectionRadius": [500, 600],
             "durationInMs": 20000,
             "animationAtlasName": "meloman-hunt",
-            "ambushTimeLimitInMs": 2000,
+            "ambushTimeLimitInMs": 10000,
             "closeDoorProbability": 0.3
           },
           {
@@ -399,7 +399,7 @@
             "detectionRadius": [1],
             "durationInMs": 1500,
             "animationAtlasName": "meloman-normal",
-            "ambushTimeLimitInMs": 2000,
+            "ambushTimeLimitInMs": 10000,
             "closeDoorProbability": 0
           }
         ]
