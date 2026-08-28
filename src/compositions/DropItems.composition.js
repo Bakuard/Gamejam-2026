@@ -1,4 +1,5 @@
 import { inventoryComposition } from "@/compositions/Inventory.composition.js";
+import { audioComposition } from "@/compositions/Audio.composition.js";
 
 export const dropItemsComposition = {
   preloadDropItemsImage(scene, allDropItemsConfig) {
@@ -26,6 +27,7 @@ export const dropItemsComposition = {
       inventoryComposition.increaseItem(inventoryStore, dropItems[index].type);
       item.destroy();
       dropItems.splice(index, 1);
+      audioComposition.play(player.scene, "collect-drop-item");
     }
   },
 };

@@ -15,23 +15,31 @@
       "key": "footsteps-on-wood",
       "filePath": "sounds/footsteps-on-wood.mp3",
       "ignoreIfPlaying": true,
-      "volume": 0.5,
-      "loop": false,
+      "volume": 1,
+      "loop": true,
       "fadeInMs": 0
     },
     {
       "key": "footsteps-on-bricks",
-      "filePath": "sounds/footsteps-on-bricks.mp3",
+      "filePath": "sounds/footsteps-on-stone.mp3",
       "ignoreIfPlaying": true,
-      "volume": 0.5,
-      "loop": false,
+      "volume": 1,
+      "loop": true,
+      "fadeInMs": 0
+    },
+    {
+      "key": "footsteps-on-stairs",
+      "filePath": "sounds/footsteps-on-stairs.mp3",
+      "ignoreIfPlaying": true,
+      "volume": 1,
+      "loop": true,
       "fadeInMs": 0
     },
     {
       "key": "wood-creaking",
       "filePath": "sounds/wood-creaking.mp3",
       "ignoreIfPlaying": false,
-      "volume": 1,
+      "volume": 0.5,
       "loop": false,
       "fadeInMs": 0
     },
@@ -39,23 +47,103 @@
       "key": "footsteps-on-concrete",
       "filePath": "sounds/footsteps-on-concrete.mp3",
       "ignoreIfPlaying": true,
-      "volume": 0.5,
+      "volume": 1,
+      "loop": true,
+      "fadeInMs": 0
+    },
+    {
+      "key": "door-open",
+      "filePath": "sounds/door-open.mp3",
+      "ignoreIfPlaying": false,
+      "volume": 1,
+      "loop": false,
+      "fadeInMs": 0
+    },
+    {
+      "key": "door-close",
+      "filePath": "sounds/door-close.mp3",
+      "ignoreIfPlaying": true,
+      "volume": 1,
+      "loop": false,
+      "fadeInMs": 0
+    },
+    {
+      "key": "box-hold",
+      "filePath": "sounds/box-hold.mp3",
+      "ignoreIfPlaying": true,
+      "volume": 1,
+      "loop": false,
+      "fadeInMs": 0
+    },
+    {
+      "key": "box-drop",
+      "filePath": "sounds/box-drop.mp3",
+      "ignoreIfPlaying": true,
+      "volume": 1,
+      "loop": false,
+      "fadeInMs": 0
+    },
+    {
+      "key": "collect-drop-item",
+      "filePath": "sounds/collect-drop-item.mp3",
+      "ignoreIfPlaying": false,
+      "volume": 1,
+      "loop": false,
+      "fadeInMs": 0
+    },
+    {
+      "key": "matches",
+      "filePath": "sounds/matches.mp3",
+      "ignoreIfPlaying": true,
+      "volume": 1,
+      "loop": false,
+      "fadeInMs": 0
+    },
+    {
+      "key": "salt",
+      "filePath": "sounds/salt.mp3",
+      "ignoreIfPlaying": true,
+      "volume": 1,
+      "loop": false,
+      "fadeInMs": 0
+    },
+    {
+      "key": "skeleton-key",
+      "filePath": "sounds/skeleton-key.mp3",
+      "ignoreIfPlaying": false,
+      "volume": 1,
+      "loop": false,
+      "fadeInMs": 0
+    },
+    {
+      "key": "door-locked",
+      "filePath": "sounds/door-locked.mp3",
+      "ignoreIfPlaying": true,
+      "volume": 1,
       "loop": false,
       "fadeInMs": 0
     },
     {
       "key": "music:chemical_x",
-      "filePath": "sounds/Chemical_X.mp3",
+      "filePath": "sounds/сhemical.mp3",
       "ignoreIfPlaying": true,
       "volume": 0.5,
       "loop": true,
       "fadeInMs": 0
     },
     {
+      "key": "music:emotionalism",
+      "filePath": "sounds/emotionalism.mp3",
+      "ignoreIfPlaying": true,
+      "volume": 0.2,
+      "loop": true,
+      "fadeInMs": 1000
+    },
+    {
       "key": "music:mountains",
       "filePath": "sounds/mountains-sounds.mp3",
       "ignoreIfPlaying": true,
-      "volume": 0.5,
+      "volume": 0.2,
       "loop": true,
       "fadeInMs": 5000
     }
