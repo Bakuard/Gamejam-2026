@@ -19,10 +19,10 @@ export const audioComposition = {
     let sound = scene.sound.get(key);
     if (!sound) throw new Error(`audioComposition.play(): sound with key '${key}' not found. Did you call createAudioForScene()?`);
 
-    //Если запускается звук в момент его затухания после вызова stop
+    // Если запускается звук в момент его затухания после вызова stop
     scene.tweens.killTweensOf(sound);
-    const targetVolume = audioOptions?.volume ?? sound.customConfig?.volume ?? 1;
-    if (sound.volume !== targetVolume) sound.volume = targetVolume;
+    const targetVolume = audioOptions?.volume ?? sound.config?.volume ?? sound.customConfig?.volume ?? 1;
+    sound.volume = targetVolume;
 
     if (audioOptions && (!sound.isPlaying || !audioOptions.ignoreIfPlaying)) {
       sound.play(audioOptions);
@@ -40,10 +40,11 @@ export const audioComposition = {
 
     if (fadeInMs === 0) {
       sound.stop();
+      sound.volume = sound.config?.volume ?? 1;
       return;
     }
 
-    const originalVolume = sound.volume;
+    const originalVolume = sound.config?.volume ?? sound.volume;
     scene.tweens.add({
       targets: sound,
       volume: 0,

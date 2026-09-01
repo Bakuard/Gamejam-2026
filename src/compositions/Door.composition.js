@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import { audioComposition } from "@/compositions/Audio.composition.js";
 import { inventoryComposition } from "@/compositions/Inventory.composition.js";
 import { ITEM_MASTER_KEY } from "@/configs/gameplay.config.js";
 
@@ -23,17 +24,30 @@ export const doorComposition = {
   toggleDoor(door, userInput, inventoryStore) {
     if (!Phaser.Input.Keyboard.JustDown(userInput.interact)) return;
 
-    if (door.isClosed && door.isLocked && !inventoryComposition.decreaseItem(inventoryStore, ITEM_MASTER_KEY)) return;
+    if (door.isClosed && door.isLocked && !inventoryComposition.decreaseItem(inventoryStore, ITEM_MASTER_KEY)) {
+      audioComposition.play(door.scene, "door-locked");
+      return;
+    } else if (door.isLocked && inventoryComposition.decreaseItem(inventoryStore, ITEM_MASTER_KEY)) {
+      audioComposition.play(door.scene, "skeleton-key");
+    }
 
     door.isClosed = !door.isClosed;
     door.isLocked = false;
 
-    if (door.isClosed) door.setFrame("2");
-    else if (door.openSide === "left") door.setFrame("1");
-    else if (door.openSide === "right") door.setFrame("3");
+    if (door.isClosed) {
+      door.setFrame("2");
+      audioComposition.play(door.scene, "door-close");
+    } else {
+      if (door.openSide === "left") door.setFrame("1");
+      else if (door.openSide === "right") door.setFrame("3");
+      audioComposition.play(door.scene, "door-open");
+    }
   },
 
   lockDoor(door) {
+    if (!door.isClosed) {
+      audioComposition.play(door.scene, "door-close");
+    }
     door.isClosed = true;
     door.isLocked = true;
     door.setFrame("2");

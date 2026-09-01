@@ -7,6 +7,7 @@ export const usePlayer = defineStore("player", {
     isNight: false,
     allTime: 0,
     remainingTime: 0,
+    isPlaySound: true,
   }),
   actions: {}
 });
