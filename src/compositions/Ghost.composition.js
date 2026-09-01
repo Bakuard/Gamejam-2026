@@ -295,7 +295,7 @@ function choseRandomAimInWanderArea(ghost) {
 }
 
 function getRandomAmbushPosition(ghost) {
-  return ghost.prowlGhostPointsLayer[Math.floor(Math.random() * ghost.prowlGhostPointsLayer.length)];
+  return Phaser.Math.RND.pick(ghost.prowlGhostPointsLayer);
 }
 
 
