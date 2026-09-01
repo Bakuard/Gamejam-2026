@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="60" tileheight="60" infinite="0" nextlayerid="30" nextobjectid="134">
+<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="60" tileheight="60" infinite="0" nextlayerid="30" nextobjectid="137">
  <editorsettings>
   <export target="../public/assets/levels/tilemaps/platformer.json" format="json"/>
  </editorsettings>
@@ -547,7 +547,7 @@
   </object>
  </objectgroup>
  <objectgroup id="9" name="ghost_wander_area_layer" visible="0">
-  <object id="71" name="trainer" x="1201.33" y="1378.67" width="1386.67" height="1212"/>
+  <object id="71" name="trainer" x="1201.33" y="1310.67" width="1429.33" height="1280"/>
   <object id="72" name="photographer" x="902" y="965.997" width="1912" height="2214"/>
  </objectgroup>
  <objectgroup id="16" name="doors_layer">
@@ -602,20 +602,22 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="17" name="matches_spawn_area_layer">
-  <object id="99" x="2512.66" y="3114.67" width="73.3327" height="70.6663"/>
+ <objectgroup id="17" name="matches_spawn_area_layer" visible="0">
   <object id="103" x="1555.51" y="2697.34" width="70.6667" height="71.9997"/>
   <object id="132" x="2036.67" y="1796" width="70.6667" height="71.9997"/>
+  <object id="136" x="2455.33" y="3115.33" width="131.999" height="70.6663"/>
  </objectgroup>
- <objectgroup id="20" name="master_keys_spawn_area_layer">
+ <objectgroup id="20" name="master_keys_spawn_area_layer" visible="0">
   <object id="117" x="1434" y="2695.33" width="70.6673" height="69.3333"/>
   <object id="119" x="1910.33" y="1554" width="76.6667" height="68"/>
   <object id="131" x="953.667" y="1434" width="72.6667" height="68"/>
+  <object id="135" x="1851" y="1975.33" width="76.6667" height="68"/>
  </objectgroup>
- <objectgroup id="29" name="salt_spawn_area_layer">
+ <objectgroup id="29" name="salt_spawn_area_layer" visible="0">
   <object id="122" x="1492.83" y="2754.34" width="71.9997" height="70.6667"/>
-  <object id="123" x="1855.67" y="1075.67" width="69.3333" height="70.6667"/>
+  <object id="123" x="2634.34" y="1315.67" width="69.3333" height="70.6667"/>
   <object id="130" x="2694.67" y="2214" width="69.3333" height="70.6667"/>
+  <object id="134" x="1848" y="1052.67" width="69.3333" height="70.6667"/>
  </objectgroup>
  <objectgroup id="18" name="light_points_layer">
   <object id="112" gid="42" x="2648.33" y="2341.33" width="50" height="80"/>

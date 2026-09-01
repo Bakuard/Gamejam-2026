@@ -129,14 +129,14 @@
       "maxItemsOnMap": [
         {
           "totalDays": 1,
+          "maxItemsNumber": 4
+        },
+        {
+          "totalDays": 2,
           "maxItemsNumber": 3
         },
         {
           "totalDays": 3,
-          "maxItemsNumber": 2
-        },
-        {
-          "totalDays": 4,
           "maxItemsNumber": 1
         }
       ]
@@ -149,6 +149,10 @@
       "maxItemsOnMap": [
         {
           "totalDays": 1,
+          "maxItemsNumber": 4
+        },
+        {
+          "totalDays": 2,
           "maxItemsNumber": 3
         },
         {
@@ -166,14 +170,14 @@
       "maxItemsOnMap": [
         {
           "totalDays": 1,
+          "maxItemsNumber": 4
+        },
+        {
+          "totalDays": 2,
           "maxItemsNumber": 3
         },
         {
           "totalDays": 3,
-          "maxItemsNumber": 2
-        },
-        {
-          "totalDays": 4,
           "maxItemsNumber": 1
         }
       ]
@@ -210,7 +214,7 @@
         "ghostWanderAreaName": "photographer",
         "chaseType": "wave",
         "roamType": "straight",
-        "runAwayMaxTimeInSec": 6,
+        "runAwayMaxTimeInSec": 5,
         "states": [
           {
             "speedPxPerSec": [40, 45, 50],
@@ -267,7 +271,7 @@
         "ghostWanderAreaName": "trainer",
         "chaseType": "straight",
         "roamType": "straight",
-        "runAwayMaxTimeInSec": 6,
+        "runAwayMaxTimeInSec": 5,
         "states": [
           {
             "speedPxPerSec": [125, 130, 135],
@@ -324,47 +328,47 @@
         "ghostWanderAreaName": "photographer",
         "chaseType": "arc_left",
         "roamType": "prowl",
-        "runAwayMaxTimeInSec": 6,
+        "runAwayMaxTimeInSec": 5,
         "states": [
           {
-            "displayWidth": 83.6,
-            "displayHeight": 98.6,
+            "displayWidth": 61,
+            "displayHeight": 100,
             "physicBodyWidth": 30,
             "physicBodyHeight": 100,
-            "speedPxPerSec": [30, 35, 40],
+            "speedPxPerSec": [40, 45, 50],
             "detectionRadius": [140, 170],
             "durationInMs": 60000,
             "animationAtlasName": "meloman-normal",
-            "ambushTimeLimitInMs": 10000,
+            "ambushTimeLimitInMs": 6000,
             "closeDoorProbability": 0
           },
           {
-            "displayWidth": 83.6,
-            "displayHeight": 98.6,
+            "displayWidth": 92,
+            "displayHeight": 100,
             "physicBodyWidth": 30,
             "physicBodyHeight": 100,
-            "speedPxPerSec": [45, 50, 55],
-            "detectionRadius": [500, 600],
+            "speedPxPerSec": [70, 75, 80],
+            "detectionRadius": [300, 400],
             "durationInMs": 45000,
             "animationAtlasName": "meloman-hunt",
-            "ambushTimeLimitInMs": 3500,
+            "ambushTimeLimitInMs": 2500,
             "closeDoorProbability": 0.1
           },
           {
-            "displayWidth": 83.6,
-            "displayHeight": 98.6,
+            "displayWidth": 92,
+            "displayHeight": 100,
             "physicBodyWidth": 30,
             "physicBodyHeight": 100,
-            "speedPxPerSec": [75, 80, 85],
-            "detectionRadius": [700, 800],
+            "speedPxPerSec": [70, 75, 80],
+            "detectionRadius": [400, 500],
             "durationInMs": 15000,
             "animationAtlasName": "meloman-hunt",
-            "ambushTimeLimitInMs": 1500,
+            "ambushTimeLimitInMs": 1000,
             "closeDoorProbability": 0.2
           },
           {
-            "displayWidth": 83.6,
-            "displayHeight": 98.6,
+            "displayWidth": 61,
+            "displayHeight": 100,
             "physicBodyWidth": 30,
             "physicBodyHeight": 100,
             "speedPxPerSec": [0],
