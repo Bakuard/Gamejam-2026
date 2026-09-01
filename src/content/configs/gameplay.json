@@ -132,11 +132,11 @@
           "maxItemsNumber": 3
         },
         {
-          "totalDays": 1,
+          "totalDays": 3,
           "maxItemsNumber": 2
         },
         {
-          "totalDays": 3,
+          "totalDays": 4,
           "maxItemsNumber": 1
         }
       ]
@@ -152,7 +152,7 @@
           "maxItemsNumber": 3
         },
         {
-          "totalDays": 2,
+          "totalDays": 3,
           "maxItemsNumber": 2
         }
       ]
@@ -169,11 +169,11 @@
           "maxItemsNumber": 3
         },
         {
-          "totalDays": 2,
+          "totalDays": 3,
           "maxItemsNumber": 2
         },
         {
-          "totalDays": 3,
+          "totalDays": 4,
           "maxItemsNumber": 1
         }
       ]

@@ -602,18 +602,18 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="17" name="matches_spawn_area_layer" visible="0">
+ <objectgroup id="17" name="matches_spawn_area_layer">
   <object id="99" x="2512.66" y="3114.67" width="73.3327" height="70.6663"/>
-  <object id="103" x="1373.34" y="2272.67" width="70.6667" height="71.9997"/>
+  <object id="103" x="1555.51" y="2697.34" width="70.6667" height="71.9997"/>
   <object id="132" x="2036.67" y="1796" width="70.6667" height="71.9997"/>
  </objectgroup>
- <objectgroup id="20" name="master_keys_spawn_area_layer" visible="0">
+ <objectgroup id="20" name="master_keys_spawn_area_layer">
   <object id="117" x="1434" y="2695.33" width="70.6673" height="69.3333"/>
   <object id="119" x="1910.33" y="1554" width="76.6667" height="68"/>
   <object id="131" x="953.667" y="1434" width="72.6667" height="68"/>
  </objectgroup>
- <objectgroup id="29" name="salt_spawn_area_layer" visible="0">
-  <object id="122" x="1315.33" y="2515.67" width="71.9997" height="70.6667"/>
+ <objectgroup id="29" name="salt_spawn_area_layer">
+  <object id="122" x="1492.83" y="2754.34" width="71.9997" height="70.6667"/>
   <object id="123" x="1855.67" y="1075.67" width="69.3333" height="70.6667"/>
   <object id="130" x="2694.67" y="2214" width="69.3333" height="70.6667"/>
  </objectgroup>
