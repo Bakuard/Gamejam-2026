@@ -2,6 +2,8 @@ import Phaser from "phaser";
 import { GHOSTS, GHOSTS_VFX, LIGHT_POINT } from "@/configs/gameplay.config.js";
 import { GHOSTS_VFX_BY_PHASE_INDEX } from "@/configs/gameplay.config.js";
 import { doorComposition } from "@/compositions/Door.composition.js";
+import { pullEventManager } from "@/utils/PullEventManager.js";
+import { dynamicLightingComposition } from "@/compositions/DynamicLighting.composition.js";
 
 export const ghostComposition = {
   preloadGhostAnimation(scene, ghostsConfig) {
@@ -31,6 +33,11 @@ export const ghostComposition = {
     }
   },
 
+  clearGhostStore(ghostStore) {
+    ghostStore.currentGhostsNumber = GHOSTS.startGhostNumber;
+    ghostStore.survivalCounter = 0;
+  },
+
   createGhosts(scene, ghostsConfig, startPointsLayer, ghostsWanderAreaLayer, prowlGhostPointsLayer, ghostStore) {
     const result = [];
 
@@ -49,11 +56,11 @@ export const ghostComposition = {
   },
 
   handlePlayerCollision(scene, playerStore, eventStore) {
-    /*pullEventManager.clearAll();
+    pullEventManager.clearAll();
     playerStore.isGameOver = true;
     playerStore.isWin = false;
+    dynamicLightingComposition.stop();
     setTimeout(() => scene.scene.stop(), 0);
-    */
   },
 
   handleLightPointCollision(ghost, lightPoint) {
@@ -288,7 +295,7 @@ function choseRandomAimInWanderArea(ghost) {
 }
 
 function getRandomAmbushPosition(ghost) {
-  return ghost.prowlGhostPointsLayer[Math.floor(Math.random() * ghost.prowlGhostPointsLayer.length)];
+  return Phaser.Math.RND.pick(ghost.prowlGhostPointsLayer);
 }
 
 
