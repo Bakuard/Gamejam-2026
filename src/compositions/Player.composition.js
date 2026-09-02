@@ -130,28 +130,28 @@ export const playerComposition = {
       player.body.velocity.y = 0;
     }
 
-        const currentlyGrounded = player.groundedCoyoteTime > 0 || player.onStairInPreviousFrame > 0;
+    const currentlyGrounded = player.groundedCoyoteTime > 0 || player.onStairInPreviousFrame > 0;
 
-        if (currentlyGrounded) {
-          if (player.body.velocity.x === 0) {
-            if (player.currentChair) player.anims.play("player-idle-chair", true);
-            else player.anims.play("player-idle", true);
+    if (currentlyGrounded) {
+      if (player.body.velocity.x === 0) {
+        if (player.currentChair) player.anims.play("player-idle-chair", true);
+        else player.anims.play("player-idle", true);
 
-            playFootstepSound(scene, player, null);
-          } else {
-            if (player.currentChair) player.anims.play("player-run-chair", true);
-            else player.anims.play("player-run", true);
+        playFootstepSound(scene, player, null);
+      } else {
+        if (player.currentChair) player.anims.play("player-run-chair", true);
+        else player.anims.play("player-run", true);
 
-            const solidTile = getTileBelowFeet(player, platformLayer, camera);
-            const woodTile = getTileBelowFeet(player, woodPlatformLayer, camera);
-            const stairsTile = stairTile || getTileBelowFeet(player, stairsLayer, camera);
-            const tileBelowFeet = onStair ? stairTile : (stairsTile || solidTile || woodTile);
-            playFootstepSound(scene, player, tileBelowFeet);
-          }
-        } else {
-          playFootstepSound(scene, player, null);
+        const solidTile = getTileBelowFeet(player, platformLayer, camera);
+        const woodTile = getTileBelowFeet(player, woodPlatformLayer, camera);
+        const stairsTile = stairTile || getTileBelowFeet(player, stairsLayer, camera);
+        const tileBelowFeet = onStair ? stairTile : (stairsTile || solidTile || woodTile);
+        playFootstepSound(scene, player, tileBelowFeet);
+      }
+    } else {
+      playFootstepSound(scene, player, null);
 
-          const currentAnim = player.anims.currentAnim?.key;
+      const currentAnim = player.anims.currentAnim?.key;
       const isJumpingAnim = currentAnim === "player-jump" || currentAnim === "player-jump-chair";
 
       if (player.body.velocity.y < 0) {
@@ -178,6 +178,9 @@ export const playerComposition = {
       interact: Phaser.Input.Keyboard.KeyCodes.E,
       throw: Phaser.Input.Keyboard.KeyCodes.Q,
       throwSalt: Phaser.Input.Keyboard.KeyCodes.R,
+      one: Phaser.Input.Keyboard.KeyCodes.ONE,
+      two: Phaser.Input.Keyboard.KeyCodes.TWO,
+      three: Phaser.Input.Keyboard.KeyCodes.THREE,
     });
   },
 
@@ -215,7 +218,7 @@ export const playerComposition = {
   },
 
   throwSalt(scene, player, userInput, allGhosts, inventoryStore) {
-    const saltThrown = Phaser.Input.Keyboard.JustDown(userInput.throwSalt) && inventoryComposition.decreaseItem(inventoryStore, ITEM_SALT);
+    const saltThrown = (Phaser.Input.Keyboard.JustDown(userInput.throwSalt) || Phaser.Input.Keyboard.JustDown(userInput.two)) && inventoryComposition.decreaseItem(inventoryStore, ITEM_SALT);
     if (!saltThrown) return;
 
     for (const ghost of allGhosts) {

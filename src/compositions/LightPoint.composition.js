@@ -32,7 +32,7 @@ export const lightPointComposition = {
   },
 
   interactWithLightPoint(inventoryStore, lightPoint, userInput) {
-    const turnOn = lightPoint.currentBurningTimeInMs <= 0 && Phaser.Input.Keyboard.JustDown(userInput.interact) && inventoryComposition.decreaseItem(inventoryStore, ITEM_MATCHES);
+    const turnOn = (Phaser.Input.Keyboard.JustDown(userInput.interact) || Phaser.Input.Keyboard.JustDown(userInput.one)) && lightPoint.currentBurningTimeInMs <= 0 && inventoryComposition.decreaseItem(inventoryStore, ITEM_MATCHES);
 
     if (turnOn) {
       lightPoint.setFrame("2");

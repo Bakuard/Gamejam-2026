@@ -22,7 +22,8 @@ export const doorComposition = {
   },
 
   toggleDoor(door, userInput, inventoryStore) {
-    if (!Phaser.Input.Keyboard.JustDown(userInput.interact)) return;
+    const needOpen = Phaser.Input.Keyboard.JustDown(userInput.interact) || Phaser.Input.Keyboard.JustDown(userInput.three);
+    if (!needOpen) return;
 
     if (door.isClosed && door.isLocked && !inventoryComposition.decreaseItem(inventoryStore, ITEM_MASTER_KEY)) {
       audioComposition.play(door.scene, "door-locked");
