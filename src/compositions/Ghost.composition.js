@@ -89,7 +89,11 @@ export const ghostComposition = {
   },
 
   tryCloseDoor(ghost, door) {
-    if (ghost.currentState.closeDoorProbability >= Math.random()) doorComposition.lockDoor(door);
+    const currentTime = ghost.scene.time.now;
+    if (currentTime >= ghost.nextDoorRollTime) {
+      ghost.nextDoorRollTime = currentTime + 1000;
+      if (ghost.currentState.closeDoorProbability >= Math.random()) doorComposition.lockDoor(door);
+    }
   },
 
   setRunAwayState(ghost) {
@@ -126,6 +130,7 @@ function createGhost(scene, x, y, wanderArea, prowlGhostPointsLayer, ghostConfig
   ghost.runAwayTimer = 0;
   ghost.runAwayMaxTimeInMs = ghostConfig.runAwayMaxTimeInSec * 1000;
   ghost.randomOffsetForWaveMovement = Phaser.Math.Between(0, 100);
+  ghost.nextDoorRollTime = 0;
   updateGhostWithState(ghost, ghostConfig.states[0]);
   createGhostParticles(scene, ghost);
   applyGhostVfxForCurrentPhase(ghost);
