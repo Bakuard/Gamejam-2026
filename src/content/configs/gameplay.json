@@ -305,7 +305,7 @@
         "runAwayMaxTimeInSec": 5,
         "states": [
           {
-            "speedPxPerSec": [40, 45, 50],
+            "speedPxPerSec": [50, 55, 60],
             "displayWidth": 88.6,
             "displayHeight": 97,
             "animationAtlasName": "photographer-normal",
@@ -317,7 +317,7 @@
             "closeDoorProbability": 0
           },
           {
-            "speedPxPerSec": [70, 75, 80],
+            "speedPxPerSec": [90, 95, 100],
             "displayWidth": 118,
             "displayHeight": 97.3,
             "animationAtlasName": "photographer-hunt",
@@ -329,7 +329,7 @@
             "closeDoorProbability": 0.2
           },
           {
-            "speedPxPerSec": [90, 95, 100],
+            "speedPxPerSec": [110, 115, 120],
             "displayWidth": 118,
             "displayHeight": 97.3,
             "animationAtlasName": "photographer-hunt",
@@ -423,7 +423,7 @@
             "displayHeight": 100,
             "physicBodyWidth": 30,
             "physicBodyHeight": 80,
-            "speedPxPerSec": [40, 45, 50],
+            "speedPxPerSec": [50, 55, 60],
             "detectionRadius": [140, 170],
             "durationInMs": 60000,
             "animationAtlasName": "meloman-normal",
@@ -435,7 +435,7 @@
             "displayHeight": 100,
             "physicBodyWidth": 30,
             "physicBodyHeight": 80,
-            "speedPxPerSec": [70, 75, 80],
+            "speedPxPerSec": [90, 95, 100],
             "detectionRadius": [300, 400],
             "durationInMs": 45000,
             "animationAtlasName": "meloman-hunt",
@@ -447,7 +447,7 @@
             "displayHeight": 100,
             "physicBodyWidth": 30,
             "physicBodyHeight": 80,
-            "speedPxPerSec": [70, 75, 80],
+            "speedPxPerSec": [90, 95, 100],
             "detectionRadius": [400, 500],
             "durationInMs": 15000,
             "animationAtlasName": "meloman-hunt",
