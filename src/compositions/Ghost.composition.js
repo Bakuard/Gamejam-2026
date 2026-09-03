@@ -1,9 +1,10 @@
 import Phaser from "phaser";
-import { GHOSTS, GHOSTS_VFX, LIGHT_POINT } from "@/configs/gameplay.config.js";
+import { GHOSTS, GHOSTS_VFX, LIGHT_POINT, PARTICLES } from "@/configs/gameplay.config.js";
 import { GHOSTS_VFX_BY_PHASE_INDEX } from "@/configs/gameplay.config.js";
 import { doorComposition } from "@/compositions/Door.composition.js";
 import { pullEventManager } from "@/utils/PullEventManager.js";
 import { dynamicLightingComposition } from "@/compositions/DynamicLighting.composition.js";
+import { particlesComposition } from "@/compositions/Particles.composition.js";
 
 export const ghostComposition = {
   preloadGhostAnimation(scene, ghostsConfig) {
@@ -55,7 +56,7 @@ export const ghostComposition = {
     return result;
   },
 
-  handlePlayerCollision(scene, playerStore, eventStore) {
+  handlePlayerCollision(scene, playerStore) {
     pullEventManager.clearAll();
     playerStore.isGameOver = true;
     playerStore.isWin = false;
@@ -137,7 +138,6 @@ function createGhost(scene, x, y, wanderArea, prowlGhostPointsLayer, ghostConfig
   return ghost;
 }
 
-
 function updateGhostStateTimer(ghost, deltaTime) {
   const currentState = ghost.states[ghost.stateIndex];
   ghost.currentStateDurationInMs += deltaTime;
@@ -152,12 +152,14 @@ function updateGhostStateTimer(ghost, deltaTime) {
     if (ghost.stateIndex + 1 < ghost.states.length) {
       const newState = ghost.states[++ghost.stateIndex];
       updateGhostWithState(ghost, newState);
+      updateGhostGlitterVfx(ghost);
       applyGhostVfxForCurrentPhase(ghost);
       if (ghost.stateIndex === 1) {
         pullEventManager.setEvent("ghostSecondState");
       }
     } else {
       destroyGhostParticles(ghost);
+      destroyGhostGlitter(ghost);
       ghost.destroy();
       return true;
     }
@@ -183,7 +185,6 @@ function updateGhostWithState(ghost, state) {
   ghost.body.setOffset(offsetX, offsetY);
 }
 
-
 function moveGhost(player, ghost, allGhosts, totalTime, deltaTime) {
   if (ghost.runAwayTimer > 0) {
     ghost.runAwayTimer -= deltaTime;
@@ -192,6 +193,7 @@ function moveGhost(player, ghost, allGhosts, totalTime, deltaTime) {
     changeNormalizedVelocityIfLightPoint(ghost);
     ghost.body.velocity.scale(ghost.speed).negate();
     ghost.setFlipX(ghost.body.velocity.x < 0);
+    updateGhostGlitterVfx(ghost);
     return;
   }
 
@@ -206,6 +208,7 @@ function moveGhost(player, ghost, allGhosts, totalTime, deltaTime) {
     ghost.setFlipX(ghost.body.velocity.x < 0);
     ghost.setAlpha(1);
     ghost.ambushed = false;
+    updateGhostGlitterVfx(ghost);
   } else if (ghost.roamType === "straight") {
     calculateDirectionAndDistanceToAim(ghost, ghost.aim);
     calculateStraightNormalizedVelocity(ghost, allGhosts);
@@ -213,9 +216,13 @@ function moveGhost(player, ghost, allGhosts, totalTime, deltaTime) {
     ghost.body.velocity.scale(ghost.speed);
     ghost.setFlipX(ghost.body.velocity.x < 0);
     if (ghost.distanceToAim < ghost.speed) choseRandomAimInWanderArea(ghost);
+    updateGhostGlitterVfx(ghost);
   } else if (ghost.roamType === "prowl") {
     ghost.ambushCurrentTime += deltaTime;
-    if (ghost.ambushCurrentTime < ghost.currentState.ambushTimeLimitInMs && ghost.ambushed) return;
+    if (ghost.ambushCurrentTime < ghost.currentState.ambushTimeLimitInMs && ghost.ambushed) {
+      updateGhostGlitterVfx(ghost);
+      return;
+    }
     ghost.ambushCurrentTime = 0;
 
     const ambushPosition = getRandomAmbushPosition(ghost);
@@ -225,6 +232,7 @@ function moveGhost(player, ghost, allGhosts, totalTime, deltaTime) {
     ghost.setAlpha(0.5);
     ghost.ambushed = true;
     ghost.body.velocity.set(0, 0);
+    updateGhostGlitterVfx(ghost);
   }
 }
 
@@ -306,7 +314,6 @@ function choseRandomAimInWanderArea(ghost) {
 function getRandomAmbushPosition(ghost) {
   return Phaser.Math.RND.pick(ghost.prowlGhostPointsLayer);
 }
-
 
 function createGhostParticles(scene, ghost) {
   const fireEmitter = createGhostEmitter(scene, ghost, GHOSTS_VFX.fire);
@@ -408,6 +415,26 @@ function destroyGhostParticles(ghost) {
   if (!ghost.vfxEmitters) return;
   for (const emitter of ghost.vfxEmitters) emitter.destroy();
   ghost.vfxEmitters = null;
+}
+
+function updateGhostGlitterVfx(ghost) {
+  // const isStationary = ghost.body?.velocity.lengthSq() === 0;
+  // const isFirstState = ghost.stateIndex === 0;
+  const shouldHaveGlitter = ghost.roamType === "prowl";
+
+  if (shouldHaveGlitter) {
+    if (!ghost.__activeVFX?.glitter) {
+      particlesComposition.initObjectVFX(ghost.scene, ghost, ["glitter"], PARTICLES);
+    }
+  } else {
+    destroyGhostGlitter(ghost);
+  }
+}
+
+function destroyGhostGlitter(ghost) {
+  if (ghost.__activeVFX?.glitter) {
+    particlesComposition.removeVFXByKey(ghost, "glitter");
+  }
 }
 
 function applyGhostVfxForCurrentPhase(ghost) {
