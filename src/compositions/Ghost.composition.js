@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { GHOSTS, GHOSTS_VFX, LIGHT_POINT, PARTICLES } from "@/configs/gameplay.config.js";
+import { GHOSTS, LIGHT_POINT, PARTICLES } from "@/configs/gameplay.config.js";
 import { GHOSTS_VFX_BY_PHASE_INDEX } from "@/configs/gameplay.config.js";
 import { doorComposition } from "@/compositions/Door.composition.js";
 import { pullEventManager } from "@/utils/PullEventManager.js";
@@ -71,7 +71,6 @@ export const ghostComposition = {
   moveAllGhosts(allGhosts, player, time, deltaTime) {
     for (const ghost of allGhosts) {
       moveGhost(player, ghost, allGhosts, time, deltaTime);
-      updateGhostParticlesPosition(ghost);
     }
   },
 
@@ -133,7 +132,6 @@ function createGhost(scene, x, y, wanderArea, prowlGhostPointsLayer, ghostConfig
   ghost.randomOffsetForWaveMovement = Phaser.Math.Between(0, 100);
   ghost.nextDoorRollTime = 0;
   updateGhostWithState(ghost, ghostConfig.states[0]);
-  createGhostParticles(scene, ghost);
   applyGhostVfxForCurrentPhase(ghost);
   return ghost;
 }
@@ -325,102 +323,25 @@ function createGhostParticles(scene, ghost) {
 }
 
 function createGhostEmitter(scene, ghost, vfxConfig) {
-  const actualTextureKey = resolveParticleTexture(scene, vfxConfig);
-
-  const textureScale = getParticleTextureScale(scene, actualTextureKey, vfxConfig.particleSizePx);
-
-  const baseSpeed = vfxConfig.speed ?? { min: 0, max: 0 };
-  const minSpeed = Number(baseSpeed.min ?? 0);
-  const maxSpeed = Number(baseSpeed.max ?? 0);
-
-  const trailVelocityFactor = Number(vfxConfig.trailVelocityFactor ?? 0);
-  const trailRandom = Number(vfxConfig.trailRandom ?? 0);
-
-  const emitter = scene.add.particles(ghost.x, ghost.y, actualTextureKey, {
-    lifespan: vfxConfig.lifespan,
-    frequency: vfxConfig.frequency,
-    quantity: vfxConfig.quantity,
-    angle: vfxConfig.angle,
-    gravityY: vfxConfig.gravityY,
-    alpha: vfxConfig.alpha,
-    tint: vfxConfig.tint,
-    blendMode: vfxConfig.blendMode,
-
-    // Вместо speed: ... задаём компоненты скорости.
-    // Частица получает скорость "назад" относительно движения призрака -> получается шлейф.
-    speedX: () => {
-      const base = Phaser.Math.Between(minSpeed, maxSpeed);
-      const trail = -ghost.body.velocity.x;
-      const rnd = Phaser.Math.Between(-trailRandom, trailRandom);
-      return trail + rnd + Phaser.Math.FloatBetween(-base, base);
+  particlesComposition.initObjectVFX(scene, ghost, [vfxConfig.key], {
+    VFX: {
+      [vfxConfig.key]: vfxConfig,
     },
-    speedY: () => {
-      const base = Phaser.Math.Between(minSpeed, maxSpeed);
-      const trail = -ghost.body.velocity.y;
-      const rnd = Phaser.Math.Between(-trailRandom, trailRandom);
-      return trail + rnd + Phaser.Math.FloatBetween(-base, base);
-    },
-
-    scale: {
-      start: vfxConfig.scale.start * textureScale,
-      end: vfxConfig.scale.end * textureScale,
-    },
-    emitting: true,
   });
 
-  emitter.setDepth(9999);
-
-  emitter.__followTarget = ghost;
-  emitter.__followOffsetX = Number(vfxConfig.followOffsetX ?? 0);
-  emitter.__followOffsetY = ghost.displayHeight * Number(vfxConfig.followOffsetYFactor ?? 0);
-
-  emitter.setPosition(ghost.x + emitter.__followOffsetX, ghost.y + emitter.__followOffsetY);
-
-  return emitter;
+  return ghost.__activeVFX?.[vfxConfig.key];
 }
 
-function resolveParticleTexture(scene, vfxConfig) {
-  return vfxConfig.textureKey;
-}
-
-function getParticleTextureScale(scene, textureKey, particleSizePx) {
-  if (!particleSizePx) return 1;
-
-  const texture = scene.textures.get(textureKey);
-  const sourceImage = texture?.getSourceImage?.();
-
-  const width = sourceImage?.width ?? 0;
-  const height = sourceImage?.height ?? 0;
-
-  if (width <= 0 || height <= 0) return 1;
-
-  return particleSizePx / Math.max(width, height);
-}
-
-function updateGhostParticlesPosition(ghost) {
-  if (!ghost.vfxEmitters) return;
-
-  for (const emitter of ghost.vfxEmitters) {
-    const target = emitter.__followTarget;
-    if (!target) continue;
-
-    emitter.setPosition(
-      target.x + (emitter.__followOffsetX ?? 0),
-      target.y + (emitter.__followOffsetY ?? 0)
-    );
-  }
-}
 
 function destroyGhostParticles(ghost) {
-  if (!ghost.vfxEmitters) return;
-  for (const emitter of ghost.vfxEmitters) emitter.destroy();
-  ghost.vfxEmitters = null;
+  particlesComposition.removeVFXByKey(ghost, "fire");
+  particlesComposition.removeVFXByKey(ghost, "smoke");
 }
 
 function updateGhostGlitterVfx(ghost) {
   // const isStationary = ghost.body?.velocity.lengthSq() === 0;
-  // const isFirstState = ghost.stateIndex === 0;
-  const shouldHaveGlitter = ghost.roamType === "prowl";
+  const isFirstState = ghost.stateIndex === 0;
+  const shouldHaveGlitter = ghost.roamType === "prowl" && isFirstState;
 
   if (shouldHaveGlitter) {
     if (!ghost.__activeVFX?.glitter) {
@@ -447,16 +368,25 @@ function applyGhostVfxForCurrentPhase(ghost) {
     return;
   }
 
-  // Пересоздаём эмиттеры под новую фазу (проще и надёжнее, чем updateConfig)
+  // Пересоздаём эмиттеры под новую фазу
   destroyGhostParticles(ghost);
 
-  const fireConfig = mergeVfxConfig(GHOSTS_VFX.fire, phaseOverrides.fire);
-  const smokeConfig = mergeVfxConfig(GHOSTS_VFX.smoke, phaseOverrides.smoke);
+  const configs = { VFX: {} };
+  const vfxKeys = [];
 
-  const fireEmitter = createGhostEmitter(ghost.scene, ghost, fireConfig);
-  const smokeEmitter = createGhostEmitter(ghost.scene, ghost, smokeConfig);
+  if (PARTICLES.VFX?.fire) {
+    configs.VFX.fire = mergeVfxConfig(PARTICLES.VFX.fire, phaseOverrides.fire);
+    vfxKeys.push("fire");
+  }
 
-  ghost.vfxEmitters = [fireEmitter, smokeEmitter];
+  if (PARTICLES.VFX?.smoke) {
+    configs.VFX.smoke = mergeVfxConfig(PARTICLES.VFX.smoke, phaseOverrides.smoke);
+    vfxKeys.push("smoke");
+  }
+
+  if (vfxKeys.length > 0) {
+    particlesComposition.initObjectVFX(ghost.scene, ghost, vfxKeys, configs);
+  }
 }
 
 function mergeVfxConfig(baseConfig, overrides) {
