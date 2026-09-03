@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="60" tileheight="60" infinite="0" nextlayerid="30" nextobjectid="137">
+<map version="1.10" tiledversion="1.12.2-2-geb83ddb9" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="60" tileheight="60" infinite="0" nextlayerid="30" nextobjectid="137">
  <editorsettings>
   <export target="../public/assets/levels/tilemaps/platformer.json" format="json"/>
  </editorsettings>
@@ -518,31 +518,31 @@
   </object>
  </objectgroup>
  <objectgroup id="15" name="prowl_ghost_points_layer">
-  <object id="80" x="915.996" y="2757.33">
+  <object id="80" x="867.511" y="2766.42">
    <point/>
   </object>
-  <object id="82" x="921.337" y="1781.33">
+  <object id="82" x="864.852" y="1795.03">
    <point/>
   </object>
-  <object id="113" x="2801.33" y="2750.67">
+  <object id="113" x="2883.15" y="2756.73">
    <point/>
   </object>
-  <object id="114" x="2806.67" y="2016">
+  <object id="114" x="2858.19" y="2031.15">
    <point/>
   </object>
   <object id="115" x="925.334" y="2253.34">
    <point/>
   </object>
-  <object id="116" x="2781.33" y="1568">
+  <object id="116" x="2854.06" y="1577.09">
    <point/>
   </object>
-  <object id="128" x="924" y="1088">
+  <object id="128" x="871.515" y="1077.33">
    <point/>
   </object>
-  <object id="129" x="2794.67" y="1076">
+  <object id="129" x="2858.31" y="1082.06">
    <point/>
   </object>
-  <object id="133" x="2225.33" y="3122.67">
+  <object id="133" x="2225.33" y="3007.52">
    <point/>
   </object>
  </objectgroup>

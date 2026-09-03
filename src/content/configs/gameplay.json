@@ -304,7 +304,7 @@
       "type": "salt",
       "displayWidth": 30,
       "displayHeight": 30,
-      "radius": 200,
+      "radius": 400,
       "maxItemsOnMap": [
         {
           "totalDays": 1,
@@ -343,7 +343,7 @@
     "protectionRadius": 200
   },
   "GHOSTS": {
-    "startGhostNumber": 3,
+    "startGhostNumber": 1,
     "newGhostNumberStep": 1,
     "separationRadius": 100,
     "units" : [
@@ -474,10 +474,10 @@
             "physicBodyWidth": 30,
             "physicBodyHeight": 80,
             "speedPxPerSec": [50, 55, 60],
-            "detectionRadius": [140, 170],
+            "detectionRadius": [300, 400],
             "durationInMs": 60000,
             "animationAtlasName": "meloman-normal",
-            "ambushTimeLimitInMs": 6000,
+            "ambushTimeLimitInMs": 20000,
             "closeDoorProbability": 0
           },
           {
@@ -486,10 +486,10 @@
             "physicBodyWidth": 30,
             "physicBodyHeight": 80,
             "speedPxPerSec": [90, 95, 100],
-            "detectionRadius": [300, 400],
+            "detectionRadius": [300, 500],
             "durationInMs": 45000,
             "animationAtlasName": "meloman-hunt",
-            "ambushTimeLimitInMs": 2500,
+            "ambushTimeLimitInMs": 10000,
             "closeDoorProbability": 0.1
           },
           {
@@ -498,10 +498,10 @@
             "physicBodyWidth": 30,
             "physicBodyHeight": 80,
             "speedPxPerSec": [90, 95, 100],
-            "detectionRadius": [400, 500],
+            "detectionRadius": [300, 500],
             "durationInMs": 15000,
             "animationAtlasName": "meloman-hunt",
-            "ambushTimeLimitInMs": 1000,
+            "ambushTimeLimitInMs": 10000,
             "closeDoorProbability": 0.2
           },
           {
