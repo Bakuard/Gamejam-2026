@@ -28,15 +28,15 @@ const inventoryStore = useInventoryStore();
 let game = null;
 
 const isNightPhase = computed(() => {
-  return calendarStore.currentPhase === dayPhases.night || calendarStore.currentPhase === dayPhases.morning;
+  return calendarStore.currentPhase === dayPhases.night;
 });
 
 const dayTotalDuration = computed(() => {
-  return calendarStore.afternoonInMs + calendarStore.eveningInMs;
+  return calendarStore.afternoonInMs + calendarStore.eveningInMs + calendarStore.morningInMs;
 });
 
 const nightTotalDuration = computed(() => {
-  return calendarStore.nightInMs + calendarStore.morningInMs;
+  return calendarStore.nightInMs;
 });
 
 const allTime = computed(() => {
@@ -49,12 +49,10 @@ const remainingTime = computed(() => {
       const elapsedInNight = calendarStore.msSinceDayStart - (calendarStore.morningInMs + calendarStore.afternoonInMs + calendarStore.eveningInMs);
       return Math.max(0, nightTotalDuration.value - Math.max(0, elapsedInNight));
     }
-    // morning
-    return Math.max(0, calendarStore.morningInMs - calendarStore.msSinceDayStart);
   }
 
   // day (afternoon or evening)
-  const elapsedInDay = calendarStore.msSinceDayStart - calendarStore.morningInMs;
+  const elapsedInDay = calendarStore.msSinceDayStart;
   return Math.max(0, dayTotalDuration.value - Math.max(0, elapsedInDay));
 });
 
