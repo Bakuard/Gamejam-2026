@@ -10,6 +10,14 @@ export const particlesComposition = {
       graphics.generateTexture("saltTexture", 8, 8);
       graphics.destroy();
     }
+
+    if (!scene.textures.exists("glitterTexture")) {
+      const graphics = scene.add.graphics();
+      graphics.fillStyle(0xf74a38, 1);
+      graphics.fillCircle(4, 4, 4);
+      graphics.generateTexture("glitterTexture", 4, 4);
+      graphics.destroy();
+    }
   },
 
   /**

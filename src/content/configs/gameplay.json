@@ -205,6 +205,20 @@
           "start": 0.6,
           "end": 0
         }
+      },
+      "glitter": {
+        "textureKey": "glitterTexture",
+        "followOffsetX": -10,
+        "followOffsetYFactor": -1.1,
+        "depthOffset": 0,
+        "tint": [16777215, 16206392, 16755370],
+        "speed": { "min": 20, "max": 50 },
+        "angle": { "min": 0, "max": 360 },
+        "scale": { "start": 0.8, "end": 0.2 },
+        "alpha": { "start": 0.7, "end": 0 },
+        "lifespan": 3000,
+        "frequency": 30,
+        "blendMode": "ADD"
       }
     }
   },
