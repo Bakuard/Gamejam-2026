@@ -35,41 +35,19 @@ const letsGo = () => {
 <template>
   <div class="tutorial-modal">
     <div class="tutorial-modal__viewport">
-      <div
-        class="tutorial-modal__track"
-        :style="{ transform: `translateX(-${currentIndex * 100}%)` }"
-      >
-        <div
-          v-for="(slide, index) in slides"
-          :key="index"
-          class="tutorial-modal__slide"
-        >
+      <div class="tutorial-modal__track" :style="{ transform: `translateX(-${currentIndex * 100}%)` }">
+        <div v-for="(slide, index) in slides" :key="index" class="tutorial-modal__slide">
           <component :is="slide" />
         </div>
       </div>
     </div>
 
     <div class="tutorial-modal__controls">
-      <button
-        class="tutorial-modal__btn"
-        :disabled="currentIndex === 0"
-        @click="prev"
-      >
-        Prev
-      </button>
+      <button class="tutorial-modal__btn" :disabled="currentIndex === 0" @click="prev">Предыдущий</button>
 
-      <button
-        v-if="!isLastSlide"
-        class="tutorial-modal__btn"
-        :disabled="currentIndex === total - 1"
-        @click="next"
-      >
-        Next
-      </button>
+      <button v-if="!isLastSlide" class="tutorial-modal__btn" :disabled="currentIndex === total - 1" @click="next">Далее</button>
 
-      <button v-else class="tutorial-modal__btn" @click="letsGo">
-        Let's go
-      </button>
+      <button v-else class="tutorial-modal__btn" @click="letsGo">Вперед!</button>
     </div>
   </div>
 </template>
@@ -86,24 +64,29 @@ const letsGo = () => {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  background: rgba(20, 10, 5, 0.65);
-  backdrop-filter: blur(6px);
-  padding: 16px;
+  gap: 16px;
+  background: rgba(18, 18, 24, 0.85);
+  backdrop-filter: blur(8px);
+  padding: 24px;
   box-sizing: border-box;
+  user-select: none;
 
   &__viewport {
     flex: 1;
     min-height: 0;
     width: 100%;
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   &__track {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     height: 100%;
-    transition: transform 0.3s ease;
+    width: 100%;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   &__slide {
@@ -117,14 +100,21 @@ const letsGo = () => {
 
     div {
       height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     img {
       display: block;
       width: auto;
-      height: 100%;
-      max-width: 960px;
+      height: auto;
+      max-height: 100%;
+      max-width: min(960px, 90vw);
       object-fit: contain;
+      border-radius: 12px;
+      border: 2px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
     }
   }
 
@@ -136,24 +126,39 @@ const letsGo = () => {
   }
 
   &__btn {
-    padding: 8px 24px;
+    padding: 10px 28px;
     cursor: pointer;
-    border: none;
-    background: #7f4837;
-    color: #d99b47;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: #ffffff;
     text-transform: uppercase;
-    font-weight: bold;
-    font-size: 16px;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 1px;
     font-family: inherit;
-    transition: background 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    transition: all 0.2s ease;
 
     &:hover:not(:disabled) {
-      background: #b56f44;
+      background: rgba(255, 255, 255, 0.16);
+      border-color: rgba(255, 255, 255, 0.6);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+      transform: translateY(-1px);
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(0);
+      background: rgba(255, 255, 255, 0.1);
     }
 
     &:disabled {
-      opacity: 0.4;
+      opacity: 0.3;
       cursor: not-allowed;
+      border-color: rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.03);
+      box-shadow: none;
     }
   }
 }
