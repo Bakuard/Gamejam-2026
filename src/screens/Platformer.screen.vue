@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref, onBeforeUnmount, computed } from "vue";
 import Phaser from "phaser";
-import { PlatformerScene } from "@/scenes/platformer.scene";
+import PlatformerScene from "@/scenes/platformer.scene";
 import Preloader from "@/ui-components/Preloader.component.vue";
 import UiAnchor from "@/ui-components/UiAnchor.component.vue";
 import Inventory from "@/ui-components/Inventory.component.vue";

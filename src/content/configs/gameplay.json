@@ -8,7 +8,7 @@
     "afternoonPhaseTransitionFraction": 0.1,
     "eveningPhaseTransitionFraction": 0.1,
     "nightPhaseTransitionFraction": 0.1,
-    "startDayPhase": "afternoon"
+    "startDayPhase": "morning"
   },
   "AUDIO": [
     {
