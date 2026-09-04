@@ -28,7 +28,7 @@ export const doorComposition = {
     if (door.isClosed && door.isLocked && !inventoryComposition.decreaseItem(inventoryStore, ITEM_MASTER_KEY)) {
       audioComposition.play(door.scene, "door-locked");
       return;
-    } else if (door.isLocked && inventoryComposition.decreaseItem(inventoryStore, ITEM_MASTER_KEY)) {
+    } else if (door.isClosed && door.isLocked) {
       audioComposition.play(door.scene, "skeleton-key");
     }
 
