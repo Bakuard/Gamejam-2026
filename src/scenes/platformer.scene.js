@@ -16,7 +16,7 @@ import { tilemapComposition } from "@/compositions/Tilemap.composition.js";
 import { lightPointComposition } from "@/compositions/LightPoint.composition.js";
 import { inventoryComposition } from "@/compositions/Inventory.composition.js";
 
-export class PlatformerScene extends Phaser.Scene {
+class PlatformerScene extends Phaser.Scene {
   constructor(playerStore, calendarStore, ghostsStore, inventoryStore) {
     super("MainScene");
     this.playerStore = playerStore;
@@ -43,7 +43,6 @@ export class PlatformerScene extends Phaser.Scene {
   create() {
     pullEventManager.registerInbox("changeAmbientAudio", "morning", "night", "ghostSecondState", "ghostsDespawned");
     pullEventManager.registerInbox("createNewGhosts", "night");
-    pullEventManager.registerInbox("spawnOrDespawnDropItems", "morning", "night");
     pullEventManager.registerInbox("unlockAllDoorsIfMorning", "morning");
 
     // const [camera, backgroundNear, backgroundFar] = platformerComposition.createParallaxImages(this);
@@ -101,6 +100,17 @@ export class PlatformerScene extends Phaser.Scene {
 
     [this.lightPointsLayer, this.lightPointsAreaLayer] = lightPointComposition.createLightPoints(this, lightPointsLayer);
 
+    dropItemsComposition.initDropItems();
+    dropItemsComposition.spawnDropItems(
+      this,
+      this.emptyTilesCenterForMatches,
+      this.emptyTilesCenterForMasterKeys,
+      this.emptyTilesCenterForSalt,
+      Config.DROP_ITEMS,
+      this.calendarStore.totalDays,
+      this.dropItems = []
+    );
+
     this.physics.add.collider(this.player, platformLayer);
     this.physics.add.collider(this.player, wallsLayer);
     this.physics.add.collider(this.player, woodPlatformLayer, null, (player, platform) => playerComposition.jumpOff(player, platform, this.userInput));
@@ -114,6 +124,7 @@ export class PlatformerScene extends Phaser.Scene {
     this.physics.add.overlap(this.player, this.doorsLayer, (player, door) => doorComposition.toggleDoor(door, this.userInput, this.inventoryStore));
     this.physics.add.collider(this.player, this.doorsLayer, null, (player, door) => door.isClosed);
     this.physics.add.overlap(this.player, this.lightPointsLayer, (player, lightPoint) => lightPointComposition.interactWithLightPoint(this.inventoryStore, lightPoint, this.userInput));
+    this.physics.add.overlap(this.player, this.dropItems, (player, item) => dropItemsComposition.handlePlayerCollision(player, item, this.dropItems, this.inventoryStore));
 
     audioComposition.play(this, "music:mountains");
     audioComposition.play(this, "music:emotionalism");
@@ -131,8 +142,6 @@ export class PlatformerScene extends Phaser.Scene {
     );
 
     analyticsComposition.createAnalytics(Config.ANALYTICS);
-
-    spawnDropItems(this);
   }
 
   update(time, delta) {
@@ -140,8 +149,19 @@ export class PlatformerScene extends Phaser.Scene {
 
     changeAmbientAudio(this);
     createNewGhosts(this);
-    spawnOrDespawnDropItems(this);
     unlockAllDoorsIfMorning(this);
+
+    dropItemsComposition.spawnDropItemsIfMorning(
+      this,
+      this.emptyTilesCenterForMatches,
+      this.emptyTilesCenterForMasterKeys,
+      this.emptyTilesCenterForSalt,
+      Config.DROP_ITEMS,
+      this.calendarStore.totalDays,
+      calendarComposition.getCurrentPhaseProgress(this.calendarStore),
+      this.dropItems
+    );
+    dropItemsComposition.despawnDropItemsIfNight(this.dropItems);
 
     lightPointComposition.decreaseBurningTime(this.lightPointsLayer, delta);
     playerComposition.movePlayerOnPlatformers(this, this.player, this.userInput, this.platformLayer, this.woodPlatformLayer, this.stairsLayer, this.wallsLayer, this.map, this.camera);
@@ -159,6 +179,8 @@ export class PlatformerScene extends Phaser.Scene {
     playerComposition.careChair(this.player);
   }
 }
+
+export default PlatformerScene;
 
 function changeAmbientAudio(scene) {
   if (pullEventManager.checkEvent("changeAmbientAudio", "night") && calendarComposition.getCurrentPhaseProgress(scene.calendarStore) >= Config.TIME.nightPhaseTransitionFraction) {
@@ -191,28 +213,6 @@ function createNewGhosts(scene) {
   }
 
   pullEventManager.clearEvent("createNewGhosts", "night");
-}
-
-function spawnOrDespawnDropItems(scene) {
-  if (pullEventManager.checkEvent("spawnOrDespawnDropItems", "night")) {
-    dropItemsComposition.despawnDropItems(scene.dropItems);
-    pullEventManager.clearEvent("spawnOrDespawnDropItems", "night");
-  } else if (pullEventManager.checkEvent("spawnOrDespawnDropItems", "morning") && calendarComposition.getCurrentPhaseProgress(scene.calendarStore) >= Config.TIME.morningPhaseTransitionFraction) {
-    spawnDropItems(scene);
-    pullEventManager.clearEvent("spawnOrDespawnDropItems", "morning");
-  }
-}
-
-function spawnDropItems(scene) {
-  scene.dropItems = dropItemsComposition.spawnDropItems(
-    scene,
-    scene.emptyTilesCenterForMatches,
-    scene.emptyTilesCenterForMasterKeys,
-    scene.emptyTilesCenterForSalt,
-    Config.DROP_ITEMS,
-    scene.calendarStore.totalDays
-  );
-  scene.physics.add.overlap(scene.player, scene.dropItems, (player, item) => dropItemsComposition.handlePlayerCollision(player, item, scene.dropItems, scene.inventoryStore));
 }
 
 function unlockAllDoorsIfMorning(scene) {

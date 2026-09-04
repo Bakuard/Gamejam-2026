@@ -49,7 +49,7 @@ onBeforeUnmount(() => {
         <img :src="resultImageSrc" alt="result" />
       </div>
 
-      <button class="game-result-modal__btn" @click="onAgain">Заного (Enter)</button>
+      <button class="game-result-modal__btn" @click="onAgain">Заново (Enter)</button>
     </div>
   </UiModal>
 </template>

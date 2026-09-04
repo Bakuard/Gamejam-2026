@@ -1,5 +1,7 @@
 import { inventoryComposition } from "@/compositions/Inventory.composition.js";
 import { audioComposition } from "@/compositions/Audio.composition.js";
+import { pullEventManager } from "@/utils/PullEventManager.js";
+import { TIME } from "@/configs/gameplay.config.js";
 
 export const dropItemsComposition = {
   preloadDropItemsImage(scene, allDropItemsConfig) {
@@ -8,12 +10,28 @@ export const dropItemsComposition = {
     });
   },
 
-  spawnDropItems(scene, spawnPointsForMatches, spawnPointsForMasterKeys, spawnPointsForSalt, allDropItemsConfig, totalDays) {
-    const dropItems = [];
-    spawnDropItems(scene, spawnPointsForMatches, allDropItemsConfig.matches, totalDays, dropItems);
-    spawnDropItems(scene, spawnPointsForMasterKeys, allDropItemsConfig.masterKeys, totalDays, dropItems);
-    spawnDropItems(scene, spawnPointsForSalt, allDropItemsConfig.salt, totalDays, dropItems);
-    return dropItems;
+  initDropItems() {
+    pullEventManager.registerInbox("DropItems", "morning", "night");
+  },
+
+  spawnDropItemsIfMorning(scene, spawnPointsForMatches, spawnPointsForMasterKeys, spawnPointsForSalt, allDropItemsConfig, totalDays, currentPhaseProgress, outputDropItems) {
+    if (pullEventManager.checkEvent("DropItems", "morning") && outputDropItems.length === 0 && currentPhaseProgress >= TIME.morningPhaseTransitionFraction) {
+      pullEventManager.clearEvent("DropItems", "morning");
+      dropItemsComposition.spawnDropItems(scene, spawnPointsForMatches, spawnPointsForMasterKeys, spawnPointsForSalt, allDropItemsConfig, totalDays, outputDropItems);
+    }
+  },
+
+  spawnDropItems(scene, spawnPointsForMatches, spawnPointsForMasterKeys, spawnPointsForSalt, allDropItemsConfig, totalDays, outputDropItems) {
+    spawnDropItems(scene, spawnPointsForMatches, allDropItemsConfig.matches, totalDays, outputDropItems);
+    spawnDropItems(scene, spawnPointsForMasterKeys, allDropItemsConfig.masterKeys, totalDays, outputDropItems);
+    spawnDropItems(scene, spawnPointsForSalt, allDropItemsConfig.salt, totalDays, outputDropItems);
+  },
+
+  despawnDropItemsIfNight(dropItems) {
+    if (pullEventManager.checkEvent("DropItems", "night")) {
+      pullEventManager.clearEvent("DropItems", "night");
+      dropItemsComposition.despawnDropItems(dropItems);
+    }
   },
 
   despawnDropItems(dropItems) {
