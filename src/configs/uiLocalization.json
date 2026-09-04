@@ -4,19 +4,19 @@
     "ru": "RU"
   },
   "start_button": {
-    "en": "Start",
+    "en": "Начать",
     "ru": "Начать"
   },
   "main_title": {
-    "en": "Burning Ghosts",
-    "ru": "Burning Ghosts"
+    "en": "Доживи до рассвета",
+    "ru": "Доживи до рассвета"
   },
   "main_description": {
-    "en": "Game for Qwueble Game Jame 2026",
-    "ru": "Game for Qwueble Game Jame 2026"
+    "en": "Сможешь ли, ты, продержаться до утра?",
+    "ru": "Сможешь ли, ты, продержаться до утра?"
   },
   "loading": {
-    "en": "Loading",
-    "ru": "Loading"
+    "en": "Загрузка",
+    "ru": "Загрузка"
   }
 }

@@ -33,9 +33,6 @@ const goToGame = () => {
       <div>
         <img class="tutorial-modal__image" src="/assets/img/tutorial/introduction_3.jpg" alt="placeholder" />
       </div>
-      <div>
-        <img class="tutorial-modal__image" src="/assets/img/tutorial/introduction_4.jpg" alt="placeholder" />
-      </div>
     </TutorialModal>
     <div class="start-menu-screen__content">
       <h1 class="start-menu-screen__title">
@@ -43,11 +40,7 @@ const goToGame = () => {
         <span class="start-menu-screen__title-sub">{{ tContent(UI_LOCALIZATION.main_description) }}</span>
       </h1>
       <form class="start-menu-screen__form">
-        <button
-          v-if="!isSliderVisible"
-          class="start-menu-screen__btn"
-          @click="showSlider"
-        >
+        <button v-if="!isSliderVisible" class="start-menu-screen__btn" @click="showSlider">
           {{ tContent(UI_LOCALIZATION.start_button) }}
         </button>
       </form>
@@ -62,8 +55,6 @@ const goToGame = () => {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-
-  // Было: центрирование и прижатие к низу — из‑за этого контент «уезжает» на персонажа справа
   align-items: flex-start;
   justify-content: center;
 
@@ -84,77 +75,82 @@ const goToGame = () => {
     height: auto;
 
     // Ограничиваем ширину левой «колонки», чтобы текст/кнопка не расползались вправо
-    width: min(520px, 50vw);
-
+    width: min(750px, 50vw);
     transform: scale(0.9);
   }
 
   &__title {
-    color: #2c1f1a;
+    color: #ffffff;
 
-    // Было: text-align: center;
-    text-align: left;
+    text-align: center;
 
     display: flex;
     flex-direction: column;
     line-height: 1;
+    margin: 0 0 24px 0;
 
     &-main {
-      font-size: 125px;
-      font-weight: bold;
+      font-size: 100px;
+      font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 4px;
-      text-shadow: 4px 4px 0 #7f4837;
-      color: #d99b47;
-      margin-left: -10px;
+      color: #ffffff;
+      text-shadow:
+        0 2px 10px rgba(0, 0, 0, 0.8),
+        0 0 20px rgba(255, 255, 255, 0.2);
 
       @media (min-width: 1368px) {
-        font-size:160px;
+        font-size: 120px;
       }
     }
 
     &-sub {
-      font-size: 24px;
-      margin-top: 5px;
-      font-weight: normal;
-      opacity: 0.9;
+      font-size: 20px;
+      margin-top: 8px;
+      font-weight: 500;
       letter-spacing: 2px;
-      color: #d99b47;
+      color: rgba(255, 255, 255, 0.7);
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
     }
   }
 
   &__form {
     display: flex;
     flex-direction: column;
-
-    // Было: align-items: center;
-    align-items: flex-start;
-
+    align-items: center;
     gap: 10px;
-
-    // Было: width: 900px;
     width: 100%;
-
-    // Было: transform: translateY(30px);
     transform: none;
   }
 
   &__btn {
-    width: 300px;
-    height: 70px;
+    width: 100%;
+    max-width: 320px;
+    height: 64px;
     cursor: pointer;
-    border: none;
-    background: #7f4837;
-    background-size: 100%;
-    color: #d99b47;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 12px;
+    color: #ffffff;
     text-transform: uppercase;
-    font-weight: bold;
-    font-size: 36px;
+    font-weight: 700;
+    font-size: 24px;
+    letter-spacing: 2px;
     font-family: inherit;
-    transition: background 0.2s ease;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+    transition: all 0.2s ease;
 
     &:hover {
-      background: #b56f44;
+      background: rgba(255, 255, 255, 0.16);
+      border-color: rgba(255, 255, 255, 0.6);
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.6);
+      transform: translateY(-2px);
+    }
+
+    &:active {
+      transform: translateY(0);
+      background: rgba(255, 255, 255, 0.1);
     }
   }
 }
@@ -163,70 +159,6 @@ const goToGame = () => {
   .start-menu-screen__content {
     transform: scale(1);
     margin-bottom: 0;
-  }
-}
-
-/* остальной стиль без изменений */
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-15px);
-  }
-}
-
-.slide-images {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-  margin-bottom: 10px;
-
-  img {
-    width: 50%;
-    height: auto;
-    display: block;
-    object-fit: cover;
-  }
-}
-
-.slide-text {
-  font-size: 13px;
-  color: #d99b47;
-  text-align: center;
-  margin: 0;
-  line-height: 1.5;
-}
-
-.slide-lets-go-btn {
-  display: block;
-  margin: 12px auto 0;
-  padding: 10px 32px;
-  cursor: pointer;
-  border: none;
-  background: #7f4837;
-  color: #d99b47;
-  text-transform: uppercase;
-  font-weight: bold;
-  font-size: 20px;
-  font-family: inherit;
-  transition: background 0.2s ease;
-
-  &:hover {
-    background: #b56f44;
-  }
-}
-
-.slide-with-btn {
-  position: relative;
-
-  .slide-lets-go-btn {
-    position: absolute;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    margin: 0;
   }
 }
 </style>

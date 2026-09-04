@@ -39,21 +39,17 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <UiModal
-    :model-value="isGameOver"
-    target=".platformer-screen__game-wrapper"
-    max-width="520px"
-  >
+  <UiModal :model-value="isGameOver" target=".platformer-screen__game-wrapper" max-width="520px">
     <div class="game-result-modal">
       <h2 class="game-result-modal__title">
-        {{ isWin ? "You Win!" : "Game Over" }}
+        {{ isWin ? "Ты выжил!" : "Ты погиб!" }}
       </h2>
 
       <div class="game-result-modal__image">
         <img :src="resultImageSrc" alt="result" />
       </div>
 
-      <button class="game-result-modal__btn" @click="onAgain">Again (Enter)</button>
+      <button class="game-result-modal__btn" @click="onAgain">Заного (Enter)</button>
     </div>
   </UiModal>
 </template>
@@ -63,17 +59,20 @@ onBeforeUnmount(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
+  user-select: none;
 
   &__title {
     font-size: 32px;
-    font-weight: bold;
+    font-weight: 800;
     text-transform: uppercase;
-    color: #d99b47;
+    color: #ffffff;
     text-align: center;
     margin: 0;
     letter-spacing: 2px;
-    text-shadow: 2px 2px 0px #2c1f1a;
+    text-shadow:
+      0 2px 10px rgba(0, 0, 0, 0.8),
+      0 0 20px rgba(255, 255, 255, 0.2);
   }
 
   &__image {
@@ -83,15 +82,16 @@ onBeforeUnmount(() => {
 
     img {
       width: 100%;
+      max-height: 260px;
       height: auto;
       display: block;
-      object-fit: cover;
+      object-fit: contain;
     }
   }
 
   &__text {
-    font-size: 13px;
-    color: #d99b47;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
     text-align: center;
     margin: 0;
     line-height: 1.5;
@@ -99,20 +99,32 @@ onBeforeUnmount(() => {
 
   &__btn {
     display: block;
-    margin: 4px auto 0;
-    padding: 10px 32px;
+    margin: 8px auto 0;
+    padding: 12px 36px;
     cursor: pointer;
-    border: none;
-    background: #7f4837;
-    color: #d99b47;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 10px;
+    color: #ffffff;
     text-transform: uppercase;
-    font-weight: bold;
-    font-size: 20px;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 1.5px;
     font-family: inherit;
-    transition: background 0.2s ease;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+    transition: all 0.2s ease;
 
     &:hover {
-      background: #b56f44;
+      background: rgba(255, 255, 255, 0.16);
+      border-color: rgba(255, 255, 255, 0.6);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+      transform: translateY(-2px);
+    }
+
+    &:active {
+      transform: translateY(0);
+      background: rgba(255, 255, 255, 0.1);
     }
   }
 }

@@ -28,9 +28,7 @@ onBeforeUnmount(() => {
 <template>
   <transition name="fade">
     <div v-if="isShowing" class="preloader">
-      <h2 class="preloader__progress">
-        {{ tContent(UI_LOCALIZATION.loading) }}... {{ progress }}%
-      </h2>
+      <h2 class="preloader__progress">{{ tContent(UI_LOCALIZATION.loading) }}... {{ progress }}%</h2>
     </div>
   </transition>
 </template>
@@ -43,7 +41,8 @@ onBeforeUnmount(() => {
   right: 0;
   bottom: 0;
   z-index: 1000;
-  background: #a09380 url("/assets/img/background/main_menu2.jpg") right center;
+  background: #a09380 url("/assets/img/background/main_menu2.jpg") right center no-repeat;
+  background-size: cover;
   overflow: hidden;
   display: flex;
   justify-content: center;
