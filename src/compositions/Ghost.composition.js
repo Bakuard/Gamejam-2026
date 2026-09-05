@@ -227,7 +227,7 @@ function moveGhost(player, ghost, allGhosts, totalTime, deltaTime) {
     ghost.x = ambushPosition.x;
     ghost.y = ambushPosition.y;
 
-    ghost.setAlpha(0.5);
+    ghost.setAlpha(0.4);
     ghost.ambushed = true;
     ghost.body.velocity.set(0, 0);
     updateGhostGlitterVfx(ghost);
@@ -311,25 +311,6 @@ function choseRandomAimInWanderArea(ghost) {
 
 function getRandomAmbushPosition(ghost) {
   return Phaser.Math.RND.pick(ghost.prowlGhostPointsLayer);
-}
-
-function createGhostParticles(scene, ghost) {
-  const fireEmitter = createGhostEmitter(scene, ghost, GHOSTS_VFX.fire);
-  const smokeEmitter = createGhostEmitter(scene, ghost, GHOSTS_VFX.smoke);
-
-  ghost.vfxEmitters = [fireEmitter, smokeEmitter];
-
-  return ghost.vfxEmitters;
-}
-
-function createGhostEmitter(scene, ghost, vfxConfig) {
-  particlesComposition.initObjectVFX(scene, ghost, [vfxConfig.key], {
-    VFX: {
-      [vfxConfig.key]: vfxConfig,
-    },
-  });
-
-  return ghost.__activeVFX?.[vfxConfig.key];
 }
 
 
