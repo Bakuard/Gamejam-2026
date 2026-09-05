@@ -518,31 +518,31 @@
   </object>
  </objectgroup>
  <objectgroup id="15" name="prowl_ghost_points_layer">
-  <object id="80" x="915.996" y="2757.33">
+  <object id="80" x="849.329" y="2758.66">
    <point/>
   </object>
-  <object id="82" x="921.337" y="1781.33">
+  <object id="82" x="848.004" y="1782.66">
    <point/>
   </object>
-  <object id="113" x="2801.33" y="2750.67">
+  <object id="113" x="2866.66" y="2730.67">
    <point/>
   </object>
-  <object id="114" x="2806.67" y="2016">
+  <object id="114" x="2866.67" y="2022.67">
    <point/>
   </object>
-  <object id="115" x="925.334" y="2253.34">
+  <object id="115" x="848.001" y="2258.67">
    <point/>
   </object>
-  <object id="116" x="2781.33" y="1568">
+  <object id="116" x="2869.33" y="1534.67">
    <point/>
   </object>
-  <object id="128" x="924" y="1088">
+  <object id="128" x="846.667" y="1070.67">
    <point/>
   </object>
-  <object id="129" x="2794.67" y="1076">
+  <object id="129" x="2872" y="1056">
    <point/>
   </object>
-  <object id="133" x="2225.33" y="3122.67">
+  <object id="133" x="2220" y="3320">
    <point/>
   </object>
  </objectgroup>
