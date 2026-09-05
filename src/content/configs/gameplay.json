@@ -304,7 +304,7 @@
       "type": "salt",
       "displayWidth": 30,
       "displayHeight": 30,
-      "radius": 200,
+      "radius": 300,
       "maxItemsOnMap": [
         {
           "totalDays": 1,
