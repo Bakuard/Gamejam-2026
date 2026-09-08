@@ -15,14 +15,17 @@ import { dropItemsComposition } from "@/compositions/DropItems.composition.js";
 import { tilemapComposition } from "@/compositions/Tilemap.composition.js";
 import { lightPointComposition } from "@/compositions/LightPoint.composition.js";
 import { inventoryComposition } from "@/compositions/Inventory.composition.js";
+import { tutorialComposition } from "@/compositions/Tutorial.composition.js";
+import { TUTORIAL_TOOLTIPS } from "@/configs/gameplay.config.js";
 
 class PlatformerScene extends Phaser.Scene {
-  constructor(playerStore, calendarStore, ghostsStore, inventoryStore) {
+  constructor(playerStore, calendarStore, ghostsStore, inventoryStore, tutorialStore) {
     super("MainScene");
     this.playerStore = playerStore;
     this.calendarStore = calendarStore;
     this.ghostsStore = ghostsStore;
     this.inventoryStore = inventoryStore;
+    this.tutorialStore = tutorialStore;
   }
 
   preload() {
@@ -141,6 +144,11 @@ class PlatformerScene extends Phaser.Scene {
       this.lightPointsLayer
     );
 
+    if (this.ghostsStore.survivalCounter === 0) {
+      tutorialComposition.showTutorial(this.tutorialStore, TUTORIAL_TOOLTIPS.CONTROLLER);
+      tutorialComposition.showTutorial(this.tutorialStore, TUTORIAL_TOOLTIPS.ITEMS);
+    }
+
     analyticsComposition.createAnalytics(Config.ANALYTICS);
   }
 
@@ -206,6 +214,11 @@ function createNewGhosts(scene) {
   if (!pullEventManager.checkEvent("createNewGhosts", "night") || calendarComposition.getCurrentPhaseProgress(scene.calendarStore) < Config.TIME.nightPhaseTransitionFraction) return;
 
   scene.ghosts = ghostComposition.createGhosts(scene, Config.GHOSTS.units, scene.startPointsLayer, scene.ghostsWanderAreaLayer, scene.prowlGhostPointsLayer, scene.ghostsStore);
+
+  if (scene.ghostsStore.survivalCounter === 0) {
+    tutorialComposition.showTutorial(scene.tutorialStore, TUTORIAL_TOOLTIPS.GHOST);
+  }
+
   for (const ghost of scene.ghosts) {
     scene.physics.add.overlap(scene.player, ghost, (player, ghost) => ghostComposition.handlePlayerCollision(scene, scene.playerStore));
     scene.physics.add.overlap(ghost, scene.doorsLayer, (ghost, door) => ghostComposition.tryCloseDoor(ghost, door));

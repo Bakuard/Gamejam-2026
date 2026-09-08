@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="10.841463mm"
+   height="21.166668mm"
+   viewBox="0 0 10.841463 21.166668"
+   version="1.1"
+   id="svg1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <g
+     id="g22"
+     style="fill:#c8d3ce;fill-opacity:1"
+     transform="translate(-5.0495315,-38.084493)">
+    <rect
+       style="opacity:1;fill:#c8d3ce;fill-opacity:1;stroke-width:0.529167;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+       id="rect16"
+       width="21.166666"
+       height="21.166666"
+       x="5.314115"
+       y="38.084492" />
+    <g
+       id="g21">
+      <rect
+         style="fill:#8f301c;fill-opacity:1;stroke:#000000;stroke-width:0.516261;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;paint-order:stroke fill markers"
+         id="rect17"
+         width="10.325203"
+         height="20.650406"
+         x="5.307662"
+         y="38.342621" />
+      <rect
+         style="fill:#5a1e12;fill-opacity:1;stroke:#000000;stroke-width:0.472881;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;paint-order:stroke fill markers"
+         id="rect18"
+         width="6.668539"
+         height="9.6995783"
+         x="7.1389132"
+         y="39.385258" />
+      <rect
+         style="fill:#5a1e12;fill-opacity:1;stroke:#000000;stroke-width:0.460513;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+         id="rect19"
+         width="6.6795578"
+         height="2.7574022"
+         x="7.1557007"
+         y="50.256042" />
+      <rect
+         style="fill:#5a1e12;fill-opacity:1;stroke:#000000;stroke-width:0.460513;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+         id="rect20"
+         width="6.6795578"
+         height="2.7574022"
+         x="7.1557007"
+         y="54.177711" />
+      <circle
+         style="fill:#d14127;fill-opacity:1;stroke:#000000;stroke-width:0.529167;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+         id="circle20"
+         cx="6.1628981"
+         cy="49.746025"
+         r="0.51665008" />
+      <rect
+         style="fill:#d14127;fill-opacity:1;stroke:#000000;stroke-width:0.219197;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+         id="rect21"
+         width="0.146878"
+         height="0.59701276"
+         x="6.0894599"
+         y="50.729816" />
+    </g>
+  </g>
+</svg>

@@ -27,3 +27,35 @@ export const TIME_ICONS = {
   SUN: "assets/img/icons/sun.svg",
   MOON: "assets/img/icons/moon.svg",
 };
+
+export const TOOLTIP_ICONS = {
+  CONTROLLER: "assets/img/icons/controller.svg",
+  MATCHES: "assets/img/icons/matches.svg",
+  GHOST: "assets/img/icons/ghost.svg",
+  DOOR: "assets/img/icons/door.svg",
+  KEY: "assets/img/icons/skeleton-key.svg",
+  LAMP: "assets/img/icons/lamp.svg",
+  SALT: "assets/img/icons/salt.svg",
+  BOX: "assets/img/icons/box.svg",
+};
+
+export const TUTORIAL_TOOLTIPS = {
+  CONTROLLER: {
+    id: "controls-movement",
+    icon: "CONTROLLER",
+    viewTime: 10000,
+    text: "Движение — [A] [D], прыжок — [W], спрыгнуть с деревянных платформ, лестниц и ящиков — [S]",
+  },
+  ITEMS: {
+    id: "collect-items",
+    icon: "MATCHES",
+    viewTime: 12000,
+    text: "Собирай предметы до наступления ночи. Новые появятся утром.",
+  },
+  GHOST: {
+    id: "ghosts-awakening",
+    icon: "GHOST",
+    viewTime: 5000,
+    text: "Призраки близко! Не дай им коснуться тебя до рассвета.",
+  },
+};
