@@ -304,7 +304,7 @@
       "type": "salt",
       "displayWidth": 30,
       "displayHeight": 30,
-      "radius": 200,
+      "radius": 300,
       "maxItemsOnMap": [
         {
           "totalDays": 1,
@@ -376,7 +376,7 @@
             "detectionRadius": [2000, 2500],
             "physicBodyWidth": 30,
             "durationInMs": 45000,
-            "closeDoorProbability": 0.2
+            "closeDoorProbability": 0.35
           },
           {
             "speedPxPerSec": [110, 115, 120],
@@ -388,7 +388,7 @@
             "detectionRadius": [2000, 2500],
             "physicBodyWidth": 30,
             "durationInMs": 15000,
-            "closeDoorProbability": 0.3
+            "closeDoorProbability": 0.5
           },
           {
             "speedPxPerSec": [0],
@@ -433,7 +433,7 @@
             "detectionRadius": [140, 170],
             "physicBodyWidth": 30,
             "durationInMs": 45000,
-            "closeDoorProbability": 0.2
+            "closeDoorProbability": 0.35
           },
           {
             "speedPxPerSec": [245, 250, 255],
@@ -445,7 +445,7 @@
             "detectionRadius": [140, 170],
             "physicBodyWidth": 30,
             "durationInMs": 15000,
-            "closeDoorProbability": 0.3
+            "closeDoorProbability": 0.5
           },
           {
             "speedPxPerSec": [0],
@@ -473,11 +473,11 @@
             "displayHeight": 100,
             "physicBodyWidth": 30,
             "physicBodyHeight": 80,
-            "speedPxPerSec": [50, 55, 60],
-            "detectionRadius": [140, 170],
+            "speedPxPerSec": [80, 85, 90],
+            "detectionRadius": [280, 300],
             "durationInMs": 60000,
             "animationAtlasName": "meloman-normal",
-            "ambushTimeLimitInMs": 6000,
+            "ambushTimeLimitInMs": 10000,
             "closeDoorProbability": 0
           },
           {
@@ -486,11 +486,11 @@
             "physicBodyWidth": 30,
             "physicBodyHeight": 80,
             "speedPxPerSec": [90, 95, 100],
-            "detectionRadius": [300, 400],
+            "detectionRadius": [280, 300],
             "durationInMs": 45000,
             "animationAtlasName": "meloman-hunt",
-            "ambushTimeLimitInMs": 2500,
-            "closeDoorProbability": 0.1
+            "ambushTimeLimitInMs": 7000,
+            "closeDoorProbability": 0.35
           },
           {
             "displayWidth": 92,
@@ -498,11 +498,11 @@
             "physicBodyWidth": 30,
             "physicBodyHeight": 80,
             "speedPxPerSec": [90, 95, 100],
-            "detectionRadius": [400, 500],
+            "detectionRadius": [280, 300],
             "durationInMs": 15000,
             "animationAtlasName": "meloman-hunt",
-            "ambushTimeLimitInMs": 1000,
-            "closeDoorProbability": 0.2
+            "ambushTimeLimitInMs": 3000,
+            "closeDoorProbability": 0.5
           },
           {
             "displayWidth": 61,
