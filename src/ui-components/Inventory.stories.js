@@ -15,11 +15,11 @@ export default {
   argTypes: {
     items: {
       control: "object",
-      description: "Array of items with name and amount",
+      description: "Array of items with name, amount, and optional isHighLight",
       table: {
         category: "Props",
         type: {
-          summary: "Array<{ name: string, amount: number }>",
+          summary: "Array<{ name: string, amount: number, isHighLight?: boolean }>",
         },
         defaultValue: { summary: "[]" },
       },
@@ -56,4 +56,13 @@ Empty.args = {
 export const SingleItem = Template.bind({});
 SingleItem.args = {
   items: [{ name: ITEM_MATCHES, amount: 10 }],
+};
+
+export const WithHighlight = Template.bind({});
+WithHighlight.args = {
+  items: [
+    { name: ITEM_SALT, amount: 3, isHighLight: false },
+    { name: ITEM_MATCHES, amount: 5, isHighLight: true },
+    { name: ITEM_MASTER_KEY, amount: 1, isHighLight: false },
+  ],
 };

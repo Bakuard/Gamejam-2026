@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { GHOSTS, LIGHT_POINT, PARTICLES } from "@/configs/gameplay.config.js";
+import { DROP_ITEMS, GHOSTS, LIGHT_POINT, PARTICLES } from "@/configs/gameplay.config.js";
 import { GHOSTS_VFX_BY_PHASE_INDEX } from "@/configs/gameplay.config.js";
 import { doorComposition } from "@/compositions/Door.composition.js";
 import { pullEventManager } from "@/utils/PullEventManager.js";
@@ -62,6 +62,14 @@ export const ghostComposition = {
     playerStore.isWin = false;
     dynamicLightingComposition.stop();
     setTimeout(() => scene.scene.stop(), 0);
+  },
+
+  detectGhostInSaltRadius(player, allGhosts) {
+    const saltRadius = DROP_ITEMS.salt.radius;
+    return allGhosts.some((ghost) => {
+      const distance = Phaser.Math.Distance.Between(player.x, player.y, ghost.x, ghost.y);
+      return distance <= saltRadius;
+    });
   },
 
   handleLightPointCollision(ghost, lightPoint) {

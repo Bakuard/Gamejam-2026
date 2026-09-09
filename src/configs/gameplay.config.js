@@ -23,6 +23,12 @@ export const ITEM_ICONS = {
   [ITEM_MASTER_KEY]: "assets/img/icons/skeleton-key.svg",
 };
 
+export const ITEM_TOOLTIPS = {
+  [ITEM_SALT]: "Соль — отпугивает призраков в радиусе действия [2] или [R].",
+  [ITEM_MATCHES]: "Спички — зажигают защитные лампы [1] или [E].",
+  [ITEM_MASTER_KEY]: "Отмычка — открывает запертые двери [3] или [E].",
+};
+
 export const TIME_ICONS = {
   SUN: "assets/img/icons/sun.svg",
   MOON: "assets/img/icons/moon.svg",
