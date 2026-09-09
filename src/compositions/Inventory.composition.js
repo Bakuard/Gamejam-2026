@@ -1,6 +1,6 @@
 export const inventoryComposition = {
   clearInventory(inventoryStore) {
-    inventoryStore.items.forEach(item => item.amount = 0);
+    inventoryStore.items.forEach((item) => (item.amount = 0));
   },
 
   increaseItem(inventoryStore, itemType) {
@@ -16,5 +16,14 @@ export const inventoryComposition = {
       return true;
     }
     return false;
+  },
+
+  toggleHighLightItem(inventoryStore, itemType) {
+    inventoryStore.$patch((state) => {
+      const item = state.items.find((item) => item.name === itemType);
+      if (item) {
+        item.isHighLight = !item.isHighLight;
+      }
+    });
   },
 };

@@ -26,6 +26,9 @@ class PlatformerScene extends Phaser.Scene {
     this.ghostsStore = ghostsStore;
     this.inventoryStore = inventoryStore;
     this.tutorialStore = tutorialStore;
+    this.isNearLightPoint = false;
+    this.isNearLockedDoor = false;
+    this.isGhostInSaltRadius = false;
   }
 
   preload() {
@@ -126,7 +129,9 @@ class PlatformerScene extends Phaser.Scene {
     this.physics.add.overlap(this.player, chairLayer, (player, chair) => playerComposition.pickUpChair(player, chair, this.userInput));
     this.physics.add.overlap(this.player, this.doorsLayer, (player, door) => doorComposition.toggleDoor(door, this.userInput, this.inventoryStore));
     this.physics.add.collider(this.player, this.doorsLayer, null, (player, door) => door.isClosed);
-    this.physics.add.overlap(this.player, this.lightPointsLayer, (player, lightPoint) => lightPointComposition.interactWithLightPoint(this.inventoryStore, lightPoint, this.userInput));
+    this.physics.add.overlap(this.player, this.lightPointsLayer, (player, lightPoint) => {
+      lightPointComposition.interactWithLightPoint(this.inventoryStore, lightPoint, this.userInput);
+    });
     this.physics.add.overlap(this.player, this.dropItems, (player, item) => dropItemsComposition.handlePlayerCollision(player, item, this.dropItems, this.inventoryStore));
 
     audioComposition.play(this, "music:mountains");
@@ -154,6 +159,28 @@ class PlatformerScene extends Phaser.Scene {
 
   update(time, delta) {
     calendarComposition.setCurrentTime(this.calendarStore, delta);
+
+    const isOverlappingLightPoint = this.physics.overlap(this.player, this.lightPointsLayer);
+    if (this.isNearLightPoint !== isOverlappingLightPoint) {
+      this.isNearLightPoint = isOverlappingLightPoint;
+      inventoryComposition.toggleHighLightItem(this.inventoryStore, Config.ITEM_MATCHES);
+    }
+
+    const isNearLockedDoor = this.doorsLayer.getChildren().some((door) => {
+      if (!door.isLocked) return false;
+      return Phaser.Geom.Intersects.RectangleToRectangle(this.player.body, new Phaser.Geom.Rectangle(door.body.x - 4, door.body.y, door.body.width + 8, door.body.height));
+    });
+
+    if (this.isNearLockedDoor !== isNearLockedDoor) {
+      this.isNearLockedDoor = isNearLockedDoor;
+      inventoryComposition.toggleHighLightItem(this.inventoryStore, Config.ITEM_MASTER_KEY);
+    }
+
+    const isGhostInSaltRadius = ghostComposition.detectGhostInSaltRadius(this.player, this.ghosts);
+    if (this.isGhostInSaltRadius !== isGhostInSaltRadius) {
+      this.isGhostInSaltRadius = isGhostInSaltRadius;
+      inventoryComposition.toggleHighLightItem(this.inventoryStore, Config.ITEM_SALT);
+    }
 
     changeAmbientAudio(this);
     createNewGhosts(this);
