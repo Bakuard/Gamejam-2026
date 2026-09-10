@@ -146,7 +146,12 @@ const onHideTooltip = (id: string) => {
       </TransitionGroup>
     </UiAnchor>
     <UiAnchor anchor="bottom-center" :offset-x="0" :offset-y="10" target=".platformer-screen__game-wrapper">
-      <Inventory :items="inventoryStore.items" />
+      <div class="platformer-screen__inventory-wrapper">
+        <TransitionGroup name="interactive-tooltip" tag="div" class="platformer-screen__tooltips-list">
+          <Tooltip v-for="item in tutorialStore.tooltips" :id="item.id" :key="item.id" :icon="item.icon" :text="item.text" :view-time="item.viewTime" />
+        </TransitionGroup>
+        <Inventory :items="inventoryStore.items" />
+      </div>
     </UiAnchor>
     <GameResultModal :is-game-over="playerStore.isGameOver" :is-win="playerStore.isWin" @again="onAgain" />
     <div ref="gameContainer" class="platformer-screen__game-wrapper"></div>
@@ -165,6 +170,21 @@ const onHideTooltip = (id: string) => {
     align-items: center;
   }
 
+  &__inventory-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &__tooltips-list {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+  }
+
   &__tutorial-list {
     position: relative;
     width: 500px;
@@ -178,7 +198,7 @@ const onHideTooltip = (id: string) => {
 .tooltip-list-move,
 .tooltip-list-enter-active,
 .tooltip-list-leave-active {
-  transition: all 1s cubic-bezier(0.25, 1, 0.5, 1);
+  transition: all 1s cubic-bezier(0.25, 1, 0.2, 1);
 }
 
 .tooltip-list-enter-from {
@@ -188,11 +208,26 @@ const onHideTooltip = (id: string) => {
 
 .tooltip-list-leave-active {
   position: absolute;
-  right: 0;
 }
 
 .tooltip-list-leave-to {
   opacity: 0;
   transform: translateY(30px);
+}
+
+.interactive-tooltip-move,
+.interactive-tooltip-enter-active,
+.interactive-tooltip-leave-active {
+  transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.interactive-tooltip-enter-from,
+.interactive-tooltip-leave-to {
+  opacity: 0;
+  transform: translateY(10px) scale(0.96);
+}
+
+.interactive-tooltip-leave-active {
+  position: absolute;
 }
 </style>
