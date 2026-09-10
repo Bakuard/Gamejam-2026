@@ -16,7 +16,7 @@ import { tilemapComposition } from "@/compositions/Tilemap.composition.js";
 import { lightPointComposition } from "@/compositions/LightPoint.composition.js";
 import { inventoryComposition } from "@/compositions/Inventory.composition.js";
 import { tutorialComposition } from "@/compositions/Tutorial.composition.js";
-import { TUTORIAL_TOOLTIPS } from "@/configs/gameplay.config.js";
+import { TUTORIAL_TOOLTIPS, INTERACTIVE_TOOLTIPS } from "@/configs/gameplay.config.js";
 
 class PlatformerScene extends Phaser.Scene {
   constructor(playerStore, calendarStore, ghostsStore, inventoryStore, tutorialStore) {
@@ -29,6 +29,10 @@ class PlatformerScene extends Phaser.Scene {
     this.isNearLightPoint = false;
     this.isNearLockedDoor = false;
     this.isGhostInSaltRadius = false;
+    this.isNearChair = false;
+    this.isHoldingChair = false;
+    this.isNearClosedDoor = false;
+    this.isNearOpenDoor = false;
   }
 
   preload() {
@@ -84,6 +88,7 @@ class PlatformerScene extends Phaser.Scene {
     this.platformLayer = platformLayer;
     this.woodPlatformLayer = woodPlatformLayer;
     this.wallsLayer = wallsLayer;
+    this.chairLayer = chairLayer;
     this.stairsLayer = stairsLayer;
     this.startPointsLayer = startPointsLayer;
     this.ghostsWanderAreaLayer = ghostsWanderAreaLayer;
@@ -160,7 +165,56 @@ class PlatformerScene extends Phaser.Scene {
   update(time, delta) {
     calendarComposition.setCurrentTime(this.calendarStore, delta);
 
+    const isOverlappingChair = this.physics.overlap(this.player, this.chairLayer);
+    if (this.isNearChair !== isOverlappingChair) {
+        this.isNearChair = isOverlappingChair;
+        if (this.isNearChair) {
+            tutorialComposition.showTooltip(this.tutorialStore, INTERACTIVE_TOOLTIPS.BOX_PICKUP);
+        } else {
+            tutorialComposition.hideTooltip(this.tutorialStore, INTERACTIVE_TOOLTIPS.BOX_PICKUP);
+        }
+    }
+
+    const isHoldingChair = Boolean(this.player.currentChair);
+    if (this.isHoldingChair !== isHoldingChair) {
+        this.isHoldingChair = isHoldingChair;
+        if (this.isHoldingChair) {
+            tutorialComposition.showTooltip(this.tutorialStore, INTERACTIVE_TOOLTIPS.BOX_DROP);
+        } else {
+            tutorialComposition.hideTooltip(this.tutorialStore, INTERACTIVE_TOOLTIPS.BOX_DROP);
+        }
+    }
+
+    const isNearClosedDoor = this.doorsLayer.getChildren().some((door) => {
+      if (!door.isClosed) return false;
+      return Phaser.Geom.Intersects.RectangleToRectangle(this.player.body, new Phaser.Geom.Rectangle(door.body.x - 4, door.body.y, door.body.width + 8, door.body.height));
+    });
+
+    if (this.isNearClosedDoor !== isNearClosedDoor) {
+      this.isNearClosedDoor = isNearClosedDoor;
+      if (this.isNearClosedDoor) {
+        tutorialComposition.showTooltip(this.tutorialStore, INTERACTIVE_TOOLTIPS.DOOR_OPEN);
+      } else {
+        tutorialComposition.hideTooltip(this.tutorialStore, INTERACTIVE_TOOLTIPS.DOOR_OPEN);
+      }
+    }
+
+    const isNearOpenDoor = this.doorsLayer.getChildren().some((door) => {
+      if (door.isClosed) return false;
+      return Phaser.Geom.Intersects.RectangleToRectangle(this.player.body, new Phaser.Geom.Rectangle(door.body.x - 4, door.body.y, door.body.width + 8, door.body.height));
+    });
+
+    if (this.isNearOpenDoor !== isNearOpenDoor) {
+      this.isNearOpenDoor = isNearOpenDoor;
+      if (this.isNearOpenDoor) {
+        tutorialComposition.showTooltip(this.tutorialStore, INTERACTIVE_TOOLTIPS.DOOR_CLOSE);
+      } else {
+        tutorialComposition.hideTooltip(this.tutorialStore, INTERACTIVE_TOOLTIPS.DOOR_CLOSE);
+      }
+    }
+
     const isOverlappingLightPoint = this.physics.overlap(this.player, this.lightPointsLayer);
+
     if (this.isNearLightPoint !== isOverlappingLightPoint) {
       this.isNearLightPoint = isOverlappingLightPoint;
       inventoryComposition.toggleHighLightItem(this.inventoryStore, Config.ITEM_MATCHES);

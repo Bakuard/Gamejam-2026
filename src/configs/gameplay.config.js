@@ -65,3 +65,26 @@ export const TUTORIAL_TOOLTIPS = {
     text: "Призраки близко! Не дай им коснуться тебя до рассвета.",
   },
 };
+
+export const INTERACTIVE_TOOLTIPS = {
+  BOX_PICKUP: {
+    id: "box-pickup",
+    viewTime: 0,
+    text: "Поднять ящик — [E]",
+  },
+  BOX_DROP: {
+    id: "box-drop",
+    viewTime: 0,
+    text: "Опустить ящик — [E]",
+  },
+  DOOR_OPEN: {
+    id: "door-open",
+    viewTime: 0,
+    text: "Открыть дверь — [E]",
+  },
+  DOOR_CLOSE: {
+    id: "door-close",
+    viewTime: 0,
+    text: "Закрыть дверь — [E]",
+  },
+};
