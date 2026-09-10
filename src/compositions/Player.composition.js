@@ -5,6 +5,7 @@ import { audioComposition } from "@/compositions/Audio.composition.js";
 import { inventoryComposition } from "@/compositions/Inventory.composition.js";
 import { ghostComposition } from "@/compositions/Ghost.composition.js";
 import { particlesComposition } from "@/compositions/Particles.composition.js";
+import { analyticsComposition } from "@/compositions/Analytics.composition.js";
 
 export const playerComposition = {
   preloadPlayerAnimation(scene) {
@@ -206,6 +207,8 @@ export const playerComposition = {
       const posY = player.body.bottom - player.currentChair.body.height / 2;
 
       if (isAreaFree(player.scene, player.currentChair, player, posX, posY, wallsLayer, platformLayer, woodPlatformLayer, camera)) {
+        analyticsComposition.log("PutChair", {});
+
         player.currentChair.enableBody(true, posX, posY, true, true).refreshBody();
         player.currentChair = null;
         audioComposition.play(player.scene, "box-drop");
@@ -220,6 +223,8 @@ export const playerComposition = {
   throwSalt(scene, player, userInput, allGhosts, inventoryStore) {
     const saltThrown = (Phaser.Input.Keyboard.JustDown(userInput.throwSalt) || Phaser.Input.Keyboard.JustDown(userInput.two)) && inventoryComposition.decreaseItem(inventoryStore, ITEM_SALT);
     if (!saltThrown) return;
+
+    analyticsComposition.log("UseItem", { itemType: ITEM_SALT, remainingQuantity: inventoryComposition.getItemAmount(inventoryStore, ITEM_SALT) });
 
     for (const ghost of allGhosts) {
       const distance = Phaser.Math.Distance.Between(player.x, player.y, ghost.x, ghost.y);

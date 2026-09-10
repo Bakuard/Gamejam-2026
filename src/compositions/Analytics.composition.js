@@ -2,7 +2,7 @@ import { initializeApp } from "firebase/app";
 
 export const analyticsComposition = {
   analytics: null,
-  debugMode: true,
+  debugMode: false,
 
   createAnalytics(firebaseConfig) {
     if (!analyticsComposition.analytics) {
@@ -13,24 +13,26 @@ export const analyticsComposition = {
        * Если при этом использовать статический импорт, в момент отладки приложения (npm run dev)
        * сайт просто не загрузится и вместо игры будет белый экран.
        */
-      import("firebase/analytics")
+      return import("firebase/analytics")
         .then(({ getAnalytics, isSupported, logEvent }) => {
           // Проверяем поддержку для приватных окон и старых браузеров
           return isSupported().then((supported) => {
-            if (supported) {
-              analyticsComposition.analytics = getAnalytics(app);
-              analyticsComposition.logEventFn = logEvent;
-            }
+            if (!supported) return;
+
+            analyticsComposition.analytics = getAnalytics(app);
+            analyticsComposition.logEventFn = logEvent;
           });
         })
         .catch((error) => {
           console.warn("Fail to load Firebase Analytics:", error.message);
         });
     }
+    return Promise.resolve();
   },
 
   log(eventName, eventParams) {
     if (analyticsComposition.analytics) {
+      eventParams ??= {};
       eventParams.debug_mode = analyticsComposition.debugMode;
       analyticsComposition.logEventFn(analyticsComposition.analytics, eventName, eventParams);
     }

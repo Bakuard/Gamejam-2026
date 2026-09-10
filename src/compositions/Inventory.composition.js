@@ -26,4 +26,9 @@ export const inventoryComposition = {
       }
     });
   },
+
+  getItemAmount(inventoryStore, itemType) {
+    let inventoryItem = inventoryStore.items.find((item) => item.name === itemType);
+    return inventoryItem?.amount ?? 0;
+  },
 };
