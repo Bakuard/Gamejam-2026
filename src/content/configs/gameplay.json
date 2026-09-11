@@ -154,8 +154,8 @@
     "projectId": "bakuardgamestudio-916ff",
     "storageBucket": "bakuardgamestudio-916ff.firebasestorage.app",
     "messagingSenderId": "803397816919",
-    "appId": "1:803397816919:web:9c956b2013568f13a34912",
-    "measurementId": "G-LDDY7E0HY6"
+    "appId": "1:803397816919:web:3d6ffa4922b52a1fa34912",
+    "measurementId": "G-P3TV54HQ5Z"
   },
   "PARTICLES": {
     "VFX": {
@@ -348,6 +348,7 @@
     "separationRadius": 100,
     "units" : [
       {
+        "name": "ghost-photographer",
         "startPointName": "ghost-photographer",
         "ghostWanderAreaName": "photographer",
         "chaseType": "wave",
@@ -405,6 +406,7 @@
         ]
       },
       {
+        "name": "ghost-trainer",
         "startPointName": "ghost-trainer",
         "ghostWanderAreaName": "trainer",
         "chaseType": "straight",
@@ -462,6 +464,7 @@
         ]
       },
       {
+        "name": "ghost-meloman",
         "startPointName": "ghost-meloman",
         "ghostWanderAreaName": "photographer",
         "chaseType": "arc_left",

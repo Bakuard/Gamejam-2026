@@ -174,7 +174,7 @@ class PlatformerScene extends Phaser.Scene {
       tutorialComposition.showTutorial(this.tutorialStore, TUTORIAL_TOOLTIPS.ITEMS);
     }
 
-    analyticsComposition.createAnalytics(Config.ANALYTICS);
+    analyticsComposition.createAnalytics(Config.ANALYTICS).then(() => analyticsComposition.log("NewGame", {}));
   }
 
   update(time, delta) {
@@ -316,7 +316,7 @@ function createNewGhosts(scene) {
   }
 
   for (const ghost of scene.ghosts) {
-    scene.physics.add.overlap(scene.player, ghost, (player, ghost) => ghostComposition.handlePlayerCollision(scene, scene.playerStore));
+    scene.physics.add.overlap(scene.player, ghost, (player, ghost) => ghostComposition.handlePlayerCollision(scene, ghost, scene.playerStore, scene.calendarStore));
     scene.physics.add.overlap(ghost, scene.doorsLayer, (ghost, door) => ghostComposition.tryCloseDoor(ghost, door));
     scene.physics.add.overlap(ghost, scene.lightPointsAreaLayer, (ghost, lightPointArea) => ghostComposition.handleLightPointCollision(ghost, lightPointArea.lightPoint));
   }

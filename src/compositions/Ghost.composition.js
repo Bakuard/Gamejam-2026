@@ -5,6 +5,7 @@ import { doorComposition } from "@/compositions/Door.composition.js";
 import { pullEventManager } from "@/utils/PullEventManager.js";
 import { dynamicLightingComposition } from "@/compositions/DynamicLighting.composition.js";
 import { particlesComposition } from "@/compositions/Particles.composition.js";
+import { analyticsComposition } from "@/compositions/Analytics.composition.js";
 
 export const ghostComposition = {
   preloadGhostAnimation(scene, ghostsConfig) {
@@ -56,7 +57,9 @@ export const ghostComposition = {
     return result;
   },
 
-  handlePlayerCollision(scene, playerStore) {
+  handlePlayerCollision(scene, ghost, playerStore, calendarStore) {
+    analyticsComposition.log("GameOver", { nightNumber: calendarStore.totalDays + 1, nightNumberMetric: calendarStore.totalDays + 1, ghostName: ghost.name });
+
     pullEventManager.clearAll();
     playerStore.isGameOver = true;
     playerStore.isWin = false;
@@ -139,6 +142,7 @@ function createGhost(scene, x, y, wanderArea, prowlGhostPointsLayer, ghostConfig
   ghost.runAwayMaxTimeInMs = ghostConfig.runAwayMaxTimeInSec * 1000;
   ghost.randomOffsetForWaveMovement = Phaser.Math.Between(0, 100);
   ghost.nextDoorRollTime = 0;
+  ghost.name = ghostConfig.name;
   updateGhostWithState(ghost, ghostConfig.states[0]);
   applyGhostVfxForCurrentPhase(ghost);
   return ghost;

@@ -2,6 +2,7 @@ import Phaser from "phaser";
 import { audioComposition } from "@/compositions/Audio.composition.js";
 import { inventoryComposition } from "@/compositions/Inventory.composition.js";
 import { ITEM_MASTER_KEY } from "@/configs/gameplay.config.js";
+import { analyticsComposition } from "@/compositions/Analytics.composition.js";
 
 export const doorComposition = {
   preloadDoorAnimations(scene) {
@@ -29,6 +30,7 @@ export const doorComposition = {
       audioComposition.play(door.scene, "door-locked");
       return;
     } else if (door.isClosed && door.isLocked) {
+      analyticsComposition.log("UseItem", { itemType: ITEM_MASTER_KEY, remainingQuantity: inventoryComposition.getItemAmount(inventoryStore, ITEM_MASTER_KEY) });
       audioComposition.play(door.scene, "skeleton-key");
     }
 

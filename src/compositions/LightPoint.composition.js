@@ -2,6 +2,7 @@ import Phaser from "phaser";
 import { inventoryComposition } from "@/compositions/Inventory.composition.js";
 import { ITEM_MATCHES, LIGHT_POINT } from "@/configs/gameplay.config.js";
 import { audioComposition } from "@/compositions/Audio.composition.js";
+import { analyticsComposition } from "@/compositions/Analytics.composition.js";
 
 export const lightPointComposition = {
   preloadLightPointAnimation(scene) {
@@ -35,6 +36,8 @@ export const lightPointComposition = {
     const turnOn = (Phaser.Input.Keyboard.JustDown(userInput.interact) || Phaser.Input.Keyboard.JustDown(userInput.one)) && lightPoint.currentBurningTimeInMs <= 0 && inventoryComposition.decreaseItem(inventoryStore, ITEM_MATCHES);
 
     if (turnOn) {
+      analyticsComposition.log("UseItem", { itemType: ITEM_MATCHES, remainingQuantity: inventoryComposition.getItemAmount(inventoryStore, ITEM_MATCHES) });
+
       lightPoint.setFrame("2");
       lightPoint.currentBurningTimeInMs = LIGHT_POINT.maxBurningTimeInSec * 1000;
       lightPoint.turnOn = true;
