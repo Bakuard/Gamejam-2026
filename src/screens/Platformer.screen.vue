@@ -61,6 +61,9 @@ const remainingTime = computed(() => {
 });
 
 const createGame = () => {
+  tutorialStore.tutorial = [];
+  tutorialStore.tooltips = [];
+
   game = new Phaser.Game({
     type: Phaser.WEBGL,
     scene: new PlatformerScene(playerStore, calendarStore, ghostStore, inventoryStore, tutorialStore),
@@ -114,6 +117,8 @@ onBeforeUnmount(() => {
 const onAgain = () => {
   playerStore.isGameOver = false;
   playerStore.isWin = false;
+  tutorialStore.tutorial = [];
+  tutorialStore.tooltips = [];
   game.scene.getScene("MainScene").scene.restart();
 };
 

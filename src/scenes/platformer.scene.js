@@ -33,6 +33,9 @@ class PlatformerScene extends Phaser.Scene {
     this.isHoldingChair = false;
     this.isNearClosedDoor = false;
     this.isNearOpenDoor = false;
+    this.isMatchesPacked = false;
+    this.isMasterKeyPacked = false;
+    this.isSaltPacked = false;
   }
 
   preload() {
@@ -137,7 +140,19 @@ class PlatformerScene extends Phaser.Scene {
     this.physics.add.overlap(this.player, this.lightPointsLayer, (player, lightPoint) => {
       lightPointComposition.interactWithLightPoint(this.inventoryStore, lightPoint, this.userInput);
     });
-    this.physics.add.overlap(this.player, this.dropItems, (player, item) => dropItemsComposition.handlePlayerCollision(player, item, this.dropItems, this.inventoryStore));
+    this.physics.add.overlap(this.player, this.dropItems, (player, item) => {
+      if (item.type === Config.ITEM_MATCHES && !this.isMatchesPacked) {
+        this.isMatchesPacked = true;
+        tutorialComposition.showTutorial(this.tutorialStore, TUTORIAL_TOOLTIPS.MATCHES);
+      } else if (item.type === Config.ITEM_MASTER_KEY && !this.isMasterKeyPacked) {
+        this.isMasterKeyPacked = true;
+        tutorialComposition.showTutorial(this.tutorialStore, TUTORIAL_TOOLTIPS.MASTER_KEY);
+      } else if (item.type === Config.ITEM_SALT && !this.isSaltPacked) {
+        this.isSaltPacked = true;
+        tutorialComposition.showTutorial(this.tutorialStore, TUTORIAL_TOOLTIPS.SALT);
+      }
+      dropItemsComposition.handlePlayerCollision(player, item, this.dropItems, this.inventoryStore);
+    });
 
     audioComposition.play(this, "music:mountains");
     audioComposition.play(this, "music:emotionalism");
