@@ -64,6 +64,24 @@ export const TUTORIAL_TOOLTIPS = {
     viewTime: 5000,
     text: "Призраки близко! Не дай им коснуться тебя до рассвета.",
   },
+  SALT: {
+    id: "item-salt",
+    icon: "SALT",
+    viewTime: 15000,
+    text: ITEM_TOOLTIPS[ITEM_SALT],
+  },
+  MATCHES: {
+    id: "item-matches",
+    icon: "MATCHES",
+    viewTime: 15000,
+    text: ITEM_TOOLTIPS[ITEM_MATCHES],
+  },
+  MASTER_KEY: {
+    id: "item-master-key",
+    icon: "KEY",
+    viewTime: 15000,
+    text: ITEM_TOOLTIPS[ITEM_MASTER_KEY],
+  },
 };
 
 export const INTERACTIVE_TOOLTIPS = {
