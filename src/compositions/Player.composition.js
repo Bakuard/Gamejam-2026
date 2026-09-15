@@ -202,8 +202,7 @@ export const playerComposition = {
 
   throwChair(player, userInput, wallsLayer, platformLayer, woodPlatformLayer, camera) {
     if (player.currentChair && Phaser.Input.Keyboard.JustDown(userInput.interact)) {
-      const direction = player.flipX ? -1 : 1;
-      const posX = player.x + (player.body.width / 2 + player.currentChair.body.width / 2) * direction;
+      const posX = player.x;
       const posY = player.body.bottom - player.currentChair.body.height / 2;
 
       if (isAreaFree(player.scene, player.currentChair, player, posX, posY, wallsLayer, platformLayer, woodPlatformLayer, camera)) {
@@ -244,11 +243,11 @@ export const playerComposition = {
 };
 
 function isAreaFree(scene, chair, player, posX, posY, wallsLayer, platformLayer, woodPlatformLayer, camera) {
-  const width = chair.body.width;
+  const width = chair.body.width - 10;
   const height = chair.body.height;
 
-  const startX = posX - width / 2 + chair.body.offset.x;
-  const startY = posY - height / 2 + chair.body.offset.y;
+  const startX = posX - (width - 5) / 2;
+  const startY = posY - height / 2;
 
   const collidingTiles = wallsLayer.getTilesWithinWorldXY(startX, startY, width, height, { isColliding: true });
 

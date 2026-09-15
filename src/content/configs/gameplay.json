@@ -276,6 +276,14 @@
         {
           "totalDays": 3,
           "maxItemsNumber": 1
+        },
+        {
+          "totalDays": 4,
+          "maxItemsNumber": 1
+        },
+        {
+          "totalDays": 6,
+          "maxItemsNumber": 2
         }
       ]
     },
@@ -295,6 +303,14 @@
         },
         {
           "totalDays": 3,
+          "maxItemsNumber": 1
+        },
+        {
+          "totalDays": 4,
+          "maxItemsNumber": 1
+        },
+        {
+          "totalDays": 6,
           "maxItemsNumber": 2
         }
       ]
@@ -316,7 +332,15 @@
         },
         {
           "totalDays": 3,
+          "maxItemsNumber": 3
+        },
+        {
+          "totalDays": 4,
           "maxItemsNumber": 1
+        },
+        {
+          "totalDays": 6,
+          "maxItemsNumber": 2
         }
       ]
     }
@@ -328,7 +352,7 @@
     "displayWidth": 63,
     "displayHeight": 127,
     "speed": 220,
-    "bodyWidth": 40,
+    "bodyWidth": 30,
     "bodyHeight": 110,
     "bodyOffsetY": 10,
     "jumpSpeed": 620,
