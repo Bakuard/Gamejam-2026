@@ -27,10 +27,16 @@ export const dynamicLightingComposition = {
       nightPipeline.onPreRender = function () {
         if (dynamicLightingComposition.isStoped) return;
 
+        const scene = dynamicLightingComposition.scene;
+        if (!scene || !scene.cameras?.main) return;
+
+        const lightPointsLayer = dynamicLightingComposition.lightPointsLayer;
+        if (!lightPointsLayer || !lightPointsLayer.children || !lightPointsLayer.children.entries) return;
+
         this.set1i("uDayPhase", this.dayPhase);
         this.set1f("uIntensity", this.intensity);
 
-        const camera = dynamicLightingComposition.scene.cameras.main;
+        const camera = scene.cameras.main;
         this.set2f("uCameraPos", camera.worldView.x, camera.worldView.y);
         this.set2f("uCameraSize", camera.worldView.width, camera.worldView.height);
 
@@ -38,7 +44,7 @@ export const dynamicLightingComposition = {
         const positions = [];
         const colors = [];
         const radius = [];
-        dynamicLightingComposition.lightPointsLayer.getChildren().forEach((lightPoint) => {
+        lightPointsLayer.getChildren().forEach((lightPoint) => {
           if (lightPointsCount < 20 && lightPoint.turnOn) {
             positions.push(lightPoint.centerX, lightPoint.centerY);
             colors.push(1.0, 0.5, 0.1);

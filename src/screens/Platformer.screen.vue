@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { onMounted, ref, onBeforeUnmount, computed } from "vue";
+import { onMounted, ref, onBeforeUnmount, computed, watch } from "vue";
 import Phaser from "phaser";
 import PlatformerScene from "@/scenes/platformer.scene";
 import Preloader from "@/ui-components/Preloader.component.vue";
 import UiAnchor from "@/ui-components/UiAnchor.component.vue";
 import Inventory from "@/ui-components/Inventory.component.vue";
 import GameResultModal from "@/ui-components/GameResultModal.component.vue";
+import PauseModal from "@/ui-components/PauseModal.component.vue";
 import { usePlayer } from "@/store/player.store";
 import { useCalendarStore } from "@/store/calendar.store.js";
 import { useGhostStore } from "@/store/ghost.store";
@@ -21,6 +22,9 @@ import SurvivalAlert from "@/ui-components/SurvivalAlert.component.vue";
 import SoundSwitcherComponent from "@/ui-components/SoundSwitcher.component.vue";
 import Tooltip from "@/ui-components/Tooltipe.component.vue";
 import { dayPhases } from "@/compositions/Calendar.composition.js";
+import { pullEventManager } from "@/utils/PullEventManager.js";
+import { sceneComposition } from "@/compositions/scene.composition.js";
+import { dynamicLightingComposition } from "@/compositions/DynamicLighting.composition.js";
 
 const gameContainer = ref(null);
 const playerStore = usePlayer();
@@ -30,6 +34,30 @@ const inventoryStore = useInventoryStore();
 const tutorialStore = useTutorial();
 const isSceneLoaded = ref(false);
 let game = null;
+
+watch(
+  () => playerStore.isGamePause,
+  (isGamePause) => {
+    const mainScene = game?.scene?.getScene("MainScene");
+    if (mainScene) {
+      sceneComposition.setPause(mainScene, isGamePause, playerStore.isPlaySound);
+    }
+  }
+);
+
+const onResume = () => {
+  playerStore.isGamePause = false;
+};
+
+const onKeyDown = (e: KeyboardEvent) => {
+  if (e.key === "Escape" && !playerStore.isGameOver) {
+    if (playerStore.isGamePause) {
+      onResume();
+    } else {
+      playerStore.isGamePause = true;
+    }
+  }
+};
 
 const isNightPhase = computed(() => {
   return calendarStore.currentPhase === dayPhases.night;
@@ -106,20 +134,38 @@ const createGame = () => {
 
 onMounted(() => {
   createGame();
+  window.addEventListener("keydown", onKeyDown);
 });
 
 onBeforeUnmount(() => {
   EventBus.off(EventNames.GO_TO_ANOTHER_SCENE);
   EventBus.off(EventNames.COMPLETE_PRELOADING);
+  window.removeEventListener("keydown", onKeyDown);
   game?.destroy(true);
 });
 
 const onAgain = () => {
+  pullEventManager.clearAll();
+  dynamicLightingComposition.stop();
+  playerStore.isGamePause = false;
   playerStore.isGameOver = false;
   playerStore.isWin = false;
   tutorialStore.tutorial = [];
   tutorialStore.tooltips = [];
+  inventoryStore.items.forEach((item) => (item.isHighLight = false));
   game.scene.getScene("MainScene").scene.restart();
+};
+
+const onToMenu = () => {
+  pullEventManager.clearAll();
+  dynamicLightingComposition.stop();
+  playerStore.isGamePause = false;
+  playerStore.isGameOver = false;
+  playerStore.isWin = false;
+  tutorialStore.tutorial = [];
+  tutorialStore.tooltips = [];
+  inventoryStore.items.forEach((item) => (item.isHighLight = false));
+  router.push("/");
 };
 
 const onHideTooltip = (id: string) => {
@@ -147,18 +193,36 @@ const onHideTooltip = (id: string) => {
     </UiAnchor>
     <UiAnchor v-if="isSceneLoaded" anchor="center-right" :offset-x="10" :offset-y="0" target=".platformer-screen__game-wrapper">
       <TransitionGroup name="tooltip-list" tag="div" class="platformer-screen__tutorial-list">
-        <Tooltip v-for="item in tutorialStore.tutorial" :id="item.id" :key="item.id" :icon="item.icon" :text="item.text" :view-time="item.viewTime" @hide="onHideTooltip" />
+        <Tooltip
+          v-for="item in tutorialStore.tutorial"
+          :id="item.id"
+          :key="item.id"
+          :icon="item.icon"
+          :text="item.text"
+          :view-time="item.viewTime"
+          :is-paused="playerStore.isGamePause"
+          @hide="onHideTooltip"
+        />
       </TransitionGroup>
     </UiAnchor>
     <UiAnchor anchor="bottom-center" :offset-x="0" :offset-y="10" target=".platformer-screen__game-wrapper">
       <div class="platformer-screen__inventory-wrapper">
         <TransitionGroup name="interactive-tooltip" tag="div" class="platformer-screen__tooltips-list">
-          <Tooltip v-for="item in tutorialStore.tooltips" :id="item.id" :key="item.id" :icon="item.icon" :text="item.text" :view-time="item.viewTime" />
+          <Tooltip
+            v-for="item in tutorialStore.tooltips"
+            :id="item.id"
+            :key="item.id"
+            :icon="item.icon"
+            :text="item.text"
+            :view-time="item.viewTime"
+            :is-paused="playerStore.isGamePause"
+          />
         </TransitionGroup>
         <Inventory :items="inventoryStore.items" />
       </div>
     </UiAnchor>
-    <GameResultModal :is-game-over="playerStore.isGameOver" :is-win="playerStore.isWin" @again="onAgain" />
+    <PauseModal :is-show="playerStore.isGamePause" @resume="onResume" @again="onAgain" @to-menu="onToMenu" />
+    <GameResultModal :is-game-over="playerStore.isGameOver" :is-win="playerStore.isWin" @again="onAgain" @to-menu="onToMenu" />
     <div ref="gameContainer" class="platformer-screen__game-wrapper"></div>
   </div>
 </template>

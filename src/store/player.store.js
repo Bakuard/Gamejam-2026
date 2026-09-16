@@ -3,11 +3,12 @@ import { defineStore } from "pinia";
 export const usePlayer = defineStore("player", {
   state: () => ({
     isGameOver: false,
+    isGamePause: false,
     isWin: false,
     isNight: false,
     allTime: 0,
     remainingTime: 0,
     isPlaySound: true,
   }),
-  actions: {}
+  actions: {},
 });

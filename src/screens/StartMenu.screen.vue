@@ -19,11 +19,15 @@ const showSlider = (event) => {
 const goToGame = () => {
   router.push("/platformer");
 };
+
+const closeSlider = () => {
+  isSliderVisible.value = false;
+};
 </script>
 
 <template>
   <div class="start-menu-screen">
-    <TutorialModal v-if="isSliderVisible" @lets-go="goToGame">
+    <TutorialModal v-if="isSliderVisible" @lets-go="goToGame" @close="closeSlider">
       <div>
         <img class="tutorial-modal__image" src="/assets/img/tutorial/introduction_1.jpg" alt="placeholder" />
       </div>

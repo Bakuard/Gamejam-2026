@@ -29,6 +29,8 @@ const close = () => {
 
 const onKeyDown = (e) => {
   if (e.key === "Escape" && visible.value) {
+    e.stopPropagation();
+    e.stopImmediatePropagation();
     close();
   }
 };

@@ -16,10 +16,14 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["again"]);
+const emit = defineEmits(["again", "to-menu"]);
 
 const onAgain = () => {
   emit("again");
+};
+
+const onToMenu = () => {
+  emit("to-menu");
 };
 
 const onKeyDown = (e) => {
@@ -49,7 +53,10 @@ onBeforeUnmount(() => {
         <img :src="resultImageSrc" alt="result" />
       </div>
 
-      <button class="game-result-modal__btn" @click="onAgain">Заново (Enter)</button>
+      <div class="game-result-modal__actions">
+        <button class="game-result-modal__btn" @click="onAgain">Заново (Enter)</button>
+        <button class="game-result-modal__btn" @click="onToMenu">В меню</button>
+      </div>
     </div>
   </UiModal>
 </template>
@@ -97,10 +104,19 @@ onBeforeUnmount(() => {
     line-height: 1.5;
   }
 
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+  }
+
   &__btn {
     display: block;
-    margin: 8px auto 0;
+    margin: 0 auto;
     padding: 12px 36px;
+    min-width: 250px;
     cursor: pointer;
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.25);
