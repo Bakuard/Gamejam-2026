@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { ref, useSlots, computed } from "vue";
+import CloseIcon from "/public/assets/img/icons/close.svg";
 
-const emit = defineEmits(["lets-go"]);
+const emit = defineEmits<{
+  (e: "lets-go"): void;
+  (e: "close"): void;
+}>();
 
 const slots = useSlots();
 const currentIndex = ref(0);
@@ -30,10 +34,18 @@ const next = () => {
 const letsGo = () => {
   emit("lets-go");
 };
+
+const close = () => {
+  emit("close");
+};
 </script>
 
 <template>
   <div class="tutorial-modal">
+    <button class="tutorial-modal__close-btn" type="button" aria-label="Закрыть" @click="close">
+      <CloseIcon class="tutorial-modal__close-icon" />
+    </button>
+
     <div class="tutorial-modal__viewport">
       <div class="tutorial-modal__track" :style="{ transform: `translateX(-${currentIndex * 100}%)` }">
         <div v-for="(slide, index) in slides" :key="index" class="tutorial-modal__slide">
@@ -123,6 +135,49 @@ const letsGo = () => {
     display: flex;
     justify-content: center;
     gap: 12px;
+  }
+
+  &__close-btn {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.16);
+      border-color: rgba(255, 255, 255, 0.6);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: translateY(0);
+      background: rgba(255, 255, 255, 0.1);
+    }
+  }
+
+  &__close-icon {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+    display: block;
+
+    :deep(path) {
+      fill: currentColor;
+    }
   }
 
   &__btn {
