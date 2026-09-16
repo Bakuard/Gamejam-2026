@@ -119,7 +119,17 @@ const onAgain = () => {
   playerStore.isWin = false;
   tutorialStore.tutorial = [];
   tutorialStore.tooltips = [];
+  inventoryStore.items.forEach((item) => (item.isHighLight = false));
   game.scene.getScene("MainScene").scene.restart();
+};
+
+const onToMenu = () => {
+  playerStore.isGameOver = false;
+  playerStore.isWin = false;
+  tutorialStore.tutorial = [];
+  tutorialStore.tooltips = [];
+  inventoryStore.items.forEach((item) => (item.isHighLight = false));
+  router.push("/");
 };
 
 const onHideTooltip = (id: string) => {
@@ -158,7 +168,7 @@ const onHideTooltip = (id: string) => {
         <Inventory :items="inventoryStore.items" />
       </div>
     </UiAnchor>
-    <GameResultModal :is-game-over="playerStore.isGameOver" :is-win="playerStore.isWin" @again="onAgain" />
+    <GameResultModal :is-game-over="playerStore.isGameOver" :is-win="playerStore.isWin" @again="onAgain" @to-menu="onToMenu" />
     <div ref="gameContainer" class="platformer-screen__game-wrapper"></div>
   </div>
 </template>
