@@ -19,13 +19,18 @@ const props = defineProps({
     type: String,
     default: "",
   },
+  isPaused: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(["hide"]);
 
 const isProgressStarted = ref(false);
+const remainingTime = ref(props.viewTime);
 let hideTimeout = null;
-let animationFrameId = null;
+let startTimestamp = null;
 
 const iconSrc = computed(() => {
   if (!props.icon) return null;
@@ -41,26 +46,61 @@ const clearTimer = () => {
     clearTimeout(hideTimeout);
     hideTimeout = null;
   }
-  if (animationFrameId) {
-    cancelAnimationFrame(animationFrameId);
-    animationFrameId = null;
+};
+
+const pauseTimer = () => {
+  if (hideTimeout) {
+    clearTimeout(hideTimeout);
+    hideTimeout = null;
+    if (startTimestamp !== null) {
+      const elapsed = Date.now() - startTimestamp;
+      remainingTime.value = Math.max(0, remainingTime.value - elapsed);
+      startTimestamp = null;
+    }
   }
+};
+
+const resumeTimer = () => {
+  if (!hasTimer.value) return;
+
+  if (remainingTime.value <= 0) {
+    emit("hide", props.id);
+    return;
+  }
+
+  startTimestamp = Date.now();
+  hideTimeout = setTimeout(() => {
+    emit("hide", props.id);
+  }, remainingTime.value);
 };
 
 const startTimer = () => {
   clearTimer();
+  remainingTime.value = props.viewTime;
   isProgressStarted.value = false;
+  startTimestamp = null;
 
   if (hasTimer.value) {
-    animationFrameId = requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
       isProgressStarted.value = true;
+      if (!props.isPaused) {
+        resumeTimer();
+      }
     });
-
-    hideTimeout = setTimeout(() => {
-      emit("hide", props.id);
-    }, props.viewTime);
   }
 };
+
+watch(
+  () => props.isPaused,
+  (isPaused) => {
+    if (!hasTimer.value) return;
+    if (isPaused) {
+      pauseTimer();
+    } else {
+      resumeTimer();
+    }
+  }
+);
 
 watch(
   () => [props.id, props.text, props.icon, props.viewTime],
@@ -92,9 +132,12 @@ onBeforeUnmount(() => {
     <div v-if="hasTimer" class="tooltip__track">
       <div
         class="tooltip__progress"
-        :class="{ 'tooltip__progress--active': isProgressStarted }"
+        :class="{
+          'tooltip__progress--active': isProgressStarted,
+          'tooltip__progress--paused': isPaused,
+        }"
         :style="{
-          transitionDuration: isProgressStarted ? `${viewTime}ms` : '0ms',
+          animationDuration: `${viewTime}ms`,
         }"
       ></div>
     </div>
@@ -102,6 +145,15 @@ onBeforeUnmount(() => {
 </template>
 
 <style scoped lang="scss">
+@keyframes shrink {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
 .tooltip {
   position: relative;
   display: inline-flex;
@@ -179,12 +231,16 @@ onBeforeUnmount(() => {
     border-radius: 2px;
     transform-origin: right center;
     transform: scaleX(1);
-    will-change: transform;
-    transition-property: transform;
-    transition-timing-function: linear;
 
     &--active {
-      transform: scaleX(0);
+      animation-name: shrink;
+      animation-timing-function: linear;
+      animation-fill-mode: forwards;
+      animation-play-state: running;
+    }
+
+    &--paused {
+      animation-play-state: paused !important;
     }
   }
 }
