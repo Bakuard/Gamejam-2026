@@ -1,9 +1,13 @@
 <script setup>
 import UiModal from "@/ui-components/UiModal.component.vue";
 import { computed, onBeforeUnmount, onMounted } from "vue";
+import { createI18nContentHelpers } from "@/utils/utils.js";
+import i18next from "@/i18n.js";
+import { UI_LOCALIZATION } from "@/configs/uiLocalization.config.js";
+
 const baseUrl = import.meta.env.BASE_URL || "/";
-const winnerSrc = `${baseUrl}assets/img/Winner_stamp.png`;
-const loserSrc = `${baseUrl}assets/img/Loser_stamp.png`;
+
+const { tContent, currentLanguage } = createI18nContentHelpers(i18next);
 
 const props = defineProps({
   isGameOver: {
@@ -31,7 +35,10 @@ const onKeyDown = (e) => {
   if (e.key === "Enter") onAgain();
 };
 
-const resultImageSrc = computed(() => (props.isWin ? winnerSrc : loserSrc));
+const resultImageSrc = computed(() => {
+  const prefix = currentLanguage.value?.startsWith("ru") ? "ru_" : "";
+  return `${baseUrl}assets/img/${prefix}Loser_stamp.png`;
+});
 
 onMounted(() => {
   window.addEventListener("keydown", onKeyDown);
@@ -46,7 +53,7 @@ onBeforeUnmount(() => {
   <UiModal :model-value="isGameOver" target=".platformer-screen__game-wrapper" max-width="520px">
     <div class="game-result-modal">
       <h2 class="game-result-modal__title">
-        {{ isWin ? "Ты выжил!" : "Ты погиб!" }}
+        {{ tContent(UI_LOCALIZATION.game_over_title) }}
       </h2>
 
       <div class="game-result-modal__image">
@@ -54,8 +61,12 @@ onBeforeUnmount(() => {
       </div>
 
       <div class="game-result-modal__actions">
-        <button class="game-result-modal__btn" @click="onAgain">Заново (Enter)</button>
-        <button class="game-result-modal__btn" @click="onToMenu">В меню</button>
+        <button class="game-result-modal__btn" @click="onAgain">
+          {{ tContent(UI_LOCALIZATION.game_over_again_button) }}
+        </button>
+        <button class="game-result-modal__btn" @click="onToMenu">
+          {{ tContent(UI_LOCALIZATION.to_menu_button) }}
+        </button>
       </div>
     </div>
   </UiModal>

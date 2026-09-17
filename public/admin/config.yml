@@ -48,6 +48,136 @@ collections:
             fields:
               - { label: "English", name: "en", widget: "string" }
               - { label: "Russian", name: "ru", widget: "string" }
+          - label: "Previous Button Text"
+            name: "prev_button"
+            widget: "object"
+            fields:
+              - { label: "English", name: "en", widget: "string" }
+              - { label: "Russian", name: "ru", widget: "string" }
+
+          - label: "Next Button Text"
+            name: "next_button"
+            widget: "object"
+            fields:
+              - { label: "English", name: "en", widget: "string" }
+              - { label: "Russian", name: "ru", widget: "string" }
+
+          - label: "Let's Go Button Text"
+            name: "lets_go_button"
+            widget: "object"
+            fields:
+              - { label: "English", name: "en", widget: "string" }
+              - { label: "Russian", name: "ru", widget: "string" }
+          - label: "Pause Title"
+            name: "pause_title"
+            widget: "object"
+            fields:
+              - { label: "English", name: "en", widget: "string" }
+              - { label: "Russian", name: "ru", widget: "string" }
+
+          - label: "Resume Button Text"
+            name: "resume_button"
+            widget: "object"
+            fields:
+              - { label: "English", name: "en", widget: "string" }
+              - { label: "Russian", name: "ru", widget: "string" }
+
+          - label: "Restart Button Text"
+            name: "again_button"
+            widget: "object"
+            fields:
+              - { label: "English", name: "en", widget: "string" }
+              - { label: "Russian", name: "ru", widget: "string" }
+
+          - label: "To Menu Button Text"
+            name: "to_menu_button"
+            widget: "object"
+            fields:
+              - { label: "English", name: "en", widget: "string" }
+              - { label: "Russian", name: "ru", widget: "string" }
+
+          - label: "Game Over Title"
+            name: "game_over_title"
+            widget: "object"
+            fields:
+              - { label: "English", name: "en", widget: "string" }
+              - { label: "Russian", name: "ru", widget: "string" }
+
+          - label: "Game Over Restart Button Text"
+            name: "game_over_again_button"
+            widget: "object"
+            fields:
+              - { label: "English", name: "en", widget: "string" }
+              - { label: "Russian", name: "ru", widget: "string" }
+          - label: "Item Tooltip: Salt"
+            name: "item_salt"
+            widget: "object"
+            fields:
+              - { label: "English", name: "en", widget: "string" }
+              - { label: "Russian", name: "ru", widget: "string" }
+
+          - label: "Item Tooltip: Matches"
+            name: "item_matches"
+            widget: "object"
+            fields:
+              - { label: "English", name: "en", widget: "string" }
+              - { label: "Russian", name: "ru", widget: "string" }
+
+          - label: "Item Tooltip: Master Key"
+            name: "item_master_key"
+            widget: "object"
+            fields:
+              - { label: "English", name: "en", widget: "string" }
+              - { label: "Russian", name: "ru", widget: "string" }
+
+          - label: "Tutorial Tooltip: Controls"
+            name: "tooltip_controls"
+            widget: "object"
+            fields:
+              - { label: "English", name: "en", widget: "string" }
+              - { label: "Russian", name: "ru", widget: "string" }
+
+          - label: "Tutorial Tooltip: Items"
+            name: "tooltip_items"
+            widget: "object"
+            fields:
+              - { label: "English", name: "en", widget: "string" }
+              - { label: "Russian", name: "ru", widget: "string" }
+
+          - label: "Tutorial Tooltip: Ghosts"
+            name: "tooltip_ghosts"
+            widget: "object"
+            fields:
+              - { label: "English", name: "en", widget: "string" }
+              - { label: "Russian", name: "ru", widget: "string" }
+
+          - label: "Action Tooltip: Box Pickup"
+            name: "tooltip_box_pickup"
+            widget: "object"
+            fields:
+              - { label: "English", name: "en", widget: "string" }
+              - { label: "Russian", name: "ru", widget: "string" }
+
+          - label: "Action Tooltip: Box Drop"
+            name: "tooltip_box_drop"
+            widget: "object"
+            fields:
+              - { label: "English", name: "en", widget: "string" }
+              - { label: "Russian", name: "ru", widget: "string" }
+
+          - label: "Action Tooltip: Door Open"
+            name: "tooltip_door_open"
+            widget: "object"
+            fields:
+              - { label: "English", name: "en", widget: "string" }
+              - { label: "Russian", name: "ru", widget: "string" }
+
+          - label: "Action Tooltip: Door Close"
+            name: "tooltip_door_close"
+            widget: "object"
+            fields:
+              - { label: "English", name: "en", widget: "string" }
+              - { label: "Russian", name: "ru", widget: "string" }
 
   - name: "gameplay"
     label: "Gameplay Config"
