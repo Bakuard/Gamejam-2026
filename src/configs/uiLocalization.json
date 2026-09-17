@@ -4,19 +4,95 @@
     "ru": "RU"
   },
   "start_button": {
-    "en": "Начать",
+    "en": "Start",
     "ru": "Начать"
   },
   "main_title": {
-    "en": "Доживи до рассвета",
-    "ru": "Доживи до рассвета"
+    "en": "Survive Until Dawn",
+    "ru": "Дожить до рассвета"
   },
   "main_description": {
-    "en": "Сможешь ли, ты, продержаться до утра?",
-    "ru": "Сможешь ли, ты, продержаться до утра?"
+    "en": "How many nights can you survive?",
+    "ru": "Сколько ночей ты сможешь пережить?"
   },
   "loading": {
-    "en": "Загрузка",
-    "ru": "Загрузка"
+    "en": "Loading...",
+    "ru": "Загрузка..."
+  },
+  "prev_button": {
+    "en": "Previous",
+    "ru": "Предыдущий"
+  },
+  "next_button": {
+    "en": "Next",
+    "ru": "Далее"
+  },
+  "lets_go_button": {
+    "en": "Let's Go!",
+    "ru": "Вперед!"
+  },
+  "pause_title": {
+    "en": "Pause",
+    "ru": "Пауза"
+  },
+  "resume_button": {
+    "en": "Resume",
+    "ru": "Продолжить"
+  },
+  "again_button": {
+    "en": "Restart",
+    "ru": "Заново"
+  },
+  "to_menu_button": {
+    "en": "Main Menu",
+    "ru": "В меню"
+  },
+  "game_over_title": {
+    "en": "You died!",
+    "ru": "Ты погиб!"
+  },
+  "game_over_again_button": {
+    "en": "Restart (Enter)",
+    "ru": "Заново (Enter)"
+  },
+  "item_salt": {
+    "en": "Salt — repels ghosts in the area of effect [2] or [R].",
+    "ru": "Соль — отпугивает призраков в радиусе действия [2] или [R]."
+  },
+  "item_matches": {
+    "en": "Matches — light protective lamps [1] or [E].",
+    "ru": "Спички — зажигают защитные лампы [1] или [E]."
+  },
+  "item_master_key": {
+    "en": "Master key — unlocks locked doors [3] or [E].",
+    "ru": "Отмычка — открывает запертые двери [3] или [E]."
+  },
+  "tooltip_controls": {
+    "en": "Movement — [A] [D], jump — [W], drop from wooden platforms, stairs and boxes — [S]",
+    "ru": "Движение — [A] [D], прыжок — [W], спрыгнуть с деревянных платформ, лестниц и ящиков — [S]"
+  },
+  "tooltip_items": {
+    "en": "Collect items before nightfall. New ones will appear in the morning.",
+    "ru": "Собирай предметы до наступления ночи. Новые появятся утром."
+  },
+  "tooltip_ghosts": {
+    "en": "Ghosts are near! Don't let them touch you until dawn.",
+    "ru": "Призраки близко! Не дай им коснуться тебя до рассвета."
+  },
+  "tooltip_box_pickup": {
+    "en": "Pick up box — [E]",
+    "ru": "Поднять ящик — [E]"
+  },
+  "tooltip_box_drop": {
+    "en": "Drop box — [E]",
+    "ru": "Опустить ящик — [E]"
+  },
+  "tooltip_door_open": {
+    "en": "Open door — [E]",
+    "ru": "Открыть дверь — [E]"
+  },
+  "tooltip_door_close": {
+    "en": "Close door — [E]",
+    "ru": "Закрыть дверь — [E]"
   }
 }

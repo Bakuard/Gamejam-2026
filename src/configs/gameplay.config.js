@@ -1,6 +1,7 @@
 // ... existing code ...
 /* PLAYER SETTINGS */
 import gameplay from "@/content/configs/gameplay.json";
+import { UI_LOCALIZATION } from "@/configs/uiLocalization.config.js";
 
 export const PLAYER = structuredClone(gameplay.PLAYER);
 export const LIGHT_POINT = structuredClone(gameplay.LIGHT_POINT);
@@ -24,9 +25,9 @@ export const ITEM_ICONS = {
 };
 
 export const ITEM_TOOLTIPS = {
-  [ITEM_SALT]: "Соль — отпугивает призраков в радиусе действия [2] или [R].",
-  [ITEM_MATCHES]: "Спички — зажигают защитные лампы [1] или [E].",
-  [ITEM_MASTER_KEY]: "Отмычка — открывает запертые двери [3] или [E].",
+  [ITEM_SALT]: UI_LOCALIZATION.item_salt,
+  [ITEM_MATCHES]: UI_LOCALIZATION.item_matches,
+  [ITEM_MASTER_KEY]: UI_LOCALIZATION.item_master_key,
 };
 
 export const TIME_ICONS = {
@@ -50,37 +51,37 @@ export const TUTORIAL_TOOLTIPS = {
     id: "controls-movement",
     icon: "CONTROLLER",
     viewTime: 10000,
-    text: "Движение — [A] [D], прыжок — [W], спрыгнуть с деревянных платформ, лестниц и ящиков — [S]",
+    text: UI_LOCALIZATION.tooltip_controls,
   },
   ITEMS: {
     id: "collect-items",
     icon: "MATCHES",
     viewTime: 12000,
-    text: "Собирай предметы до наступления ночи. Новые появятся утром.",
+    text: UI_LOCALIZATION.tooltip_items,
   },
   GHOST: {
     id: "ghosts-awakening",
     icon: "GHOST",
     viewTime: 5000,
-    text: "Призраки близко! Не дай им коснуться тебя до рассвета.",
+    text: UI_LOCALIZATION.tooltip_ghosts,
   },
   SALT: {
     id: "item-salt",
     icon: "SALT",
     viewTime: 15000,
-    text: ITEM_TOOLTIPS[ITEM_SALT],
+    text: UI_LOCALIZATION.item_salt,
   },
   MATCHES: {
     id: "item-matches",
     icon: "MATCHES",
     viewTime: 15000,
-    text: ITEM_TOOLTIPS[ITEM_MATCHES],
+    text: UI_LOCALIZATION.item_matches,
   },
   MASTER_KEY: {
     id: "item-master-key",
     icon: "KEY",
     viewTime: 15000,
-    text: ITEM_TOOLTIPS[ITEM_MASTER_KEY],
+    text: UI_LOCALIZATION.item_master_key,
   },
 };
 
@@ -88,21 +89,21 @@ export const INTERACTIVE_TOOLTIPS = {
   BOX_PICKUP: {
     id: "box-pickup",
     viewTime: 0,
-    text: "Поднять ящик — [E]",
+    text: UI_LOCALIZATION.tooltip_box_pickup,
   },
   BOX_DROP: {
     id: "box-drop",
     viewTime: 0,
-    text: "Опустить ящик — [E]",
+    text: UI_LOCALIZATION.tooltip_box_drop,
   },
   DOOR_OPEN: {
     id: "door-open",
     viewTime: 0,
-    text: "Открыть дверь — [E]",
+    text: UI_LOCALIZATION.tooltip_door_open,
   },
   DOOR_CLOSE: {
     id: "door-close",
     viewTime: 0,
-    text: "Закрыть дверь — [E]",
+    text: UI_LOCALIZATION.tooltip_door_close,
   },
 };

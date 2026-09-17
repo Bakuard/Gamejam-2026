@@ -1,11 +1,17 @@
 <script setup lang="ts">
-import { ref, useSlots, computed } from "vue";
+import { ref, useSlots, computed, onMounted, onBeforeUnmount, Fragment, Comment, type VNode } from "vue";
 import CloseIcon from "/public/assets/img/icons/close.svg";
+import LanguageSwitcher from "@/ui-components/LanguageSwitcher.vue";
+import { createI18nContentHelpers } from "@/utils/utils.js";
+import i18next from "@/i18n.js";
+import { UI_LOCALIZATION } from "@/configs/uiLocalization.config.js";
 
 const emit = defineEmits<{
   (e: "lets-go"): void;
   (e: "close"): void;
 }>();
+
+const { tContent } = createI18nContentHelpers(i18next);
 
 const slots = useSlots();
 const currentIndex = ref(0);
@@ -13,7 +19,20 @@ const currentIndex = ref(0);
 const slides = computed(() => {
   const defaultSlot = slots.default?.();
   if (!defaultSlot) return [];
-  return defaultSlot;
+
+  const flatten = (nodes) => {
+    return nodes.flatMap((node) => {
+      if (node.type === Fragment && Array.isArray(node.children)) {
+        return flatten(node.children);
+      }
+      if (node.type === Comment) {
+        return [];
+      }
+      return [node];
+    });
+  };
+
+  return flatten(defaultSlot);
 });
 
 const total = computed(() => slides.value.length);
@@ -38,13 +57,30 @@ const letsGo = () => {
 const close = () => {
   emit("close");
 };
+
+const onKeyDown = (e: KeyboardEvent) => {
+  if (e.key === "Escape") {
+    close();
+  }
+};
+
+onMounted(() => {
+  window.addEventListener("keydown", onKeyDown);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("keydown", onKeyDown);
+});
 </script>
 
 <template>
   <div class="tutorial-modal">
-    <button class="tutorial-modal__close-btn" type="button" aria-label="Закрыть" @click="close">
-      <CloseIcon class="tutorial-modal__close-icon" />
-    </button>
+    <div class="tutorial-modal__actions">
+      <LanguageSwitcher />
+      <button class="tutorial-modal__close-btn" type="button" aria-label="Закрыть" @click="close">
+        <CloseIcon class="tutorial-modal__close-icon" />
+      </button>
+    </div>
 
     <div class="tutorial-modal__viewport">
       <div class="tutorial-modal__track" :style="{ transform: `translateX(-${currentIndex * 100}%)` }">
@@ -55,11 +91,17 @@ const close = () => {
     </div>
 
     <div class="tutorial-modal__controls">
-      <button class="tutorial-modal__btn" :disabled="currentIndex === 0" @click="prev">Предыдущий</button>
+      <button class="tutorial-modal__btn" :disabled="currentIndex === 0" @click="prev">
+        {{ tContent(UI_LOCALIZATION.prev_button) }}
+      </button>
 
-      <button v-if="!isLastSlide" class="tutorial-modal__btn" :disabled="currentIndex === total - 1" @click="next">Далее</button>
+      <button v-if="!isLastSlide" class="tutorial-modal__btn" :disabled="currentIndex === total - 1" @click="next">
+        {{ tContent(UI_LOCALIZATION.next_button) }}
+      </button>
 
-      <button v-else class="tutorial-modal__btn" @click="letsGo">Вперед!</button>
+      <button v-else class="tutorial-modal__btn" @click="letsGo">
+        {{ tContent(UI_LOCALIZATION.lets_go_button) }}
+      </button>
     </div>
   </div>
 </template>
@@ -137,11 +179,17 @@ const close = () => {
     gap: 12px;
   }
 
-  &__close-btn {
+  &__actions {
     position: absolute;
     top: 24px;
     right: 24px;
     z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &__close-btn {
     display: flex;
     align-items: center;
     justify-content: center;

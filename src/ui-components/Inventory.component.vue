@@ -1,6 +1,10 @@
 <script setup>
 import { computed } from "vue";
-import { ITEM_SALT, ITEM_MATCHES, ITEM_MASTER_KEY, ITEM_ICONS, ITEM_TOOLTIPS } from "@/configs/gameplay.config.js";
+import { ITEM_ICONS, ITEM_TOOLTIPS } from "@/configs/gameplay.config.js";
+import { createI18nContentHelpers } from "@/utils/utils.js";
+import i18next from "@/i18n.js";
+
+const { tContent } = createI18nContentHelpers(i18next);
 
 const TOTAL_SLOTS = 3;
 
@@ -20,7 +24,7 @@ const slots = computed(() => {
         ? {
             ...item,
             icon: ITEM_ICONS[item.name] || null,
-            tooltipText: ITEM_TOOLTIPS[item.name] || "",
+            tooltipText: tContent(ITEM_TOOLTIPS[item.name]) || "",
           }
         : null,
     };

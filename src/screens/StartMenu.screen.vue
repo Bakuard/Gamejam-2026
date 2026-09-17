@@ -4,20 +4,31 @@ import { createI18nContentHelpers } from "@/utils/utils.js";
 import i18next from "@/i18n.js";
 import { UI_LOCALIZATION } from "@/configs/uiLocalization.config.js";
 import TutorialModal from "@/ui-components/TutorialModal.component.vue";
-import { ref } from "vue";
+import { ref, computed } from "vue";
+import LanguageSwitcher from "@/ui-components/LanguageSwitcher.vue";
 
 const router = useRouter();
-const { tContent } = createI18nContentHelpers(i18next);
+const { tContent, currentLanguage } = createI18nContentHelpers(i18next);
+const baseUrl = import.meta.env.BASE_URL || "/";
 
 const isSliderVisible = ref(false);
+
+const goToGame = () => {
+  router.push("/platformer");
+};
+
+const tutorialSlides = computed(() => {
+  const prefix = currentLanguage.value?.startsWith("ru") ? "ru_" : "";
+  return [
+    `${baseUrl}assets/img/tutorial/${prefix}introduction_1.jpg`,
+    `${baseUrl}assets/img/tutorial/${prefix}introduction_2.jpg`,
+    `${baseUrl}assets/img/tutorial/${prefix}introduction_3.jpg`
+  ];
+});
 
 const showSlider = (event) => {
   event.preventDefault();
   isSliderVisible.value = true;
-};
-
-const goToGame = () => {
-  router.push("/platformer");
 };
 
 const closeSlider = () => {
@@ -27,15 +38,10 @@ const closeSlider = () => {
 
 <template>
   <div class="start-menu-screen">
+    <LanguageSwitcher class="start-menu-screen__lang-switcher" />
     <TutorialModal v-if="isSliderVisible" @lets-go="goToGame" @close="closeSlider">
-      <div>
-        <img class="tutorial-modal__image" src="/assets/img/tutorial/introduction_1.jpg" alt="placeholder" />
-      </div>
-      <div>
-        <img class="tutorial-modal__image" src="/assets/img/tutorial/introduction_2.jpg" alt="placeholder" />
-      </div>
-      <div>
-        <img class="tutorial-modal__image" src="/assets/img/tutorial/introduction_3.jpg" alt="placeholder" />
+      <div v-for="(slideSrc, index) in tutorialSlides" :key="index">
+        <img class="tutorial-modal__image" :src="slideSrc" :alt="`slide ${index + 1}`" />
       </div>
     </TutorialModal>
     <div class="start-menu-screen__content">
@@ -69,6 +75,13 @@ const closeSlider = () => {
   // Отступы, чтобы контент уверенно был слева и не залезал на правую часть
   padding: clamp(16px, 4vw, 64px);
   box-sizing: border-box;
+
+  &__lang-switcher {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    z-index: 100;
+  }
 
   &__content {
     display: flex;

@@ -1,5 +1,10 @@
 <script setup>
 import UiModal from "@/ui-components/UiModal.component.vue";
+import { createI18nContentHelpers } from "@/utils/utils.js";
+import i18next from "@/i18n.js";
+import { UI_LOCALIZATION } from "@/configs/uiLocalization.config.js";
+
+const { tContent } = createI18nContentHelpers(i18next);
 
 const props = defineProps({
   isShow: {
@@ -32,12 +37,12 @@ const onModalUpdate = (val) => {
 <template>
   <UiModal :model-value="isShow" target=".platformer-screen__game-wrapper" max-width="520px" @update:model-value="onModalUpdate">
     <div class="pause-modal">
-      <h2 class="pause-modal__title">Пауза</h2>
+      <h2 class="pause-modal__title">{{ tContent(UI_LOCALIZATION.pause_title) }}</h2>
 
       <div class="pause-modal__actions">
-        <button class="pause-modal__btn" @click="onResume">Продолжить</button>
-        <button class="pause-modal__btn" @click="onAgain">Заново</button>
-        <button class="pause-modal__btn" @click="onToMenu">В меню</button>
+        <button class="pause-modal__btn" @click="onResume">{{ tContent(UI_LOCALIZATION.resume_button) }}</button>
+        <button class="pause-modal__btn" @click="onAgain">{{ tContent(UI_LOCALIZATION.again_button) }}</button>
+        <button class="pause-modal__btn" @click="onToMenu">{{ tContent(UI_LOCALIZATION.to_menu_button) }}</button>
       </div>
     </div>
   </UiModal>

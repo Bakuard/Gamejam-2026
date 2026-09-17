@@ -14,7 +14,8 @@ import { useInventoryStore } from "@/store/inventory.store";
 import { useTutorial } from "@/store/tutorial.store";
 import { LEVEL_GRAVITY, LEVEL_HEIGHT, LEVEL_WIDTH } from "@/configs/engine.config";
 import { router } from "@/router.js";
-import { EventBus } from "@/utils/utils.js";
+import { EventBus, createI18nContentHelpers } from "@/utils/utils.js";
+import i18next from "@/i18n.js";
 import * as EventNames from "@/configs/eventNames.config.js";
 import TimeProgress from "@/ui-components/TimeProgress.component.vue";
 import NightCounter from "@/ui-components/NightCounter.component.vue";
@@ -25,6 +26,7 @@ import { dayPhases } from "@/compositions/Calendar.composition.js";
 import { pullEventManager } from "@/utils/PullEventManager.js";
 import { sceneComposition } from "@/compositions/scene.composition.js";
 import { dynamicLightingComposition } from "@/compositions/DynamicLighting.composition.js";
+import LanguageSwitcher from "@/ui-components/LanguageSwitcher.vue";
 
 const gameContainer = ref(null);
 const playerStore = usePlayer();
@@ -33,6 +35,7 @@ const ghostStore = useGhostStore();
 const inventoryStore = useInventoryStore();
 const tutorialStore = useTutorial();
 const isSceneLoaded = ref(false);
+const { tContent } = createI18nContentHelpers(i18next);
 let game = null;
 
 watch(
@@ -189,6 +192,7 @@ const onHideTooltip = (id: string) => {
       <div class="platformer-screen__controls">
         <TimeProgress :all-time="allTime" :remaining-time="remainingTime" :is-night="isNightPhase" />
         <SoundSwitcherComponent :is-play-sound="playerStore.isPlaySound" @toggle="playerStore.isPlaySound = !playerStore.isPlaySound" />
+        <LanguageSwitcher />
       </div>
     </UiAnchor>
     <UiAnchor v-if="isSceneLoaded" anchor="center-right" :offset-x="10" :offset-y="0" target=".platformer-screen__game-wrapper">
@@ -198,7 +202,7 @@ const onHideTooltip = (id: string) => {
           :id="item.id"
           :key="item.id"
           :icon="item.icon"
-          :text="item.text"
+          :text="tContent(item.text)"
           :view-time="item.viewTime"
           :is-paused="playerStore.isGamePause"
           @hide="onHideTooltip"
@@ -208,15 +212,7 @@ const onHideTooltip = (id: string) => {
     <UiAnchor anchor="bottom-center" :offset-x="0" :offset-y="10" target=".platformer-screen__game-wrapper">
       <div class="platformer-screen__inventory-wrapper">
         <TransitionGroup name="interactive-tooltip" tag="div" class="platformer-screen__tooltips-list">
-          <Tooltip
-            v-for="item in tutorialStore.tooltips"
-            :id="item.id"
-            :key="item.id"
-            :icon="item.icon"
-            :text="item.text"
-            :view-time="item.viewTime"
-            :is-paused="playerStore.isGamePause"
-          />
+          <Tooltip v-for="item in tutorialStore.tooltips" :id="item.id" :key="item.id" :icon="item.icon" :text="tContent(item.text)" :view-time="item.viewTime" :is-paused="playerStore.isGamePause" />
         </TransitionGroup>
         <Inventory :items="inventoryStore.items" />
       </div>
