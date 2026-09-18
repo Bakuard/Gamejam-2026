@@ -7,7 +7,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: "Полноэкранное модальное окно с пошаговым слайдером обучения перед началом игры.",
+        component: "Полноэкранное модальное окно с пошаговым слайдером обучения или произвольным контентом (например, лидербордом).",
       },
       story: {
         inline: false,
@@ -17,6 +17,15 @@ export default {
     layout: "fullscreen",
   },
   argTypes: {
+    hasControl: {
+      control: "boolean",
+      description: "Флаг отображения нижней панели с кнопками переключения слайдов",
+      table: {
+        category: "Props",
+        type: { summary: "boolean" },
+        defaultValue: { summary: "true" },
+      },
+    },
     onLetsGo: {
       action: "lets-go",
       description: "Событие, вызываемое при нажатии кнопки 'Вперед!' на последнем слайде",
@@ -34,7 +43,7 @@ const Template = (args) => ({
     return { args };
   },
   template: `
-    <TutorialModal @lets-go="args.onLetsGo">
+    <TutorialModal v-bind="args" @lets-go="args.onLetsGo" @close="args.onClose">
       <div>
         <img src="/assets/img/tutorial/introduction_1.jpg" alt="Инструкция 1" />
       </div>
@@ -49,7 +58,14 @@ const Template = (args) => ({
 });
 
 export const Default = Template.bind({});
-Default.args = {};
+Default.args = {
+  hasControl: true,
+};
+
+export const WithoutControls = Template.bind({});
+WithoutControls.args = {
+  hasControl: false,
+};
 
 export const CustomSlides = (args) => ({
   components: { TutorialModal },
@@ -57,7 +73,7 @@ export const CustomSlides = (args) => ({
     return { args };
   },
   template: `
-    <TutorialModal @lets-go="args.onLetsGo">
+    <TutorialModal v-bind="args" @lets-go="args.onLetsGo" @close="args.onClose">
       <div style="background: rgba(255,255,255,0.05); padding: 40px; border-radius: 12px; color: #fff; text-align: center;">
         <h2>Слайд 1: Управление</h2>
         <p>Используйте клавиши со стрелками или WASD для перемещения персонажа.</p>
@@ -69,4 +85,6 @@ export const CustomSlides = (args) => ({
     </TutorialModal>
   `,
 });
-CustomSlides.args = {};
+CustomSlides.args = {
+  hasControl: true,
+};

@@ -4,14 +4,21 @@ import { createI18nContentHelpers } from "@/utils/utils.js";
 import i18next from "@/i18n.js";
 import { UI_LOCALIZATION } from "@/configs/uiLocalization.config.js";
 import TutorialModal from "@/ui-components/TutorialModal.component.vue";
+import Leaderboard from "@/ui-components/Leaderboard.component.vue";
 import { ref, computed } from "vue";
 import LanguageSwitcher from "@/ui-components/LanguageSwitcher.vue";
+import { useLeaderboardStore } from "@/store/leaderboard.store.js";
+import { leaderboardComposition } from "@/compositions/leaderboard.composition.js";
+
+const LEADERBOARD_NAME = "NightsSurvived";
 
 const router = useRouter();
+const leaderboardStore = useLeaderboardStore();
 const { tContent, currentLanguage } = createI18nContentHelpers(i18next);
 const baseUrl = import.meta.env.BASE_URL || "/";
 
 const isSliderVisible = ref(false);
+const isLeaderboardVisible = ref(false);
 
 const goToGame = () => {
   router.push("/platformer");
@@ -34,24 +41,64 @@ const showSlider = (event) => {
 const closeSlider = () => {
   isSliderVisible.value = false;
 };
+
+const loadLeaderboardData = () => {
+  leaderboardComposition.fetchLeaderboard(leaderboardStore, LEADERBOARD_NAME, {
+    topCount: 5,
+    includeUser: true,
+    quantityAround: 1,
+  });
+};
+
+const showLeaderboard = (event) => {
+  event.preventDefault();
+  isLeaderboardVisible.value = true;
+  loadLeaderboardData();
+};
+
+const closeLeaderboard = () => {
+  isLeaderboardVisible.value = false;
+};
 </script>
 
 <template>
   <div class="start-menu-screen">
     <LanguageSwitcher class="start-menu-screen__lang-switcher" />
+
     <TutorialModal v-if="isSliderVisible" @lets-go="goToGame" @close="closeSlider">
       <div v-for="(slideSrc, index) in tutorialSlides" :key="index">
         <img class="tutorial-modal__image" :src="slideSrc" :alt="`slide ${index + 1}`" />
       </div>
     </TutorialModal>
+
+    <TutorialModal v-if="isLeaderboardVisible" :has-control="false" @close="closeLeaderboard">
+      <div>
+        <Leaderboard
+          :entries="leaderboardStore.entries"
+          :user-neighbors="leaderboardStore.userNeighbors"
+          :is-loading="leaderboardStore.isLoading"
+          :has-error="leaderboardStore.hasError"
+          :is-authenticated="leaderboardStore.isAuthenticated"
+          @retry="loadLeaderboardData"
+        />
+      </div>
+    </TutorialModal>
+
     <div class="start-menu-screen__content">
       <h1 class="start-menu-screen__title">
         <span class="start-menu-screen__title-main">{{ tContent(UI_LOCALIZATION.main_title) }}</span>
         <span class="start-menu-screen__title-sub">{{ tContent(UI_LOCALIZATION.main_description) }}</span>
       </h1>
       <form class="start-menu-screen__form">
-        <button v-if="!isSliderVisible" class="start-menu-screen__btn" @click="showSlider">
+        <button v-if="!isSliderVisible && !isLeaderboardVisible" class="start-menu-screen__btn" @click="showSlider">
           {{ tContent(UI_LOCALIZATION.start_button) }}
+        </button>
+        <button
+          v-if="!isSliderVisible && !isLeaderboardVisible"
+          class="start-menu-screen__btn start-menu-screen__btn--secondary"
+          @click="showLeaderboard"
+        >
+          Лучшие Игроки
         </button>
       </form>
     </div>
@@ -135,7 +182,7 @@ const closeSlider = () => {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     width: 100%;
     transform: none;
   }
@@ -168,6 +215,18 @@ const closeSlider = () => {
     &:active {
       transform: translateY(0);
       background: rgba(255, 255, 255, 0.1);
+    }
+
+    &--secondary {
+      font-size: 20px;
+      height: 56px;
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.18);
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.12);
+        border-color: rgba(255, 255, 255, 0.45);
+      }
     }
   }
 }

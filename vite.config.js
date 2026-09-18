@@ -3,6 +3,7 @@ import vue from "@vitejs/plugin-vue";
 import checker from "vite-plugin-checker";
 import svgLoader from "vite-svg-loader";
 import path from "path";
+import basicSsl from "@vitejs/plugin-basic-ssl";
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -13,6 +14,7 @@ export default defineConfig({
     checker({
       vueTsc: false,
     }),
+    basicSsl(),
   ],
   resolve: {
     alias: {

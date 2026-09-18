@@ -6,6 +6,13 @@ import { createI18nContentHelpers } from "@/utils/utils.js";
 import i18next from "@/i18n.js";
 import { UI_LOCALIZATION } from "@/configs/uiLocalization.config.js";
 
+const props = defineProps({
+  hasControl: {
+    type: Boolean,
+    default: true,
+  },
+});
+
 const emit = defineEmits<{
   (e: "lets-go"): void;
   (e: "close"): void;
@@ -90,7 +97,7 @@ onBeforeUnmount(() => {
       </div>
     </div>
 
-    <div class="tutorial-modal__controls">
+    <div v-if="hasControl" class="tutorial-modal__controls">
       <button class="tutorial-modal__btn" :disabled="currentIndex === 0" @click="prev">
         {{ tContent(UI_LOCALIZATION.prev_button) }}
       </button>

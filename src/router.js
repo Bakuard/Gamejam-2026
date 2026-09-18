@@ -12,6 +12,10 @@ export const routes = [
     path: "/platformer",
     component: Platformer,
   },
+  {
+    path: "/:pathMatch(.*)*",
+    redirect: "/",
+  },
 ];
 
 export const router = createRouter({
