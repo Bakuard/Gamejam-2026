@@ -6,6 +6,7 @@ import { pullEventManager } from "@/utils/PullEventManager.js";
 import { dynamicLightingComposition } from "@/compositions/DynamicLighting.composition.js";
 import { particlesComposition } from "@/compositions/Particles.composition.js";
 import { analyticsComposition } from "@/compositions/Analytics.composition.js";
+import { yandexComposition } from "@/compositions/Yandex.composition.js";
 
 export const ghostComposition = {
   preloadGhostAnimation(scene, ghostsConfig) {
@@ -65,6 +66,8 @@ export const ghostComposition = {
     playerStore.isWin = false;
     dynamicLightingComposition.stop();
     setTimeout(() => scene.scene.stop(), 0);
+
+    yandexComposition.notifyYandexAboutGameStop();
   },
 
   detectGhostInSaltRadius(player, allGhosts) {

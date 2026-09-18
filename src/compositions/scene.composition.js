@@ -2,6 +2,7 @@ import { EventBus } from "@/utils/utils";
 import * as EventNames from "@/configs/eventNames.config.js";
 import { dynamicLightingComposition } from "@/compositions/DynamicLighting.composition.js";
 import { audioComposition } from "@/compositions/Audio.composition.js";
+import { yandexComposition } from "@/compositions/Yandex.composition.js";
 
 export const sceneComposition = {
   preload(scene) {
@@ -14,18 +15,20 @@ export const sceneComposition = {
     });
   },
 
-  setPause(scene, isGamePause, isPlaySound = true) {
+  setPause(scene, isGamePause, isPlaySound = true, isGameCompleted = true) {
     if (!scene) return;
 
     if (isGamePause) {
       dynamicLightingComposition.stop();
       setTimeout(() => scene.scene.pause(), 0);
       audioComposition.updateGlobalVolume(scene, false);
+      yandexComposition.notifyYandexAboutGameStop();
     } else {
       scene.scene.resume();
       dynamicLightingComposition.isStoped = false;
       const playSound = scene.playerStore?.isPlaySound ?? isPlaySound;
       audioComposition.updateGlobalVolume(scene, playSound);
+      if (!isGameCompleted) yandexComposition.notifyYandexAboutGameStart();
     }
   },
 };

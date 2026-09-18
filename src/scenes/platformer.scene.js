@@ -17,6 +17,7 @@ import { lightPointComposition } from "@/compositions/LightPoint.composition.js"
 import { inventoryComposition } from "@/compositions/Inventory.composition.js";
 import { tutorialComposition } from "@/compositions/Tutorial.composition.js";
 import { TUTORIAL_TOOLTIPS, INTERACTIVE_TOOLTIPS } from "@/configs/gameplay.config.js";
+import { yandexComposition } from "@/compositions/Yandex.composition.js";
 
 class PlatformerScene extends Phaser.Scene {
   constructor(playerStore, calendarStore, ghostsStore, inventoryStore, tutorialStore) {
@@ -51,9 +52,13 @@ class PlatformerScene extends Phaser.Scene {
     lightPointComposition.preloadLightPointAnimation(this);
     dynamicLightingComposition.preloadShaders(this);
     particlesComposition.preloadParticlesTextures(this);
+
+    yandexComposition.notifyYandexAboutGameReady();
   }
 
   create() {
+    this.playerStore.isGameCompleted = false;
+
     pullEventManager.registerInbox("changeAmbientAudio", "morning", "night", "ghostSecondState", "ghostsDespawned");
     pullEventManager.registerInbox("createNewGhosts", "night");
     pullEventManager.registerInbox("unlockAllDoorsIfMorning", "morning");
@@ -175,6 +180,8 @@ class PlatformerScene extends Phaser.Scene {
     }
 
     analyticsComposition.createAnalytics(Config.ANALYTICS).then(() => analyticsComposition.log("NewGame", {}));
+
+    yandexComposition.notifyYandexAboutGameStart();
   }
 
   update(time, delta) {

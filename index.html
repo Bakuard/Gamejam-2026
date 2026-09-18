@@ -4,17 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite + Vue</title>
-    <script>
-      async function initYandexSDK() {
-        if (typeof YaGames === "undefined") {
-          console.warn("Yandex SDK не загружен");
-          return;
-        }
-
-        const ysdk = await YaGames.init();
-      }
-    </script>
-    <script src="/sdk.js" onload="initYandexSDK()"></script>
   </head>
   <body>
     <div id="app"></div>

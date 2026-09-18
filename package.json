@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "vite",
     "dev:cms": "vite & npx decap-server --port 8082",
+    "dev:yandex": "vite build && sdk-dev-proxy -p ./dist --dev-mode=true",
     "build": "vite build",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
@@ -18,6 +19,7 @@
     "electron:make": "npm run electron:package && electron-forge make"
   },
   "dependencies": {
+    "@yandex-games/sdk-dev-proxy": "^0.0.2",
     "decap-cms-app": "^3.10.0",
     "electron-squirrel-startup": "^1.0.1",
     "firebase": "^12.17.1",

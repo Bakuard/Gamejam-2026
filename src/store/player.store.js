@@ -4,6 +4,7 @@ export const usePlayer = defineStore("player", {
   state: () => ({
     isGameOver: false,
     isGamePause: false,
+    isGameCompleted: false,
     isWin: false,
     isNight: false,
     allTime: 0,

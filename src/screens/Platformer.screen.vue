@@ -43,7 +43,7 @@ watch(
   (isGamePause) => {
     const mainScene = game?.scene?.getScene("MainScene");
     if (mainScene) {
-      sceneComposition.setPause(mainScene, isGamePause, playerStore.isPlaySound);
+      sceneComposition.setPause(mainScene, isGamePause, playerStore.isPlaySound, playerStore.isGameCompleted);
     }
   }
 );
@@ -150,8 +150,9 @@ onBeforeUnmount(() => {
 const onAgain = () => {
   pullEventManager.clearAll();
   dynamicLightingComposition.stop();
-  playerStore.isGamePause = false;
+  playerStore.isGameCompleted = true;
   playerStore.isGameOver = false;
+  playerStore.isGamePause = false;
   playerStore.isWin = false;
   tutorialStore.tutorial = [];
   tutorialStore.tooltips = [];
@@ -162,8 +163,9 @@ const onAgain = () => {
 const onToMenu = () => {
   pullEventManager.clearAll();
   dynamicLightingComposition.stop();
-  playerStore.isGamePause = false;
+  playerStore.isGameCompleted = true;
   playerStore.isGameOver = false;
+  playerStore.isGamePause = false;
   playerStore.isWin = false;
   tutorialStore.tutorial = [];
   tutorialStore.tooltips = [];
